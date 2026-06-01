@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { supportStatusLabel, type SupportStatus } from './capabilityData'
 
 type BasicBill = 'settlement' | 'transaction' | 'fund'
 type GroupBill = 'groupSettlement' | 'groupFund'
 type ReconciliationMode = 'groupFinance' | 'independent'
 type ValueAddedBill = 'tax' | 'marketing'
-type BillDeliveryMethod = 'dashboard' | 'api' | 'sftp' | 'tos' | 'hive'
+type BillDeliveryMethod = 'dashboard' | 'api' | 'sftp'
 
 interface ChoiceOption<T extends string> {
   value: T
@@ -24,8 +24,7 @@ const selectedReconciliationMode = ref<ReconciliationMode>('independent')
 const selectedBasicBills = ref<BasicBill[]>(['settlement', 'transaction', 'fund'])
 const selectedGroupBills = ref<GroupBill[]>(['groupSettlement', 'groupFund'])
 const selectedValueAddedBills = ref<ValueAddedBill[]>(['tax'])
-const selectedIndependentDeliveryMethods = ref<BillDeliveryMethod[]>(['dashboard', 'api'])
-const selectedGroupDeliveryMethods = ref<BillDeliveryMethod[]>(['dashboard'])
+const selectedDeliveryMethods = ref<BillDeliveryMethod[]>(['dashboard'])
 
 const reconciliationModeOptions: ReconciliationModeOption[] = [
   {
@@ -56,38 +55,11 @@ const valueAddedBillOptions: ChoiceOption<ValueAddedBill>[] = [
   { value: 'marketing', label: '营销账单', status: 'conditional' }
 ]
 
-const independentDeliveryMethodOptions: ChoiceOption<BillDeliveryMethod>[] = [
-  { value: 'dashboard', label: 'Dashboard', status: 'standard' },
-  { value: 'api', label: 'API', status: 'standard' },
-  { value: 'tos', label: 'TOS', status: 'conditional' },
-  { value: 'hive', label: 'Hive 表', status: 'conditional' }
-]
-
-const groupDeliveryMethodOptions: ChoiceOption<BillDeliveryMethod>[] = [
+const deliveryMethodOptions: ChoiceOption<BillDeliveryMethod>[] = [
   { value: 'dashboard', label: 'Dashboard', status: 'standard' },
   { value: 'api', label: 'API', status: 'unsupported' },
   { value: 'sftp', label: 'SFTP', status: 'unsupported' }
 ]
-
-const deliveryMethodOptions = computed(() =>
-  selectedReconciliationMode.value === 'groupFinance'
-    ? groupDeliveryMethodOptions
-    : independentDeliveryMethodOptions
-)
-
-const selectedDeliveryMethods = computed({
-  get: () =>
-    selectedReconciliationMode.value === 'groupFinance'
-      ? selectedGroupDeliveryMethods.value
-      : selectedIndependentDeliveryMethods.value,
-  set: (values: BillDeliveryMethod[]) => {
-    if (selectedReconciliationMode.value === 'groupFinance') {
-      selectedGroupDeliveryMethods.value = values
-      return
-    }
-    selectedIndependentDeliveryMethods.value = values
-  }
-})
 
 function toggleSelection<T extends string>(selectedValues: T[], value: T) {
   if (selectedValues.includes(value)) return selectedValues.filter((selectedValue) => selectedValue !== value)
@@ -228,14 +200,7 @@ function toggleDeliveryMethod(option: ChoiceOption<BillDeliveryMethod>) {
             }}
           </span>
         </div>
-        <div
-          class="reconciliation-choice-grid"
-          :class="
-            selectedReconciliationMode === 'groupFinance'
-              ? 'reconciliation-choice-grid--three'
-              : 'reconciliation-choice-grid--four'
-          "
-        >
+        <div class="reconciliation-choice-grid reconciliation-choice-grid--three">
           <button
             v-for="option in deliveryMethodOptions"
             :key="option.value"
