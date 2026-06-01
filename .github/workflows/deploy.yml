@@ -33,7 +33,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --registry=https://registry.npmjs.org && test -x node_modules/.bin/vitepress
 
       - name: Build Pages site
         run: npm run pages:build
