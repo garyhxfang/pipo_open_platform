@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { supportStatusLabel, type SupportStatus } from './capabilityData'
 
 type BasicBill = 'settlement' | 'transaction' | 'fund'
+type GroupBill = 'groupSettlement' | 'groupFund'
+type ReconciliationMode = 'groupFinance' | 'independent'
 type ValueAddedBill = 'tax' | 'marketing'
 type BillDeliveryMethod = 'dashboard' | 'api' | 'tos' | 'hive'
 
@@ -12,14 +14,40 @@ interface ChoiceOption<T extends string> {
   status: SupportStatus
 }
 
+interface ReconciliationModeOption {
+  value: ReconciliationMode
+  label: string
+  description: string
+}
+
+const selectedReconciliationMode = ref<ReconciliationMode>('independent')
 const selectedBasicBills = ref<BasicBill[]>(['settlement', 'transaction', 'fund'])
+const selectedGroupBills = ref<GroupBill[]>(['groupSettlement', 'groupFund'])
 const selectedValueAddedBills = ref<ValueAddedBill[]>(['tax'])
 const selectedDeliveryMethods = ref<BillDeliveryMethod[]>(['dashboard', 'api'])
+
+const reconciliationModeOptions: ReconciliationModeOption[] = [
+  {
+    value: 'groupFinance',
+    label: '集团财务对账',
+    description: '集团主体默认由集团财务进行对账'
+  },
+  {
+    value: 'independent',
+    label: '自主对账',
+    description: '由业务主体自行完成账单核对'
+  }
+]
 
 const basicBillOptions: ChoiceOption<BasicBill>[] = [
   { value: 'settlement', label: '结算账单', status: 'standard' },
   { value: 'transaction', label: '交易账单', status: 'standard' },
   { value: 'fund', label: '资金账单', status: 'standard' }
+]
+
+const groupBillOptions: ChoiceOption<GroupBill>[] = [
+  { value: 'groupSettlement', label: '集团专用结算账单', status: 'standard' },
+  { value: 'groupFund', label: '集团专用资金账单', status: 'standard' }
 ]
 
 const valueAddedBillOptions: ChoiceOption<ValueAddedBill>[] = [
@@ -43,6 +71,10 @@ function toggleBasicBill(value: BasicBill) {
   selectedBasicBills.value = toggleSelection(selectedBasicBills.value, value)
 }
 
+function toggleGroupBill(value: GroupBill) {
+  selectedGroupBills.value = toggleSelection(selectedGroupBills.value, value)
+}
+
 function toggleValueAddedBill(value: ValueAddedBill) {
   selectedValueAddedBills.value = toggleSelection(selectedValueAddedBills.value, value)
 }
@@ -57,7 +89,31 @@ function toggleDeliveryMethod(value: BillDeliveryMethod) {
     <div class="reconciliation-panel">
       <div class="reconciliation-row">
         <div class="reconciliation-row-label">
-          <strong>基础账单</strong>
+          <strong>对账模式</strong>
+          <span>选择财务对账的负责主体（单选）</span>
+        </div>
+        <div class="reconciliation-choice-grid reconciliation-choice-grid--two">
+          <button
+            v-for="option in reconciliationModeOptions"
+            :key="option.value"
+            class="reconciliation-choice-card reconciliation-choice-card--mode"
+            :class="{ 'is-active': selectedReconciliationMode === option.value }"
+            type="button"
+            :aria-pressed="selectedReconciliationMode === option.value"
+            @click="selectedReconciliationMode = option.value"
+          >
+            <span class="reconciliation-choice-copy">
+              <strong>{{ option.label }}</strong>
+              <small>{{ option.description }}</small>
+            </span>
+            <span class="reconciliation-radio" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <div v-if="selectedReconciliationMode === 'independent'" class="reconciliation-row">
+        <div class="reconciliation-row-label">
+          <strong>标准基础账单</strong>
           <span>选择需要获取的核心业务账单（可多选）</span>
         </div>
         <div class="reconciliation-choice-grid reconciliation-choice-grid--three">
@@ -69,6 +125,32 @@ function toggleDeliveryMethod(value: BillDeliveryMethod) {
             type="button"
             :aria-pressed="selectedBasicBills.includes(option.value)"
             @click="toggleBasicBill(option.value)"
+          >
+            <strong>{{ option.label }}</strong>
+            <span class="reconciliation-card-meta">
+              <em class="reconciliation-status" :class="`reconciliation-status--${option.status}`">
+                {{ supportStatusLabel[option.status] }}
+              </em>
+              <span class="reconciliation-check" aria-hidden="true"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div v-else class="reconciliation-row">
+        <div class="reconciliation-row-label">
+          <strong>集团专用账单</strong>
+          <span>选择集团财务核对所需的专用账单（可多选）</span>
+        </div>
+        <div class="reconciliation-choice-grid reconciliation-choice-grid--two">
+          <button
+            v-for="option in groupBillOptions"
+            :key="option.value"
+            class="reconciliation-choice-card"
+            :class="{ 'is-active': selectedGroupBills.includes(option.value) }"
+            type="button"
+            :aria-pressed="selectedGroupBills.includes(option.value)"
+            @click="toggleGroupBill(option.value)"
           >
             <strong>{{ option.label }}</strong>
             <span class="reconciliation-card-meta">
@@ -247,9 +329,35 @@ function toggleDeliveryMethod(value: BillDeliveryMethod) {
   font-weight: 800;
 }
 
+.reconciliation-choice-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.reconciliation-choice-copy strong {
+  overflow: hidden;
+  color: var(--cap-text);
+  font-size: 14px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+.reconciliation-choice-copy small {
+  overflow: hidden;
+  color: var(--cap-muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .reconciliation-card-meta,
 .reconciliation-status,
-.reconciliation-check {
+.reconciliation-check,
+.reconciliation-radio {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -309,6 +417,28 @@ function toggleDeliveryMethod(value: BillDeliveryMethod) {
   border: solid #fff;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+.reconciliation-radio {
+  position: relative;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #b9c3d3;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.reconciliation-choice-card.is-active .reconciliation-radio {
+  border-color: var(--cap-blue);
+}
+
+.reconciliation-choice-card.is-active .reconciliation-radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cap-blue);
 }
 
 .reconciliation-footer {
