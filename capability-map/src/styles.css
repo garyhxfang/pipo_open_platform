@@ -179,6 +179,24 @@ button {
   font-weight: 750;
 }
 
+.toolbar-config-button {
+  min-height: 32px;
+  margin-left: auto;
+  border: 1px solid var(--cap-blue);
+  border-radius: 6px;
+  padding: 0 13px;
+  background: var(--cap-blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 750;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.toolbar-config-button:hover {
+  border-color: #0d55ca;
+  background: #0d55ca;
+}
+
 .stage-flow {
   display: flex;
   align-items: center;

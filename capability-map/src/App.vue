@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import AcquiringConfigView from './AcquiringConfigView.vue'
 import ReconciliationView from './ReconciliationView.vue'
 import RefundDisputeView from './RefundDisputeView.vue'
 import SettlementView from './SettlementView.vue'
@@ -29,6 +30,7 @@ import {
 } from './capabilityData'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
+const currentView = ref<'map' | 'config'>('map')
 const currentProduct = ref<ProductType>('online')
 const currentEnvironment = ref<Environment>('web')
 const currentIntegration = ref<IntegrationMode>('hosted')
@@ -247,7 +249,9 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
 </script>
 
 <template>
-  <main class="app-shell">
+  <AcquiringConfigView v-if="currentView === 'config'" @back="currentView = 'map'" />
+
+  <main v-else class="app-shell">
     <section class="capability-map" aria-labelledby="capability-map-title">
       <div class="sticky-header">
         <header class="capability-map__heading">
@@ -285,6 +289,10 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
               </option>
             </select>
           </label>
+
+          <button class="toolbar-config-button" type="button" @click="currentView = 'config'">
+            配置中心
+          </button>
         </header>
 
         <section class="stage-flow" aria-label="业务阶段">
