@@ -421,6 +421,18 @@ async function importConfig(event: Event) {
 
         <div class="table-scroll">
           <table>
+            <colgroup>
+              <col class="config-col config-col--checkbox" />
+              <col class="config-col config-col--index" />
+              <col class="config-col config-col--merchant" />
+              <col class="config-col config-col--product" />
+              <col class="config-col config-col--environment" />
+              <col class="config-col config-col--integration" />
+              <col class="config-col config-col--domain" span="3" />
+              <col class="config-col config-col--final" />
+              <col class="config-col config-col--note" />
+              <col class="config-col config-col--operation" />
+            </colgroup>
             <thead>
               <tr>
                 <th rowspan="2"><input type="checkbox" :checked="allVisibleSelected" @change="selectAllVisible" /></th>
@@ -429,15 +441,15 @@ async function importConfig(event: Event) {
                 <th rowspan="2">收单支付产品</th>
                 <th rowspan="2">支付环境</th>
                 <th rowspan="2">集成模式</th>
-                <th colspan="3">各域支持情况</th>
-                <th rowspan="2">最终支持情况</th>
+                <th class="domain-group-header" colspan="3">各域支持情况</th>
+                <th class="final-header" rowspan="2">最终支持情况</th>
                 <th rowspan="2">备注</th>
                 <th rowspan="2">操作</th>
               </tr>
               <tr>
-                <th>交易</th>
-                <th>收银</th>
-                <th>GN</th>
+                <th class="domain-header">交易</th>
+                <th class="domain-header">收银</th>
+                <th class="domain-header">GN</th>
               </tr>
             </thead>
             <tbody>
@@ -448,7 +460,7 @@ async function importConfig(event: Event) {
                 <td>{{ productLabel[row.product] }}</td>
                 <td>{{ environmentLabel[row.environment] }}</td>
                 <td>{{ integrationLabel[row.integrationMode] }}</td>
-                <td v-for="(_, domain) in domainLabels" :key="domain">
+                <td v-for="(_, domain) in domainLabels" :key="domain" class="domain-cell">
                   <select
                     class="status-select"
                     :class="`status-select--${row.domains[domain]}`"
@@ -460,12 +472,8 @@ async function importConfig(event: Event) {
                     </option>
                   </select>
                 </td>
-                <td>
+                <td class="final-cell">
                   <span class="final-status" :class="`final-status--${finalStatus(row.domains)}`">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <rect x="5" y="3.5" width="14" height="17" rx="2" />
-                      <path d="M8 8h8M8 12h3M8 16h3M14 12v4M12 14h4" />
-                    </svg>
                     {{ supportStatusLabel[finalStatus(row.domains)] }}
                   </span>
                 </td>
@@ -893,64 +901,75 @@ th {
   font-weight: 800;
 }
 
-th[colspan] {
+.domain-group-header,
+.domain-header,
+.final-header {
   text-align: center;
+}
+
+.config-col--checkbox {
+  width: 36px;
 }
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 36px;
   text-align: center;
+}
+
+.config-col--index {
+  width: 46px;
 }
 
 th:nth-child(2),
 td:nth-child(2) {
-  width: 46px;
   color: var(--config-muted);
 }
 
-th:nth-child(3),
-td:nth-child(3) {
+.config-col--merchant {
   width: 84px;
 }
 
-th:nth-child(4),
-td:nth-child(4) {
+.config-col--product {
   width: 106px;
 }
 
-th:nth-child(5),
-td:nth-child(5) {
+.config-col--environment {
   width: 70px;
 }
 
-th:nth-child(6),
-td:nth-child(6) {
+.config-col--integration {
   width: 106px;
 }
 
-th:nth-child(7),
-td:nth-child(7),
-th:nth-child(8),
-td:nth-child(8),
-th:nth-child(9),
-td:nth-child(9) {
+.config-col--domain {
+  width: 116px;
+}
+
+.domain-cell {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.config-col--final {
   width: 118px;
 }
 
-th:nth-child(10),
-td:nth-child(10) {
-  width: 132px;
+.final-cell {
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: center;
 }
 
-th:nth-child(11),
-td:nth-child(11) {
+.config-col--note {
   width: 128px;
+}
+
+.config-col--operation {
+  width: 58px;
 }
 
 th:nth-child(12),
 td:nth-child(12) {
-  width: 58px;
   text-align: center;
 }
 
@@ -967,12 +986,18 @@ input[type='checkbox'] {
 }
 
 .status-select {
-  width: 100%;
-  min-width: 96px;
+  display: block;
+  width: 92px;
+  min-width: 0;
   height: 28px;
-  border: 0;
+  margin: 0 auto;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0 8px;
   font-size: 11px;
   font-weight: 750;
+  text-align: center;
+  text-align-last: center;
 }
 
 .status-select--standard,
@@ -981,10 +1006,20 @@ input[type='checkbox'] {
   color: var(--config-green);
 }
 
+.status-select--standard,
+.final-status--standard {
+  border-color: #d4ecd9;
+}
+
 .status-select--conditional,
 .final-status--conditional {
   background: var(--config-orange-bg);
   color: var(--config-orange);
+}
+
+.status-select--conditional,
+.final-status--conditional {
+  border-color: #f6dfb9;
 }
 
 .status-select--unsupported,
@@ -993,19 +1028,22 @@ input[type='checkbox'] {
   color: var(--config-gray);
 }
 
+.status-select--unsupported,
+.final-status--unsupported {
+  border-color: #dfe5ec;
+}
+
 .final-status {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  width: 92px;
+  height: 28px;
+  border: 1px solid transparent;
   border-radius: 999px;
-  padding: 4px 7px;
+  padding: 0 8px;
   font-size: 11px;
-  font-weight: 800;
-}
-
-.final-status svg {
-  width: 13px;
-  height: 13px;
+  font-weight: 750;
 }
 
 .note-input {
