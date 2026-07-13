@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AcquiringConfigView from './AcquiringConfigView.vue'
+import PayoutMapView, { type PayoutStageId } from './PayoutMapView.vue'
+import PayoutConfigView from './PayoutConfigView.vue'
 import ReconciliationView from './ReconciliationView.vue'
 import RefundDisputeView from './RefundDisputeView.vue'
 import SettlementView from './SettlementView.vue'
@@ -30,11 +32,14 @@ import {
 } from './capabilityData'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
-const currentView = ref<'map' | 'config'>('map')
+const currentView = ref<'map' | 'acquiringConfig' | 'payoutConfig'>('map')
+const currentBusinessLine = ref<'collection' | 'payout'>('collection')
+const payoutConfigVersion = ref(0)
 const currentProduct = ref<ProductType>('online')
 const currentEnvironment = ref<Environment>('web')
 const currentIntegration = ref<IntegrationMode>('hosted')
 const currentStage = ref<StageId>('acquiring')
+const currentPayoutStage = ref<PayoutStageId>('payout')
 const selectedMarket = ref<MarketSelection>('All')
 const selectedPaymentAbilities = ref<PaymentAbilityId[]>([...defaultSelectedPaymentAbilities])
 
@@ -140,6 +145,24 @@ const stageOptions: StageOption[] = [
   }
 ]
 
+const payoutStageOptions: Array<{ id: PayoutStageId; title: string; icon: IconName }> = [
+  {
+    id: 'payout',
+    title: '出款',
+    icon: 'settlement'
+  },
+  {
+    id: 'return',
+    title: '退票',
+    icon: 'refund'
+  },
+  {
+    id: 'reconciliation',
+    title: '账单与对账',
+    icon: 'reconciliation'
+  }
+]
+
 const choiceIcon: Record<MerchantType | ProductType | Environment | IntegrationMode, IconName> = {
   standardMerchant: 'merchant',
   platformMerchant: 'platform',
@@ -201,6 +224,23 @@ function selectStage(value: StageId) {
   currentStage.value = value
 }
 
+function selectPayoutStage(value: PayoutStageId) {
+  currentPayoutStage.value = value
+}
+
+function selectBusinessLine(value: 'collection' | 'payout') {
+  currentBusinessLine.value = value
+}
+
+function refreshPayoutConfig() {
+  payoutConfigVersion.value += 1
+}
+
+function returnFromPayoutConfig() {
+  refreshPayoutConfig()
+  currentView.value = 'map'
+}
+
 function integrationStatusFor(integration: IntegrationMode) {
   return getIntegrationStatus(currentMerchantType.value, currentProduct.value, currentEnvironment.value, integration)
 }
@@ -249,7 +289,8 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
 </script>
 
 <template>
-  <AcquiringConfigView v-if="currentView === 'config'" @back="currentView = 'map'" />
+  <AcquiringConfigView v-if="currentView === 'acquiringConfig'" @back="currentView = 'map'" />
+  <PayoutConfigView v-else-if="currentView === 'payoutConfig'" @back="returnFromPayoutConfig" @saved="refreshPayoutConfig" />
 
   <main v-else class="app-shell">
     <section class="capability-map" aria-labelledby="capability-map-title">
@@ -258,6 +299,27 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
           <div class="toolbar-title">
             <span class="toolbar-title__icon" aria-hidden="true" v-html="iconSvg.map"></span>
             <h1 id="capability-map-title">能力地图</h1>
+          </div>
+
+          <div class="business-tabs" role="group" aria-label="业务类型">
+            <button
+              class="business-tabs__item"
+              :class="{ 'is-active': currentBusinessLine === 'collection' }"
+              type="button"
+              :aria-pressed="currentBusinessLine === 'collection'"
+              @click="selectBusinessLine('collection')"
+            >
+              收款
+            </button>
+            <button
+              class="business-tabs__item"
+              :class="{ 'is-active': currentBusinessLine === 'payout' }"
+              type="button"
+              :aria-pressed="currentBusinessLine === 'payout'"
+              @click="selectBusinessLine('payout')"
+            >
+              出款
+            </button>
           </div>
 
           <div class="toolbar-divider" aria-hidden="true"></div>
@@ -279,9 +341,9 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             </div>
           </div>
 
-          <div class="toolbar-divider" aria-hidden="true"></div>
+          <div v-if="currentBusinessLine === 'collection'" class="toolbar-divider" aria-hidden="true"></div>
 
-          <label class="toolbar-filter market-select">
+          <label v-if="currentBusinessLine === 'collection'" class="toolbar-filter market-select">
             <span class="toolbar-filter__label">市场</span>
             <select v-model="selectedMarket" aria-label="市场">
               <option v-for="market in marketOptions" :key="market" :value="market">
@@ -290,12 +352,16 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             </select>
           </label>
 
-          <button class="toolbar-config-button" type="button" @click="currentView = 'config'">
+          <button
+            class="toolbar-config-button"
+            type="button"
+            @click="currentView = currentBusinessLine === 'collection' ? 'acquiringConfig' : 'payoutConfig'"
+          >
             配置中心
           </button>
         </header>
 
-        <section class="stage-flow" aria-label="业务阶段">
+        <section v-if="currentBusinessLine === 'collection'" class="stage-flow" aria-label="业务阶段">
           <template v-for="(stage, index) in stageOptions" :key="stage.id">
             <button
               class="stage-card"
@@ -310,9 +376,25 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             <span v-if="index < stageOptions.length - 1" class="stage-arrow" aria-hidden="true">&gt;</span>
           </template>
         </section>
+
+        <section v-else class="stage-flow" aria-label="出款业务阶段">
+          <template v-for="(stage, index) in payoutStageOptions" :key="stage.id">
+            <button
+              class="stage-card"
+              :class="{ 'is-active': currentPayoutStage === stage.id }"
+              type="button"
+              :aria-pressed="currentPayoutStage === stage.id"
+              @click="selectPayoutStage(stage.id)"
+            >
+              <span class="stage-icon" aria-hidden="true" v-html="iconSvg[stage.icon]"></span>
+              <strong>{{ stage.title }}</strong>
+            </button>
+            <span v-if="index < payoutStageOptions.length - 1" class="stage-arrow" aria-hidden="true">&gt;</span>
+          </template>
+        </section>
       </div>
 
-      <template v-if="currentStage === 'acquiring'">
+      <template v-if="currentBusinessLine === 'collection' && currentStage === 'acquiring'">
       <section class="filter-panel" aria-label="能力地图筛选项">
         <fieldset class="choice-group">
           <legend>
@@ -513,11 +595,23 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
       </p>
       </template>
 
-      <RefundDisputeView v-else-if="currentStage === 'refundDispute'" />
+      <RefundDisputeView v-else-if="currentBusinessLine === 'collection' && currentStage === 'refundDispute'" />
 
-      <SettlementView v-else-if="currentStage === 'settlement'" :merchant-type="currentMerchantType" />
+      <SettlementView
+        v-else-if="currentBusinessLine === 'collection' && currentStage === 'settlement'"
+        :merchant-type="currentMerchantType"
+      />
 
-      <ReconciliationView v-else-if="currentStage === 'reconciliation'" />
+      <ReconciliationView v-else-if="currentBusinessLine === 'collection' && currentStage === 'reconciliation'" />
+
+      <ReconciliationView v-else-if="currentBusinessLine === 'payout' && currentPayoutStage === 'reconciliation'" />
+
+      <PayoutMapView
+        v-else-if="currentBusinessLine === 'payout'"
+        :stage="currentPayoutStage"
+        :merchant-type="currentMerchantType"
+        :config-version="payoutConfigVersion"
+      />
 
       <section v-else class="empty-state stage-empty-state">
         当前阶段能力地图正在完善中。
