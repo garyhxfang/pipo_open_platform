@@ -164,11 +164,19 @@ button {
 }
 
 .market-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--cap-text);
 }
 
+.market-select .toolbar-filter__label {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
 .market-select select {
-  width: 94px;
+  width: 82px;
   height: 32px;
   border: 1px solid var(--cap-border);
   border-radius: 7px;
@@ -525,10 +533,63 @@ button {
   display: none;
 }
 
+.payment-method-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-width: 0;
+}
+
+.section-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cap-muted);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.section-select select {
+  min-width: 96px;
+  height: 32px;
+  border: 1px solid var(--cap-border);
+  border-radius: 7px;
+  padding: 0 28px 0 10px;
+  background: var(--cap-surface);
+  color: var(--cap-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.section-select:nth-child(2) select {
+  min-width: 126px;
+}
+
+.payment-method-controls .legend {
+  min-height: 24px;
+  border-left: 1px solid var(--cap-border-soft);
+  padding-left: 16px;
+}
+
 .ability-group-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
+}
+
+.ability-group-grid--subscription-management {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ability-group-grid--agreement {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.subscription-management-panel {
+  margin-top: 8px;
 }
 
 .ability-group {
@@ -907,6 +968,20 @@ button {
     gap: 6px;
   }
 
+  .payment-method-controls {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .section-select {
+    flex: 0 1 auto;
+  }
+
+  .section-select select {
+    width: auto;
+  }
+
   .legend {
     justify-content: flex-start;
     white-space: normal;
@@ -914,6 +989,30 @@ button {
 }
 
 @media (max-width: 480px) {
+  .payment-method-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .section-select {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .section-select select,
+  .section-select:nth-child(2) select {
+    width: 132px;
+    min-width: 0;
+  }
+
+  .payment-method-controls .legend {
+    border-top: 1px solid var(--cap-border-soft);
+    border-left: 0;
+    padding-top: 10px;
+    padding-left: 0;
+  }
+
   .app-shell {
     padding: 0 16px 20px;
   }

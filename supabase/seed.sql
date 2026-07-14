@@ -1,0 +1,3 @@
+-- Add local users after signing in through Supabase Auth. Use lowercase emails.
+-- insert into public.app_members (email, role)
+-- values ('you@example.com', 'publisher');

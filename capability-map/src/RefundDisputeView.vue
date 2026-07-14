@@ -5,8 +5,7 @@ import { supportStatusLabel, type SupportStatus } from './capabilityData'
 type RefundLaunchMode = 'dashboard' | 'api'
 type RefundMethod = 'original' | 'wallet' | 'payout'
 type RefundDecision = 'userChoice' | 'autoRoute'
-type RefundEnvironment = 'web' | 'app'
-type RefundIntegration = 'hosted' | 'embedded' | 'api'
+type RefundIntegration = 'hosted' | 'embedded'
 type RefundFunding = 'merchant' | 'platformAdvance'
 type ChargebackFunding = 'merchant' | 'fraudProtection'
 
@@ -35,10 +34,19 @@ interface PayoutMethod {
   status: SupportStatus
 }
 
+interface RefundPaymentMethod {
+  id: string
+  name: string
+  description: string
+  initial: string
+  accent: string
+  originalRefund: SupportStatus
+  partialRefund: SupportStatus
+}
+
 const launchMode = ref<RefundLaunchMode>('dashboard')
 const selectedRefundMethods = ref<RefundMethod[]>(['original', 'wallet', 'payout'])
-const decision = ref<RefundDecision>('userChoice')
-const environment = ref<RefundEnvironment>('web')
+const selectedRefundDecisions = ref<RefundDecision[]>(['userChoice'])
 const integration = ref<RefundIntegration>('hosted')
 const funding = ref<RefundFunding>('merchant')
 const chargebackFunding = ref<ChargebackFunding>('merchant')
@@ -56,18 +64,12 @@ const refundMethodOptions: ChoiceOption<RefundMethod>[] = [
 
 const refundDecisionOptions: ChoiceOption<RefundDecision>[] = [
   { value: 'userChoice', label: '用户主动选择', description: '由用户选择退款到账方式', status: 'standard' },
-  { value: 'autoRoute', label: '系统自动路由', description: '按规则自动选择退款路径', status: 'conditional' }
-]
-
-const environmentOptions: ChoiceOption<RefundEnvironment>[] = [
-  { value: 'web', label: '网页端', description: 'PC Web、H5 或移动浏览器', status: 'standard' },
-  { value: 'app', label: 'App 端', description: 'iOS / Android 原生应用', status: 'standard' }
+  { value: 'autoRoute', label: '系统自动路由', description: '有可用退款路径时，可按规则自动选择退款路径', status: 'conditional' }
 ]
 
 const integrationOptions: ChoiceOption<RefundIntegration>[] = [
   { value: 'hosted', label: '独立收银台', description: '跳转到标准退款确认页', status: 'standard' },
-  { value: 'embedded', label: '嵌入式收银台', description: '在商户页面完成退款确认', status: 'conditional' },
-  { value: 'api', label: 'API', description: '由商户系统自建退款体验', status: 'standard' }
+  { value: 'embedded', label: '嵌入式收银台', description: '在商户页面完成退款确认', status: 'conditional' }
 ]
 
 const fundingOptions: ChoiceOption<RefundFunding>[] = [
@@ -147,6 +149,29 @@ const payoutMethods: PayoutMethod[] = [
   }
 ]
 
+const refundPaymentMethods: RefundPaymentMethod[] = [
+  { id: 'visa', name: 'Visa', description: '国际银行卡', initial: 'V', accent: '#174ea6', originalRefund: 'standard', partialRefund: 'standard' },
+  { id: 'mastercard', name: 'Mastercard', description: '国际银行卡', initial: 'M', accent: '#eb001b', originalRefund: 'standard', partialRefund: 'standard' },
+  { id: 'paypal', name: 'PayPal', description: '跨境电子钱包', initial: 'P', accent: '#0070ba', originalRefund: 'standard', partialRefund: 'conditional' },
+  { id: 'pix', name: 'PIX', description: '巴西本地支付', initial: 'P', accent: '#12b3a8', originalRefund: 'conditional', partialRefund: 'unsupported' },
+  { id: 'promptpay', name: 'PromptPay', description: '泰国本地支付', initial: 'P', accent: '#265fcf', originalRefund: 'conditional', partialRefund: 'unsupported' },
+  { id: 'gopay', name: 'GoPay', description: '印尼电子钱包', initial: 'G', accent: '#1a8fe3', originalRefund: 'unsupported', partialRefund: 'unsupported' },
+  { id: 'fpx', name: 'FPX', description: '马来西亚网银', initial: 'F', accent: '#0b4ea2', originalRefund: 'conditional', partialRefund: 'unsupported' },
+  { id: 'apple-pay', name: 'Apple Pay', description: '快捷支付钱包', initial: 'A', accent: '#111827', originalRefund: 'standard', partialRefund: 'standard' },
+  { id: 'google-pay', name: 'Google Pay', description: '快捷支付钱包', initial: 'G', accent: '#4285f4', originalRefund: 'standard', partialRefund: 'standard' },
+  { id: 'bank-transfer', name: 'Bank Transfer', description: '银行转账', initial: 'B', accent: '#0f766e', originalRefund: 'conditional', partialRefund: 'unsupported' },
+  { id: 'alipay-plus', name: 'Alipay+', description: '区域钱包网络', initial: 'A', accent: '#1677ff', originalRefund: 'conditional', partialRefund: 'conditional' },
+  { id: 'unionpay', name: '银联卡', description: '银行卡支付', initial: 'U', accent: '#d91f2d', originalRefund: 'standard', partialRefund: 'conditional' }
+]
+
+const chargebackPaymentMethods: PayoutMethod[] = [
+  { id: 'visa', name: 'Visa', description: '国际银行卡争议处理', initial: 'V', accent: '#174ea6', status: 'standard' },
+  { id: 'mastercard', name: 'Mastercard', description: '国际银行卡争议处理', initial: 'M', accent: '#eb001b', status: 'standard' },
+  { id: 'paypal', name: 'PayPal', description: '钱包交易争议处理', initial: 'P', accent: '#0070ba', status: 'conditional' },
+  { id: 'unionpay', name: '银联卡', description: '银联卡争议处理', initial: 'U', accent: '#d91f2d', status: 'conditional' },
+  { id: 'apple-pay', name: 'Apple Pay', description: '底层银行卡争议处理', initial: 'A', accent: '#111827', status: 'standard' }
+]
+
 const refundServices: ServiceItem[] = [
   {
     id: 'refund-proof',
@@ -185,15 +210,17 @@ const chargebackServices: ServiceItem[] = [
   }
 ]
 
-const showRefundDecision = computed(
-  () => selectedRefundMethods.value.includes('wallet') || selectedRefundMethods.value.includes('payout')
-)
+const showRefundDecision = computed(() => selectedRefundMethods.value.length > 1)
 
 const showRefundExperience = computed(
-  () => (showRefundDecision.value && decision.value === 'userChoice') || selectedRefundMethods.value.includes('payout')
+  () => showRefundDecision.value && selectedRefundDecisions.value.includes('userChoice')
 )
 
 const showPayoutMethods = computed(() => selectedRefundMethods.value.includes('payout'))
+const showOriginalRefundNotice = computed(() => selectedRefundMethods.value.includes('original'))
+const hasFallbackRefundMethod = computed(
+  () => selectedRefundMethods.value.includes('wallet') || selectedRefundMethods.value.includes('payout')
+)
 
 function toggleRefundMethod(value: RefundMethod) {
   if (selectedRefundMethods.value.includes(value)) {
@@ -202,6 +229,16 @@ function toggleRefundMethod(value: RefundMethod) {
   }
 
   selectedRefundMethods.value = [...selectedRefundMethods.value, value]
+}
+
+function toggleRefundDecision(value: RefundDecision) {
+  if (selectedRefundDecisions.value.includes(value)) {
+    if (selectedRefundDecisions.value.length === 1) return
+    selectedRefundDecisions.value = selectedRefundDecisions.value.filter((item) => item !== value)
+    return
+  }
+
+  selectedRefundDecisions.value = [...selectedRefundDecisions.value, value]
 }
 </script>
 
@@ -240,112 +277,6 @@ function toggleRefundMethod(value: RefundMethod) {
 
         <div class="refund-row">
           <div class="refund-row-label">
-            <strong>退款方式</strong>
-            <span>可选择多个退款路径</span>
-          </div>
-          <div class="refund-choice-grid refund-choice-grid--three">
-            <button
-              v-for="option in refundMethodOptions"
-              :key="option.value"
-              class="refund-choice-card"
-              :class="{ 'is-active': selectedRefundMethods.includes(option.value) }"
-              type="button"
-              :aria-pressed="selectedRefundMethods.includes(option.value)"
-              @click="toggleRefundMethod(option.value)"
-            >
-              <span class="refund-card-copy">
-                <strong>{{ option.label }}</strong>
-                <span>{{ option.description }}</span>
-              </span>
-              <span class="refund-check" aria-hidden="true"></span>
-            </button>
-          </div>
-        </div>
-
-        <div v-if="showRefundDecision" class="refund-row">
-          <div class="refund-row-label">
-            <strong>退款方式决策</strong>
-            <span>决定由用户或系统选择路径</span>
-          </div>
-          <div class="refund-choice-grid refund-choice-grid--two">
-            <button
-              v-for="option in refundDecisionOptions"
-              :key="option.value"
-              class="refund-choice-card"
-              :class="{ 'is-active': decision === option.value }"
-              type="button"
-              :aria-pressed="decision === option.value"
-              @click="decision = option.value"
-            >
-              <span class="refund-card-copy">
-                <strong>{{ option.label }}</strong>
-                <span>{{ option.description }}</span>
-              </span>
-              <span class="refund-card-meta">
-                <em class="refund-status" :class="`refund-status--${option.status}`">
-                  {{ supportStatusLabel[option.status] }}
-                </em>
-                <span class="refund-radio" aria-hidden="true"></span>
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div v-if="showRefundExperience" class="refund-row">
-          <div class="refund-row-label">
-            <strong>退款环境</strong>
-            <span>选择用户确认退款的终端</span>
-          </div>
-          <div class="refund-choice-grid refund-choice-grid--two">
-            <button
-              v-for="option in environmentOptions"
-              :key="option.value"
-              class="refund-choice-card"
-              :class="{ 'is-active': environment === option.value }"
-              type="button"
-              :aria-pressed="environment === option.value"
-              @click="environment = option.value"
-            >
-              <span class="refund-card-copy">
-                <strong>{{ option.label }}</strong>
-                <span>{{ option.description }}</span>
-              </span>
-              <span class="refund-radio" aria-hidden="true"></span>
-            </button>
-          </div>
-        </div>
-
-        <div v-if="showRefundExperience" class="refund-row">
-          <div class="refund-row-label">
-            <strong>集成模式</strong>
-            <span>选择退款确认页的集成方式</span>
-          </div>
-          <div class="refund-choice-grid refund-choice-grid--three">
-            <button
-              v-for="option in integrationOptions"
-              :key="option.value"
-              class="refund-choice-card"
-              :class="{ 'is-active': integration === option.value }"
-              type="button"
-              :aria-pressed="integration === option.value"
-              @click="integration = option.value"
-            >
-              <span class="refund-card-copy">
-                <strong>{{ option.label }}</strong>
-                <span>{{ option.description }}</span>
-              </span>
-              <span class="refund-card-meta">
-                <em class="refund-status" :class="`refund-status--${option.status}`">
-                  {{ supportStatusLabel[option.status] }}
-                </em>
-                <span class="refund-radio" aria-hidden="true"></span>
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div class="refund-row">
-          <div class="refund-row-label">
             <strong>退款出资</strong>
             <span>选择退款资金来源</span>
           </div>
@@ -372,7 +303,139 @@ function toggleRefundMethod(value: RefundMethod) {
             </button>
           </div>
         </div>
+
+        <div class="refund-row">
+          <div class="refund-row-label">
+            <strong>退款方式</strong>
+            <span>可选择多个退款路径</span>
+          </div>
+          <div class="refund-choice-grid refund-choice-grid--three">
+            <button
+              v-for="option in refundMethodOptions"
+              :key="option.value"
+              class="refund-choice-card"
+              :class="{ 'is-active': selectedRefundMethods.includes(option.value) }"
+              type="button"
+              :aria-pressed="selectedRefundMethods.includes(option.value)"
+              @click="toggleRefundMethod(option.value)"
+            >
+              <span class="refund-card-copy">
+                <strong>{{ option.label }}</strong>
+                <span>{{ option.description }}</span>
+              </span>
+              <span class="refund-check" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div
+            v-if="showOriginalRefundNotice"
+            class="refund-method-notice"
+            :class="{ 'refund-method-notice--covered': hasFallbackRefundMethod }"
+            role="status"
+          >
+            <span class="refund-method-notice__mark" aria-hidden="true">!</span>
+            <div v-if="hasFallbackRefundMethod">
+              <strong>已配置补充退款方式</strong>
+              <p>可承接部分支付方式无法原路退回或原路退款失败的场景。</p>
+            </div>
+            <div v-else>
+              <strong>部分支付方式不支持原路退款</strong>
+              <p>建议同时开通“退至钱包”或“退款转代发”，用于承接无法原路退回的退款。</p>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="showRefundDecision" class="refund-row refund-decision-row">
+          <div class="refund-row-label">
+            <strong>退款方式决策</strong>
+            <span>多种退款方式可用时，由用户选择或系统自动路由。</span>
+          </div>
+          <div class="refund-choice-grid refund-choice-grid--two">
+            <button
+              v-for="option in refundDecisionOptions"
+              :key="option.value"
+              class="refund-choice-card"
+              :class="{ 'is-active': selectedRefundDecisions.includes(option.value) }"
+              type="button"
+              :aria-pressed="selectedRefundDecisions.includes(option.value)"
+              @click="toggleRefundDecision(option.value)"
+            >
+              <span class="refund-card-copy">
+                <strong>{{ option.label }}</strong>
+                <span>{{ option.description }}</span>
+              </span>
+              <span class="refund-card-meta">
+                <em class="refund-status" :class="`refund-status--${option.status}`">
+                  {{ supportStatusLabel[option.status] }}
+                </em>
+                <span class="refund-check" aria-hidden="true"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div v-if="showRefundExperience" class="refund-row">
+          <div class="refund-row-label">
+            <strong>收银台集成模式</strong>
+            <span>选择退款确认页的收银台形态</span>
+          </div>
+          <div class="refund-choice-grid refund-choice-grid--two">
+            <button
+              v-for="option in integrationOptions"
+              :key="option.value"
+              class="refund-choice-card"
+              :class="{ 'is-active': integration === option.value }"
+              type="button"
+              :aria-pressed="integration === option.value"
+              @click="integration = option.value"
+            >
+              <span class="refund-card-copy">
+                <strong>{{ option.label }}</strong>
+                <span>{{ option.description }}</span>
+              </span>
+              <span class="refund-card-meta">
+                <em class="refund-status" :class="`refund-status--${option.status}`">
+                  {{ supportStatusLabel[option.status] }}
+                </em>
+                <span class="refund-radio" aria-hidden="true"></span>
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
+
+      <section
+        v-if="showOriginalRefundNotice"
+        class="refund-panel refund-panel--catalog refund-method-capability-panel"
+        aria-labelledby="refund-method-capability-title"
+      >
+        <div class="refund-panel-heading">
+          <h3 id="refund-method-capability-title">支付方式原路退款能力</h3>
+          <p>查看各支付方式的原路退款和部分退款支持情况。</p>
+        </div>
+        <div class="refund-method-grid">
+          <article v-for="method in refundPaymentMethods" :key="method.id" class="refund-method-card">
+            <div class="refund-method-card__heading">
+              <span class="refund-method-mark" :style="{ '--mark-color': method.accent }">{{ method.initial }}</span>
+              <div>
+                <h4>{{ method.name }}</h4>
+                <p>{{ method.description }}</p>
+              </div>
+            </div>
+            <div
+              v-if="method.originalRefund !== 'unsupported' || method.partialRefund !== 'unsupported'"
+              class="refund-method-tags"
+            >
+              <span v-if="method.originalRefund !== 'unsupported'" :class="`refund-method-tag refund-method-tag--${method.originalRefund}`">
+                原路退款
+              </span>
+              <span v-if="method.partialRefund !== 'unsupported'" :class="`refund-method-tag refund-method-tag--${method.partialRefund}`">
+                部分退款
+              </span>
+            </div>
+            <span v-else class="refund-method-empty">暂不支持退款</span>
+          </article>
+        </div>
+      </section>
 
       <section v-if="showPayoutMethods" class="refund-panel refund-panel--catalog" aria-labelledby="payout-method-title">
         <div class="refund-panel-heading">
@@ -452,30 +515,49 @@ function toggleRefundMethod(value: RefundMethod) {
             </button>
           </div>
         </div>
-
-        <div class="refund-row">
-          <div class="refund-row-label">
-            <strong>拒付增值服务</strong>
-            <span>配置预警与汇率保障服务</span>
-          </div>
-          <div class="refund-service-grid">
-            <article v-for="service in chargebackServices" :key="service.id" class="refund-service-card">
-              <span class="payout-mark payout-mark--outline" :style="{ '--mark-color': service.accent }">
-                {{ service.initial }}
-              </span>
-              <div>
-                <div class="refund-service-title">
-                  <h4>{{ service.name }}</h4>
-                  <em class="refund-status" :class="`refund-status--${service.status}`">
-                    {{ supportStatusLabel[service.status] }}
-                  </em>
-                </div>
-                <p>{{ service.description }}</p>
-              </div>
-            </article>
-          </div>
-        </div>
       </div>
+
+      <section class="refund-panel refund-panel--catalog" aria-labelledby="chargeback-method-title">
+        <div class="refund-panel-heading">
+          <h3 id="chargeback-method-title">支持拒付的支付方式</h3>
+          <p>可发起拒付或交易争议处理的支付方式。</p>
+        </div>
+        <div class="payout-grid">
+          <article v-for="method in chargebackPaymentMethods" :key="method.id" class="payout-card">
+            <div class="payout-card-topline">
+              <span class="payout-mark" :style="{ '--mark-color': method.accent }">{{ method.initial }}</span>
+              <em class="refund-status" :class="`refund-status--${method.status}`">
+                {{ supportStatusLabel[method.status] }}
+              </em>
+            </div>
+            <h4>{{ method.name }}</h4>
+            <p>{{ method.description }}</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="refund-panel refund-panel--services" aria-labelledby="chargeback-service-title">
+        <div class="refund-row-label">
+          <strong id="chargeback-service-title">拒付增值服务</strong>
+          <span>配置预警与汇率保障服务</span>
+        </div>
+        <div class="refund-service-grid">
+          <article v-for="service in chargebackServices" :key="service.id" class="refund-service-card">
+            <span class="payout-mark payout-mark--outline" :style="{ '--mark-color': service.accent }">
+              {{ service.initial }}
+            </span>
+            <div>
+              <div class="refund-service-title">
+                <h4>{{ service.name }}</h4>
+                <em class="refund-status" :class="`refund-status--${service.status}`">
+                  {{ supportStatusLabel[service.status] }}
+                </em>
+              </div>
+              <p>{{ service.description }}</p>
+            </div>
+          </article>
+        </div>
+      </section>
     </section>
 
     <div class="refund-footer">
@@ -576,6 +658,157 @@ function toggleRefundMethod(value: RefundMethod) {
   color: var(--cap-muted);
   font-size: 12px;
   line-height: 1.45;
+}
+
+.refund-method-notice {
+  grid-column: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: -4px;
+  border: 1px solid #f5d7a1;
+  border-radius: 7px;
+  padding: 10px 12px;
+  background: #fff8eb;
+  color: #8a5300;
+}
+
+.refund-method-notice--covered {
+  border-color: #cde8d5;
+  background: #f1faf4;
+  color: #247a3d;
+}
+
+.refund-method-notice__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: #fff;
+  color: #b76b00;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.refund-method-notice--covered .refund-method-notice__mark {
+  color: #247a3d;
+}
+
+.refund-method-notice strong {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.refund-method-notice p {
+  margin: 2px 0 0;
+  color: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.refund-method-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+.refund-method-card {
+  display: flex;
+  min-width: 0;
+  min-height: 86px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--cap-border);
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: #fff;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.035);
+}
+
+.refund-method-card__heading {
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 9px;
+}
+
+.refund-method-mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--mark-color) 10%, white);
+  color: var(--mark-color);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.refund-method-card h4 {
+  overflow: hidden;
+  margin: 0;
+  color: var(--cap-text);
+  font-size: 12px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.refund-method-card p {
+  overflow: hidden;
+  margin: 2px 0 0;
+  color: var(--cap-muted);
+  font-size: 10px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.refund-method-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.refund-method-tag,
+.refund-method-empty {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 20px;
+  border-radius: 999px;
+  padding: 0 7px;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.refund-method-tag--standard {
+  background: var(--cap-green-bg);
+  color: var(--cap-green);
+}
+
+.refund-method-tag--conditional {
+  background: var(--cap-orange-bg);
+  color: var(--cap-orange);
+}
+
+.refund-method-empty {
+  background: var(--cap-gray-bg);
+  color: #727c8a;
 }
 
 .refund-choice-grid,
@@ -909,9 +1142,14 @@ function toggleRefundMethod(value: RefundMethod) {
     gap: 10px;
   }
 
+  .refund-method-notice {
+    grid-column: auto;
+  }
+
   .refund-choice-grid--two,
   .refund-choice-grid--three,
   .refund-service-grid,
+  .refund-method-grid,
   .payout-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -941,6 +1179,7 @@ function toggleRefundMethod(value: RefundMethod) {
   .refund-choice-grid--two,
   .refund-choice-grid--three,
   .refund-service-grid,
+  .refund-method-grid,
   .payout-grid {
     grid-template-columns: 1fr;
   }

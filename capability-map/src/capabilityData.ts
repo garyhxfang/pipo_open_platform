@@ -7,7 +7,22 @@ export type MarketSelection = 'All' | MarketCode
 export type SupportStatus = 'standard' | 'conditional' | 'unsupported'
 export type VersionTag = 'standard' | 'beta'
 export type CapabilityCategory = 'payment' | 'valueAdded'
-export type PaymentAbilityGroupId = 'retry' | 'binding' | 'combined' | 'preAuth'
+export type PaymentMethodType = 'card' | 'wallet' | 'bankTransfer' | 'localPayment'
+export type PaymentMethodTypeSelection = 'All' | PaymentMethodType
+export type PaymentAbilityGroupId =
+  | 'retry'
+  | 'binding'
+  | 'combined'
+  | 'preAuth'
+  | 'subscriptionPricing'
+  | 'subscriptionExpiry'
+  | 'subscriptionUpgrade'
+  | 'subscriptionPlan'
+  | 'initialRetry'
+  | 'renewalCharge'
+  | 'agreementMode'
+  | 'agreementRetry'
+  | 'deductionRetry'
 export type PaymentAbilityId =
   | 'cashierRecovery'
   | 'reopenCashier'
@@ -19,8 +34,30 @@ export type PaymentAbilityId =
   | 'ttplPlusX'
   | 'preAuthMultiple'
   | 'partialPreAuth'
-  | 'incrementalPreAuth'
-  | 'overCapture'
+  | 'regularPricing'
+  | 'trialPeriod'
+  | 'discountPeriod'
+  | 'gracePeriod'
+  | 'retentionPeriod'
+  | 'upgradeRefundRemainingBenefits'
+  | 'upgradeOffsetNewSubscription'
+  | 'upgradeProratedPriceDifference'
+  | 'downgradeOnRenewal'
+  | 'cancelSubscription'
+  | 'resumeSubscription'
+  | 'terminateSubscription'
+  | 'subscriptionCashierRecovery'
+  | 'subscriptionReopenCashier'
+  | 'subscriptionBackupMethodRetry'
+  | 'primaryPiCharge'
+  | 'primaryBackupPiPolling'
+  | 'standaloneAgreement'
+  | 'payAndAgreement'
+  | 'agreementCashierRecovery'
+  | 'agreementReopenCashier'
+  | 'agreementBackupMethodRetry'
+  | 'deductionBackupMethodRetry'
+  | 'intelligentRetry'
 export type PaymentMethodTagId = 'standaloneBinding' | 'payAndBind' | 'preAuthPay'
 
 export interface Option<T extends string> {
@@ -55,6 +92,7 @@ export interface CapabilityItem {
   marketStatus: Record<MarketCode, SupportStatus>
   serviceStatus?: SupportStatus
   paymentMethodTags?: Record<PaymentMethodTagId, SupportStatus>
+  paymentMethodType?: PaymentMethodType
 }
 
 export const merchantTypeOptions: Option<MerchantType>[] = [
@@ -90,14 +128,14 @@ export const productOptions: Option<ProductType>[] = [
 
 export const environmentOptions: Option<Environment>[] = [
   {
-    label: '网页端',
-    value: 'web',
-    description: 'PC Web、H5 或移动浏览器场景'
+    label: 'TT端内',
+    value: 'app',
+    description: 'TikTok App 内的支付场景'
   },
   {
-    label: 'App',
-    value: 'app',
-    description: 'iOS/Android 原生应用内支付体验'
+    label: 'TT端外',
+    value: 'web',
+    description: 'TikTok App 外的网页或商户 App 场景'
   }
 ]
 
@@ -120,6 +158,14 @@ export const integrationOptions: Option<IntegrationMode>[] = [
 ]
 
 export const marketOptions: MarketSelection[] = ['All', 'US', 'BR', 'ID', 'TH', 'MY', 'SG', 'PH', 'JP', 'KR', 'GB']
+
+export const paymentMethodTypeOptions: Array<{ label: string; value: PaymentMethodTypeSelection }> = [
+  { label: 'All', value: 'All' },
+  { label: '银行卡', value: 'card' },
+  { label: '电子钱包', value: 'wallet' },
+  { label: '银行转账', value: 'bankTransfer' },
+  { label: '本地支付方式', value: 'localPayment' }
+]
 
 export const supportStatusLabel: Record<SupportStatus, string> = {
   standard: '标准支持',
@@ -169,10 +215,99 @@ export const paymentAbilityGroups: PaymentAbilityGroup[] = [
     id: 'preAuth',
     title: '预授权支付',
     options: [
-      { label: '预授权+多次请款', value: 'preAuthMultiple', status: 'standard' },
-      { label: '部分预授权', value: 'partialPreAuth', status: 'conditional' },
-      { label: '增量预授权', value: 'incrementalPreAuth', status: 'conditional' },
-      { label: '超额请款', value: 'overCapture', status: 'unsupported' }
+      { label: '预授权支付', value: 'preAuthMultiple', status: 'standard' },
+      { label: '部分预授权', value: 'partialPreAuth', status: 'conditional' }
+    ]
+  }
+]
+
+export const visiblePaymentAbilityGroups = paymentAbilityGroups.filter(
+  (group) => group.id === 'retry' || group.id === 'combined'
+)
+
+export const subscriptionManagementGroups: PaymentAbilityGroup[] = [
+  {
+    id: 'subscriptionPricing',
+    title: '订阅定价能力',
+    options: [
+      { label: '正价期', value: 'regularPricing', status: 'standard' },
+      { label: '试用期', value: 'trialPeriod', status: 'standard' },
+      { label: '优惠期', value: 'discountPeriod', status: 'conditional' }
+    ]
+  },
+  {
+    id: 'subscriptionExpiry',
+    title: '订阅到期处理',
+    options: [
+      { label: '宽限期', value: 'gracePeriod', status: 'standard' },
+      { label: '保留期', value: 'retentionPeriod', status: 'conditional' }
+    ]
+  },
+  {
+    id: 'subscriptionUpgrade',
+    title: '订阅升降级',
+    options: [
+      { label: '剩余权益退款（升级）', value: 'upgradeRefundRemainingBenefits', status: 'conditional' },
+      { label: '剩余权益抵扣新订阅款项（升级）', value: 'upgradeOffsetNewSubscription', status: 'standard' },
+      { label: '剩余时间补差价（升级）', value: 'upgradeProratedPriceDifference', status: 'conditional' },
+      { label: '到期后降级续费（降级）', value: 'downgradeOnRenewal', status: 'standard' }
+    ]
+  },
+  {
+    id: 'subscriptionPlan',
+    title: '订阅计划调整',
+    options: [
+      { label: '取消订阅', value: 'cancelSubscription', status: 'standard' },
+      { label: '恢复订阅', value: 'resumeSubscription', status: 'standard' },
+      { label: '终止订阅', value: 'terminateSubscription', status: 'conditional' }
+    ]
+  }
+]
+
+export const subscriptionPaymentAbilityGroups: PaymentAbilityGroup[] = [
+  {
+    id: 'initialRetry',
+    title: '首订支付重试',
+    options: [
+      { label: '收银台支付挽回', value: 'subscriptionCashierRecovery', status: 'standard' },
+      { label: '二次拉起收银台支付', value: 'subscriptionReopenCashier', status: 'standard' },
+      { label: '备用支付方式重试', value: 'subscriptionBackupMethodRetry', status: 'conditional' }
+    ]
+  },
+  {
+    id: 'renewalCharge',
+    title: '续订扣款模式',
+    options: [
+      { label: '主 PI 扣款', value: 'primaryPiCharge', status: 'standard' },
+      { label: '主 PI + 备用 PI 轮询', value: 'primaryBackupPiPolling', status: 'conditional' }
+    ]
+  }
+]
+
+export const agreementPaymentAbilityGroups: PaymentAbilityGroup[] = [
+  {
+    id: 'agreementMode',
+    title: '签约模式',
+    options: [
+      { label: '独立签约', value: 'standaloneAgreement', status: 'standard' },
+      { label: '支付并签约', value: 'payAndAgreement', status: 'standard' }
+    ]
+  },
+  {
+    id: 'agreementRetry',
+    title: '签约阶段支付重试',
+    options: [
+      { label: '收银台支付挽回', value: 'agreementCashierRecovery', status: 'standard' },
+      { label: '二次拉起收银台支付', value: 'agreementReopenCashier', status: 'standard' },
+      { label: '备用支付方式重试', value: 'agreementBackupMethodRetry', status: 'conditional' }
+    ]
+  },
+  {
+    id: 'deductionRetry',
+    title: '代扣阶段支付重试',
+    options: [
+      { label: '备用支付方式重试', value: 'deductionBackupMethodRetry', status: 'standard' },
+      { label: '智能重试', value: 'intelligentRetry', status: 'conditional' }
     ]
   }
 ]
@@ -180,10 +315,22 @@ export const paymentAbilityGroups: PaymentAbilityGroup[] = [
 export const defaultSelectedPaymentAbilities: PaymentAbilityId[] = [
   'cashierRecovery',
   'reopenCashier',
-  'standaloneBinding',
-  'payAndBind',
   'creditPlusX',
-  'preAuthMultiple'
+  'regularPricing',
+  'trialPeriod',
+  'gracePeriod',
+  'upgradeOffsetNewSubscription',
+  'downgradeOnRenewal',
+  'cancelSubscription',
+  'resumeSubscription',
+  'subscriptionCashierRecovery',
+  'subscriptionReopenCashier',
+  'primaryPiCharge',
+  'standaloneAgreement',
+  'payAndAgreement',
+  'agreementCashierRecovery',
+  'agreementReopenCashier',
+  'deductionBackupMethodRetry'
 ]
 
 const allMarketsStandard: Record<MarketCode, SupportStatus> = {
@@ -217,6 +364,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'visa',
     name: 'Visa',
     category: 'payment',
+    paymentMethodType: 'card',
     version: 'standard',
     description: '覆盖主流国际卡组织收单。',
     initial: 'V',
@@ -235,6 +383,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'mastercard',
     name: 'Mastercard',
     category: 'payment',
+    paymentMethodType: 'card',
     version: 'standard',
     description: '支持银行卡支付、授权与交易查询。',
     initial: 'M',
@@ -253,6 +402,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'paypal',
     name: 'PayPal',
     category: 'payment',
+    paymentMethodType: 'wallet',
     version: 'standard',
     description: '适合跨境电商和钱包支付场景。',
     initial: 'P',
@@ -280,6 +430,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'pix',
     name: 'PIX',
     category: 'payment',
+    paymentMethodType: 'localPayment',
     version: 'standard',
     description: '巴西本地实时付款网络。',
     initial: 'P',
@@ -298,6 +449,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'promptpay',
     name: 'PromptPay',
     category: 'payment',
+    paymentMethodType: 'localPayment',
     version: 'standard',
     description: '泰国本地转账和二维码支付。',
     initial: 'P',
@@ -316,6 +468,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'gopay',
     name: 'GoPay',
     category: 'payment',
+    paymentMethodType: 'wallet',
     version: 'beta',
     description: '印尼本地电子钱包。',
     initial: 'G',
@@ -334,6 +487,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'fpx',
     name: 'FPX',
     category: 'payment',
+    paymentMethodType: 'bankTransfer',
     version: 'standard',
     description: '马来西亚本地网银支付。',
     initial: 'F',
@@ -352,6 +506,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'apple-pay',
     name: 'Apple Pay',
     category: 'payment',
+    paymentMethodType: 'wallet',
     version: 'standard',
     description: '支持 Apple 设备上的快捷支付。',
     initial: 'A',
@@ -377,6 +532,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'google-pay',
     name: 'Google Pay',
     category: 'payment',
+    paymentMethodType: 'wallet',
     version: 'standard',
     description: '支持 Android 与浏览器快捷支付。',
     initial: 'G',
@@ -404,6 +560,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'bank-transfer',
     name: 'Bank Transfer',
     category: 'payment',
+    paymentMethodType: 'bankTransfer',
     version: 'standard',
     description: '面向本地银行转账与虚拟账户场景。',
     initial: 'B',
@@ -427,6 +584,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'alipay-plus',
     name: 'Alipay+',
     category: 'payment',
+    paymentMethodType: 'wallet',
     version: 'beta',
     description: '连接区域钱包和跨境钱包网络。',
     initial: 'A',
@@ -454,6 +612,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'unionpay',
     name: '银联卡',
     category: 'payment',
+    paymentMethodType: 'card',
     version: 'standard',
     description: '支持银联卡线上收单。',
     initial: 'U',
@@ -561,9 +720,8 @@ export function getIntegrationStatus(
   }
 
   if (product === 'subscription') {
-    if (integration === 'api') return 'standard'
-    if (integration === 'hosted') return 'standard'
-    return environment === 'web' ? 'conditional' : 'unsupported'
+    if (merchantType === 'platformMerchant' || environment === 'app') return 'unsupported'
+    return integration === 'hosted' ? 'standard' : 'unsupported'
   }
 
   if (integration === 'api') {

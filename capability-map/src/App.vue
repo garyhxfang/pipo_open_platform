@@ -1,18 +1,29 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { loadPublishedConfig } from './acquiringConfigRepository'
+import {
+  createSeedPayload,
+  resolveCapabilityStatus,
+  resolveDimensionValueStatus,
+  scenarioCombinationStatus
+} from './capabilityConfigModel'
 import AcquiringConfigView from './AcquiringConfigView.vue'
 import ReconciliationView from './ReconciliationView.vue'
 import RefundDisputeView from './RefundDisputeView.vue'
 import SettlementView from './SettlementView.vue'
 import {
+  agreementPaymentAbilityGroups,
   capabilities,
   defaultSelectedPaymentAbilities,
   environmentOptions,
-  getIntegrationStatus,
   integrationOptions,
   marketOptions,
   merchantTypeOptions,
   paymentAbilityGroups,
+  paymentMethodTypeOptions,
+  subscriptionManagementGroups,
+  subscriptionPaymentAbilityGroups,
+  visiblePaymentAbilityGroups,
   productOptions,
   shortSupportLabel,
   supportStatusLabel,
@@ -25,9 +36,11 @@ import {
   type PaymentAbilityId,
   type PaymentAbilityGroupId,
   type PaymentMethodTagId,
+  type PaymentMethodTypeSelection,
   type ProductType,
   type SupportStatus
 } from './capabilityData'
+import type { CapabilityConfigPayloadV4, CapabilityFeatureId } from './configTypes'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
 const currentView = ref<'map' | 'config'>('map')
@@ -35,8 +48,12 @@ const currentProduct = ref<ProductType>('online')
 const currentEnvironment = ref<Environment>('web')
 const currentIntegration = ref<IntegrationMode>('hosted')
 const currentStage = ref<StageId>('acquiring')
-const selectedMarket = ref<MarketSelection>('All')
+const merchantContractingCountry = ref<MarketSelection>('All')
+const consumerPaymentCountry = ref<MarketSelection>('All')
+const selectedPaymentMethodType = ref<PaymentMethodTypeSelection>('All')
 const selectedPaymentAbilities = ref<PaymentAbilityId[]>([...defaultSelectedPaymentAbilities])
+const publishedConfig = ref<CapabilityConfigPayloadV4>()
+const fallbackCapabilityConfig = createSeedPayload()
 
 const paymentMethodTagLabels: Record<PaymentMethodTagId, string> = {
   standaloneBinding: '独立绑定',
@@ -44,10 +61,11 @@ const paymentMethodTagLabels: Record<PaymentMethodTagId, string> = {
   preAuthPay: '预授权支付'
 }
 
-const tagAbilityDependencies: Record<PaymentMethodTagId, PaymentAbilityId[]> = {
-  standaloneBinding: ['standaloneBinding'],
-  payAndBind: ['payAndBind'],
-  preAuthPay: ['preAuthMultiple', 'partialPreAuth', 'incrementalPreAuth', 'overCapture']
+const valueAddedFeatureIds: Record<string, CapabilityFeatureId> = {
+  fx: 'currencyExchange',
+  tax: 'taxCalculation',
+  'user-fee': 'userFee',
+  marketing: 'marketing'
 }
 
 type IconName =
@@ -157,8 +175,42 @@ const abilityGroupIcon: Record<PaymentAbilityGroupId, IconName> = {
   retry: 'retry',
   binding: 'binding',
   combined: 'combined',
-  preAuth: 'preAuth'
+  preAuth: 'preAuth',
+  subscriptionPricing: 'subscription',
+  subscriptionExpiry: 'retry',
+  subscriptionUpgrade: 'combined',
+  subscriptionPlan: 'subscription',
+  initialRetry: 'retry',
+  renewalCharge: 'agreementPay',
+  agreementMode: 'agreementPay',
+  agreementRetry: 'retry',
+  deductionRetry: 'retry'
 }
+
+const displayedPaymentAbilityGroups = computed(() =>
+  currentProduct.value === 'subscription'
+    ? subscriptionPaymentAbilityGroups
+    : currentProduct.value === 'agreementDeduction'
+      ? agreementPaymentAbilityGroups
+      : visiblePaymentAbilityGroups
+)
+
+const paymentAbilitySectionTitle = computed(() =>
+  currentProduct.value === 'agreementDeduction' ? '签约及支付能力' : '支付能力'
+)
+
+const paymentAbilitySectionDescription = computed(() => {
+  if (currentProduct.value === 'subscription') return '选择首订支付重试与续订扣款模式（可多选）。'
+  if (currentProduct.value === 'agreementDeduction') return '选择签约模式及签约、代扣阶段的支付重试能力（可多选）。'
+  return '根据您的业务需要，选择能力组合（可多选）。'
+})
+
+const allSelectableAbilityGroups = [
+  ...paymentAbilityGroups,
+  ...subscriptionManagementGroups,
+  ...subscriptionPaymentAbilityGroups,
+  ...agreementPaymentAbilityGroups
+]
 
 const filteredCapabilities = computed(() =>
   capabilities.filter((capability) => {
@@ -167,14 +219,18 @@ const filteredCapabilities = computed(() =>
       capability.environments.includes(currentEnvironment.value) &&
       capability.integrationModes.includes(currentIntegration.value)
     const matchesMarket =
-      selectedMarket.value === 'All' || capability.marketStatus[selectedMarket.value] !== 'unsupported'
+      consumerPaymentCountry.value === 'All' || capability.marketStatus[consumerPaymentCountry.value] !== 'unsupported'
 
     return matchesSelection && matchesMarket
   })
 )
 
 const paymentCapabilities = computed(() =>
-  filteredCapabilities.value.filter((capability) => capability.category === 'payment')
+  filteredCapabilities.value.filter(
+    (capability) =>
+      capability.category === 'payment' &&
+      (selectedPaymentMethodType.value === 'All' || capability.paymentMethodType === selectedPaymentMethodType.value)
+  )
 )
 
 const valueAddedCapabilities = computed(() =>
@@ -183,17 +239,24 @@ const valueAddedCapabilities = computed(() =>
 
 function selectMerchantType(value: MerchantType) {
   currentMerchantType.value = value
+  if (productStatusFor(currentProduct.value) === 'unsupported') currentProduct.value = 'online'
+  normalizeDependentSelections()
 }
 
 function selectProduct(value: ProductType) {
+  if (productStatusFor(value) === 'unsupported') return
   currentProduct.value = value
+  normalizeDependentSelections()
 }
 
 function selectEnvironment(value: Environment) {
+  if (environmentStatusFor(value) === 'unsupported') return
   currentEnvironment.value = value
+  if (integrationStatusFor(currentIntegration.value) === 'unsupported') currentIntegration.value = 'hosted'
 }
 
 function selectIntegration(value: IntegrationMode) {
+  if (integrationStatusFor(value) === 'unsupported') return
   currentIntegration.value = value
 }
 
@@ -202,7 +265,57 @@ function selectStage(value: StageId) {
 }
 
 function integrationStatusFor(integration: IntegrationMode) {
-  return getIntegrationStatus(currentMerchantType.value, currentProduct.value, currentEnvironment.value, integration)
+  return scenarioCombinationStatus(activeCapabilityConfig(), {
+    merchantType: currentMerchantType.value,
+    product: currentProduct.value,
+    environment: currentEnvironment.value,
+    integrationMode: integration
+  })
+}
+
+function productStatusFor(product: ProductType) {
+  return resolveDimensionValueStatus(activeCapabilityConfig(), 'product', product, {
+    merchantType: currentMerchantType.value,
+    product,
+    environment: currentEnvironment.value,
+    integrationMode: currentIntegration.value
+  })
+}
+
+function environmentStatusFor(environment: Environment) {
+  return scenarioCombinationStatus(activeCapabilityConfig(), {
+    merchantType: currentMerchantType.value,
+    product: currentProduct.value,
+    environment,
+    integrationMode: currentIntegration.value
+  })
+}
+
+function activeCapabilityConfig() {
+  return publishedConfig.value ?? fallbackCapabilityConfig
+}
+
+function normalizeDependentSelections() {
+  if (environmentStatusFor(currentEnvironment.value) === 'unsupported') {
+    currentEnvironment.value = environmentOptions.find((option) => environmentStatusFor(option.value) !== 'unsupported')?.value ?? 'web'
+  }
+  if (integrationStatusFor(currentIntegration.value) === 'unsupported') {
+    currentIntegration.value = integrationOptions.find((option) => integrationStatusFor(option.value) !== 'unsupported')?.value ?? 'hosted'
+  }
+}
+
+function paymentAbilityStatusFor(abilityId: PaymentAbilityId, fallback: SupportStatus): SupportStatus {
+  if (!publishedConfig.value) return fallback
+
+  const status = resolveCapabilityStatus(publishedConfig.value, abilityId, {
+    merchantType: currentMerchantType.value,
+    product: currentProduct.value,
+    environment: currentEnvironment.value,
+    integrationMode: currentIntegration.value,
+    merchantContractingCountry: merchantContractingCountry.value,
+    consumerPaymentCountry: consumerPaymentCountry.value
+  })
+  return status ?? fallback
 }
 
 function togglePaymentAbility(capability: PaymentAbilityId) {
@@ -213,7 +326,7 @@ function togglePaymentAbility(capability: PaymentAbilityId) {
     return
   }
 
-  selectedPaymentAbilities.value = paymentAbilityGroups
+  selectedPaymentAbilities.value = allSelectableAbilityGroups
     .flatMap((group) => group.options.map((option) => option.value))
     .filter(
       (paymentAbility) => selectedPaymentAbilities.value.includes(paymentAbility) || paymentAbility === capability
@@ -221,6 +334,18 @@ function togglePaymentAbility(capability: PaymentAbilityId) {
 }
 
 function serviceStatusFor(capability: CapabilityItem): SupportStatus {
+  const featureId = valueAddedFeatureIds[capability.id]
+  if (featureId) {
+    return resolveCapabilityStatus(activeCapabilityConfig(), featureId, {
+      merchantType: currentMerchantType.value,
+      product: currentProduct.value,
+      environment: currentEnvironment.value,
+      integrationMode: currentIntegration.value,
+      merchantContractingCountry: merchantContractingCountry.value,
+      consumerPaymentCountry: consumerPaymentCountry.value
+    }) ?? 'unsupported'
+  }
+
   if (
     !capability.products.includes(currentProduct.value) ||
     !capability.environments.includes(currentEnvironment.value) ||
@@ -229,8 +354,8 @@ function serviceStatusFor(capability: CapabilityItem): SupportStatus {
     return 'unsupported'
   }
 
-  if (selectedMarket.value !== 'All') {
-    return capability.marketStatus[selectedMarket.value]
+  if (consumerPaymentCountry.value !== 'All') {
+    return capability.marketStatus[consumerPaymentCountry.value]
   }
 
   return capability.serviceStatus ?? 'standard'
@@ -240,16 +365,33 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
   if (!capability.paymentMethodTags) return []
 
   return (Object.entries(capability.paymentMethodTags) as Array<[PaymentMethodTagId, SupportStatus]>).filter(
-    ([tagId, status]) =>
-      status !== 'unsupported' &&
-      tagAbilityDependencies[tagId].some((ability) => selectedPaymentAbilities.value.includes(ability))
+    ([, status]) => status !== 'unsupported'
   )
 }
+
+async function refreshPublishedConfig() {
+  try {
+    const published = await loadPublishedConfig()
+    if (!published) return
+
+    publishedConfig.value = published.payload
+  } catch {
+    // The static demo remains usable when the optional backend is unavailable.
+  }
+}
+
+async function returnToMap() {
+  await refreshPublishedConfig()
+  currentView.value = 'map'
+  normalizeDependentSelections()
+}
+
+onMounted(refreshPublishedConfig)
 
 </script>
 
 <template>
-  <AcquiringConfigView v-if="currentView === 'config'" @back="currentView = 'map'" />
+  <AcquiringConfigView v-if="currentView === 'config'" @back="returnToMap" />
 
   <main v-else class="app-shell">
     <section class="capability-map" aria-labelledby="capability-map-title">
@@ -282,8 +424,8 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
           <div class="toolbar-divider" aria-hidden="true"></div>
 
           <label class="toolbar-filter market-select">
-            <span class="toolbar-filter__label">市场</span>
-            <select v-model="selectedMarket" aria-label="市场">
+            <span class="toolbar-filter__label">商户签约国家/地区</span>
+            <select v-model="merchantContractingCountry" aria-label="商户签约国家/地区">
               <option v-for="market in marketOptions" :key="market" :value="market">
                 {{ market }}
               </option>
@@ -323,8 +465,11 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             <button
               v-for="option in productOptions"
               :key="option.value"
-              class="choice-card"
-              :class="{ 'is-active': currentProduct === option.value }"
+              class="choice-card choice-card--with-status"
+              :class="[
+                { 'is-active': currentProduct === option.value },
+                `choice-card--${productStatusFor(option.value)}`
+              ]"
               type="button"
               :aria-pressed="currentProduct === option.value"
               @click="selectProduct(option.value)"
@@ -334,7 +479,12 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
                 <strong>{{ option.label }}</strong>
                 <span>{{ option.description }}</span>
               </span>
-              <span class="choice-radio" aria-hidden="true"></span>
+              <span class="choice-meta">
+                <em class="status-chip" :class="`status-chip--${productStatusFor(option.value)}`">
+                  {{ supportStatusLabel[productStatusFor(option.value)] }}
+                </em>
+                <span class="choice-radio" aria-hidden="true"></span>
+              </span>
             </button>
           </div>
         </fieldset>
@@ -348,8 +498,11 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             <button
               v-for="option in environmentOptions"
               :key="option.value"
-              class="choice-card"
-              :class="{ 'is-active': currentEnvironment === option.value }"
+              class="choice-card choice-card--with-status"
+              :class="[
+                { 'is-active': currentEnvironment === option.value },
+                `choice-card--${environmentStatusFor(option.value)}`
+              ]"
               type="button"
               :aria-pressed="currentEnvironment === option.value"
               @click="selectEnvironment(option.value)"
@@ -359,7 +512,12 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
                 <strong>{{ option.label }}</strong>
                 <span>{{ option.description }}</span>
               </span>
-              <span class="choice-radio" aria-hidden="true"></span>
+              <span class="choice-meta">
+                <em class="status-chip" :class="`status-chip--${environmentStatusFor(option.value)}`">
+                  {{ supportStatusLabel[environmentStatusFor(option.value)] }}
+                </em>
+                <span class="choice-radio" aria-hidden="true"></span>
+              </span>
             </button>
           </div>
         </fieldset>
@@ -398,16 +556,20 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
         </fieldset>
       </section>
 
-      <section class="payment-ability-panel" aria-labelledby="payment-ability-title">
+      <section
+        v-if="currentProduct === 'subscription'"
+        class="payment-ability-panel subscription-management-panel"
+        aria-labelledby="subscription-management-title"
+      >
         <div class="section-heading section-heading--panel">
           <div>
-            <h2 id="payment-ability-title">支付能力</h2>
-            <p>根据您的业务需要，选择能力组合（可多选）。</p>
+            <h2 id="subscription-management-title">订阅管理</h2>
+            <p>配置订阅定价、到期处理、升降级和计划调整能力（可多选）。</p>
           </div>
         </div>
 
-        <div class="ability-group-grid">
-          <fieldset v-for="group in paymentAbilityGroups" :key="group.id" class="ability-group">
+        <div class="ability-group-grid ability-group-grid--subscription-management">
+          <fieldset v-for="group in subscriptionManagementGroups" :key="group.id" class="ability-group">
             <legend>
               <span class="ability-group-icon" aria-hidden="true" v-html="iconSvg[abilityGroupIcon[group.id]]"></span>
               {{ group.title }}
@@ -419,7 +581,7 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
                 class="ability-option"
                 :class="[
                   { 'is-active': selectedPaymentAbilities.includes(option.value) },
-                  `ability-option--${option.status}`
+                  `ability-option--${paymentAbilityStatusFor(option.value, option.status)}`
                 ]"
                 type="button"
                 :aria-pressed="selectedPaymentAbilities.includes(option.value)"
@@ -427,8 +589,104 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
               >
                 <span class="ability-check" aria-hidden="true"></span>
                 <strong>{{ option.label }}</strong>
-                <em class="status-chip" :class="`status-chip--${option.status}`">
-                  {{ supportStatusLabel[option.status] }}
+                <em class="status-chip" :class="`status-chip--${paymentAbilityStatusFor(option.value, option.status)}`">
+                  {{ supportStatusLabel[paymentAbilityStatusFor(option.value, option.status)] }}
+                </em>
+              </button>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="capability-section capability-section--payment-methods" aria-labelledby="payment-method-title">
+        <div class="section-heading">
+          <h2 id="payment-method-title">支付方式 <span>{{ paymentCapabilities.length }}</span></h2>
+          <div class="payment-method-controls">
+            <label class="section-select">
+              <span>用户支付国家/地区</span>
+              <select v-model="consumerPaymentCountry" aria-label="用户支付国家/地区">
+                <option v-for="market in marketOptions" :key="market" :value="market">{{ market }}</option>
+              </select>
+            </label>
+            <label class="section-select">
+              <span>支付方式类型</span>
+              <select v-model="selectedPaymentMethodType" aria-label="支付方式类型">
+                <option v-for="option in paymentMethodTypeOptions" :key="option.value" :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </label>
+            <div class="legend" aria-label="支持状态图例">
+              <span><i class="dot dot--standard"></i>支持</span>
+              <span><i class="dot dot--conditional"></i>部分支持</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="paymentCapabilities.length" class="capability-grid">
+          <article v-for="capability in paymentCapabilities" :key="capability.id" class="capability-card">
+            <div class="card-topline">
+              <div class="capability-identity">
+                <span class="brand-mark" :style="{ '--mark-color': capability.accent }">
+                  {{ capability.initial }}
+                </span>
+                <div>
+                  <h3>{{ capability.name }}</h3>
+                  <p>{{ capability.description }}</p>
+                </div>
+              </div>
+              <span class="version-tag" :class="`version-tag--${capability.version}`">
+                {{ versionLabel[capability.version] }}
+              </span>
+            </div>
+
+            <div v-if="paymentMethodTagsFor(capability).length" class="method-tags" aria-label="支持的支付能力">
+              <span
+                v-for="[tagId, status] in paymentMethodTagsFor(capability)"
+                :key="tagId"
+                class="method-tag"
+                :class="`method-tag--${status}`"
+                :title="`${paymentMethodTagLabels[tagId]}：${shortSupportLabel[status]}`"
+              >
+                {{ paymentMethodTagLabels[tagId] }}
+              </span>
+            </div>
+          </article>
+        </div>
+        <div v-else class="empty-state">暂无可展示的支付方式，请调整产品、环境、集成模式或市场。</div>
+      </section>
+
+      <section class="payment-ability-panel" aria-labelledby="payment-ability-title">
+        <div class="section-heading section-heading--panel">
+          <div>
+            <h2 id="payment-ability-title">{{ paymentAbilitySectionTitle }}</h2>
+            <p>{{ paymentAbilitySectionDescription }}</p>
+          </div>
+        </div>
+
+        <div class="ability-group-grid" :class="{ 'ability-group-grid--agreement': currentProduct === 'agreementDeduction' }">
+          <fieldset v-for="group in displayedPaymentAbilityGroups" :key="group.id" class="ability-group">
+            <legend>
+              <span class="ability-group-icon" aria-hidden="true" v-html="iconSvg[abilityGroupIcon[group.id]]"></span>
+              {{ group.title }}
+            </legend>
+            <div class="ability-options">
+              <button
+                v-for="option in group.options"
+                :key="option.value"
+                class="ability-option"
+                :class="[
+                  { 'is-active': selectedPaymentAbilities.includes(option.value) },
+                  `ability-option--${paymentAbilityStatusFor(option.value, option.status)}`
+                ]"
+                type="button"
+                :aria-pressed="selectedPaymentAbilities.includes(option.value)"
+                @click="togglePaymentAbility(option.value)"
+              >
+                <span class="ability-check" aria-hidden="true"></span>
+                <strong>{{ option.label }}</strong>
+                <em class="status-chip" :class="`status-chip--${paymentAbilityStatusFor(option.value, option.status)}`">
+                  {{ supportStatusLabel[paymentAbilityStatusFor(option.value, option.status)] }}
                 </em>
               </button>
             </div>
@@ -464,48 +722,6 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
             </div>
           </article>
         </div>
-      </section>
-
-      <section class="capability-section capability-section--payment-methods" aria-labelledby="payment-method-title">
-        <div class="section-heading">
-          <h2 id="payment-method-title">支付方式 <span>{{ paymentCapabilities.length }}</span></h2>
-          <div class="legend" aria-label="支持状态图例">
-            <span><i class="dot dot--standard"></i>支持</span>
-            <span><i class="dot dot--conditional"></i>部分支持</span>
-          </div>
-        </div>
-
-        <div v-if="paymentCapabilities.length" class="capability-grid">
-          <article v-for="capability in paymentCapabilities" :key="capability.id" class="capability-card">
-            <div class="card-topline">
-              <div class="capability-identity">
-                <span class="brand-mark" :style="{ '--mark-color': capability.accent }">
-                  {{ capability.initial }}
-                </span>
-                <div>
-                  <h3>{{ capability.name }}</h3>
-                  <p>{{ capability.description }}</p>
-                </div>
-              </div>
-              <span class="version-tag" :class="`version-tag--${capability.version}`">
-                {{ versionLabel[capability.version] }}
-              </span>
-            </div>
-
-            <div v-if="paymentMethodTagsFor(capability).length" class="method-tags" aria-label="支持的支付能力">
-              <span
-                v-for="[tagId, status] in paymentMethodTagsFor(capability)"
-                :key="tagId"
-                class="method-tag"
-                :class="`method-tag--${status}`"
-                :title="`${paymentMethodTagLabels[tagId]}：${shortSupportLabel[status]}`"
-              >
-                {{ paymentMethodTagLabels[tagId] }}
-              </span>
-            </div>
-          </article>
-        </div>
-        <div v-else class="empty-state">暂无可展示的支付方式，请调整产品、环境、集成模式或市场。</div>
       </section>
 
       <p class="capability-note">
