@@ -671,7 +671,12 @@ const stageCards = computed(() => {
 
 const visibleProductRows = computed(() =>
   productCategoryRows.filter(
-    (row) => row.primary === currentPrimaryCategory.value && row.merchantTypes.includes(props.merchantType)
+    (row) =>
+      row.primary === currentPrimaryCategory.value &&
+      row.merchantTypes.includes(props.merchantType) &&
+      payoutConfig.value.records.some(
+        (record) => record.product === row.id && record.values.merchantType === props.merchantType
+      )
   )
 )
 
@@ -685,10 +690,12 @@ const secondaryCategoryOptions = computed(() =>
 )
 
 const currentProductRecords = computed(() =>
-  payoutConfig.value.records.filter((record) => record.product === currentSecondaryCategory.value)
+  payoutConfig.value.records.filter(
+    (record) => record.product === currentSecondaryCategory.value && record.values.merchantType === props.merchantType
+  )
 )
 const configurableFields = computed(() =>
-  payoutConfig.value.fields.filter((field) => availableOptionsFor(field).length > 0)
+  payoutConfig.value.fields.filter((field) => field.id !== 'merchantType' && availableOptionsFor(field).length > 0)
 )
 
 function recordsAvailableAt(field: PayoutField) {
@@ -727,15 +734,17 @@ watch(
   () => props.configVersion,
   () => {
     payoutConfig.value = loadPayoutConfig()
+    if (!visibleProductRows.value.some((row) => row.id === currentSecondaryCategory.value)) {
+      const firstVisibleRow = visibleProductRows.value[0]
+      if (firstVisibleRow) currentSecondaryCategory.value = firstVisibleRow.id
+    }
     resetFieldSelections()
   }
 )
 
 function selectPrimaryCategory(value: PrimaryProductCategory) {
   currentPrimaryCategory.value = value
-  const firstVisibleRow = productCategoryRows.find(
-    (row) => row.primary === value && row.merchantTypes.includes(props.merchantType)
-  )
+  const firstVisibleRow = visibleProductRows.value.find((row) => row.primary === value)
   if (firstVisibleRow) currentSecondaryCategory.value = firstVisibleRow.id
   resetFieldSelections()
 }

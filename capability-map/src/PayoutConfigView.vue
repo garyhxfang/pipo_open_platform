@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { merchantTypeOptions, type MerchantType } from './capabilityData'
 import {
   loadPayoutConfig,
   payoutPrimaryOptions,
@@ -26,6 +27,7 @@ const savedConfig = ref(cloneConfig(config.value))
 const currentMode = ref<'capability' | 'fields'>('capability')
 const primaryFilter = ref<'all' | PrimaryProductCategory>('all')
 const productFilter = ref<'all' | SecondaryProductCategory>('all')
+const merchantTypeFilter = ref<'all' | MerchantType>('all')
 const editingRecord = ref<PayoutCapabilityRecord>()
 const editorMode = ref<'create' | 'edit' | 'copy'>('create')
 const editorError = ref('')
@@ -35,7 +37,15 @@ const newFieldDescription = ref('')
 const newOptionLabel = ref('')
 const newOptionDescription = ref('')
 const savedMessage = ref('')
-const requiredFieldIds = ['payeeUserType', 'initiationMethod', 'integrationForm']
+const requiredFieldIds = ['merchantType', 'payeeUserType', 'initiationMethod', 'integrationForm']
+
+function reloadConfig() {
+  config.value = loadPayoutConfig()
+  savedConfig.value = cloneConfig(config.value)
+  selectedFieldId.value = config.value.fields[0]?.id ?? ''
+}
+
+onMounted(reloadConfig)
 
 const selectedField = computed(() => config.value.fields.find((field) => field.id === selectedFieldId.value))
 const changed = computed(() => JSON.stringify(config.value) !== JSON.stringify(savedConfig.value))
@@ -46,6 +56,7 @@ const visibleRecords = computed(() =>
       return primaryFilter.value === 'all' || product?.primary === primaryFilter.value
     })
     .filter((record) => productFilter.value === 'all' || record.product === productFilter.value)
+    .filter((record) => merchantTypeFilter.value === 'all' || record.values.merchantType === merchantTypeFilter.value)
 )
 const filteredProducts = computed(() =>
   payoutProductOptions.filter(
@@ -308,6 +319,13 @@ function editorTitle() {
               <select v-model="productFilter">
                 <option value="all">全部</option>
                 <option v-for="product in filteredProducts" :key="product.id" :value="product.id">{{ product.label }}</option>
+              </select>
+            </label>
+            <label class="filter-field">
+              <span>商户类型</span>
+              <select v-model="merchantTypeFilter">
+                <option value="all">全部</option>
+                <option v-for="option in merchantTypeOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
               </select>
             </label>
           </section>

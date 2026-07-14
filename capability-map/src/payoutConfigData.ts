@@ -1,3 +1,5 @@
+import type { MerchantType } from './capabilityData'
+
 export type PrimaryProductCategory = 'withdrawal' | 'disbursement'
 
 export type SecondaryProductCategory =
@@ -29,7 +31,7 @@ export interface PayoutProductDefinition {
 }
 
 export interface PayoutConfigState {
-  schemaVersion: 6
+  schemaVersion: 7
   fields: PayoutField[]
   records: PayoutCapabilityRecord[]
 }
@@ -55,6 +57,16 @@ export const payoutProductOptions: PayoutProductDefinition[] = [
 ]
 
 export const defaultPayoutFields: PayoutField[] = [
+  {
+    id: 'merchantType',
+    label: '商户类型',
+    description: '配置当前规则适用的商户类型',
+    core: true,
+    options: [
+      { id: 'standardMerchant', label: '普通商户', description: '单一商户主体接入出款产品' },
+      { id: 'platformMerchant', label: '平台商户', description: '平台型业务或多主体场景接入出款产品' }
+    ]
+  },
   {
     id: 'payeeUserType',
     label: '收款用户类型',
@@ -162,7 +174,7 @@ const storageKey = 'capability-map-payout-config'
 
 export function createDefaultPayoutConfig(): PayoutConfigState {
   return {
-    schemaVersion: 6,
+    schemaVersion: 7,
     fields: structuredClone(defaultPayoutFields),
     records: createDefaultRecords()
   }
@@ -171,6 +183,7 @@ export function createDefaultPayoutConfig(): PayoutConfigState {
 function createRecord(
   product: SecondaryProductCategory,
   index: number,
+  merchantType: MerchantType,
   payeeUserType: string,
   initiationMethod: string,
   integrationForm: string,
@@ -178,44 +191,68 @@ function createRecord(
   assetType: string
 ): PayoutCapabilityRecord {
   return {
-    id: `default-${product}-${index}`,
+    id: `default-${product}-${merchantType}-${index}`,
     product,
     name: `${payoutProductOptions.find((item) => item.id === product)?.label ?? product}默认配置 ${index}`,
-    values: { payeeUserType, initiationMethod, integrationForm, supportedClient, assetType }
+    values: { merchantType, payeeUserType, initiationMethod, integrationForm, supportedClient, assetType }
   }
 }
 
-function createDefaultRecords(): PayoutCapabilityRecord[] {
+function createDefaultRecordsForMerchant(merchantType: MerchantType): PayoutCapabilityRecord[] {
+  const subMerchantWithdrawalRecords =
+    merchantType === 'platformMerchant'
+      ? [
+          createRecord('subMerchantWithdrawal', 1, merchantType, 'bUser', 'initiation-auto', 'integration-bind-cashier', 'client-pc', 'asset-cash'),
+          createRecord('subMerchantWithdrawal', 2, merchantType, 'bUser', 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
+          createRecord('subMerchantWithdrawal', 3, merchantType, 'bUser', 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash')
+        ]
+      : []
+
   return [
-    createRecord('primaryMerchantWithdrawal', 1, 'bUser', 'initiation-auto', 'integration-sky', '', 'asset-cash'),
-    createRecord('primaryMerchantWithdrawal', 2, 'bUser', 'initiation-manual', 'integration-dashboard', '', 'asset-cash'),
-    createRecord('subMerchantWithdrawal', 1, 'bUser', 'initiation-auto', 'integration-bind-cashier', 'client-pc', 'asset-cash'),
-    createRecord('subMerchantWithdrawal', 2, 'bUser', 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
-    createRecord('subMerchantWithdrawal', 3, 'bUser', 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash'),
-    createRecord('userWithdrawal', 1, 'cUser', 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
-    createRecord('userWithdrawal', 2, 'cUser', 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash'),
+    createRecord('primaryMerchantWithdrawal', 1, merchantType, 'bUser', 'initiation-auto', 'integration-sky', '', 'asset-cash'),
+    createRecord('primaryMerchantWithdrawal', 2, merchantType, 'bUser', 'initiation-manual', 'integration-dashboard', '', 'asset-cash'),
+    ...subMerchantWithdrawalRecords,
+    createRecord('userWithdrawal', 1, merchantType, 'cUser', 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
+    createRecord('userWithdrawal', 2, merchantType, 'cUser', 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash'),
     ...(['bUser', 'cUser'] as const).flatMap((userType, userIndex) => [
-      createRecord('singleDisbursement', userIndex * 4 + 1, userType, 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
-      createRecord('singleDisbursement', userIndex * 4 + 2, userType, 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash'),
-      createRecord('singleDisbursement', userIndex * 4 + 3, userType, 'initiation-manual', 'integration-dropin-cashier', 'client-app', 'asset-airtime'),
-      createRecord('singleDisbursement', userIndex * 4 + 4, userType, 'initiation-manual', 'integration-dropin-cashier', 'client-app', 'asset-gift-card')
+      createRecord('singleDisbursement', userIndex * 4 + 1, merchantType, userType, 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
+      createRecord('singleDisbursement', userIndex * 4 + 2, merchantType, userType, 'initiation-manual', 'integration-withdrawal-cashier', 'client-app', 'asset-cash'),
+      createRecord('singleDisbursement', userIndex * 4 + 3, merchantType, userType, 'initiation-manual', 'integration-dropin-cashier', 'client-app', 'asset-airtime'),
+      createRecord('singleDisbursement', userIndex * 4 + 4, merchantType, userType, 'initiation-manual', 'integration-dropin-cashier', 'client-app', 'asset-gift-card')
     ]),
     ...(['bUser', 'cUser'] as const).flatMap((userType, userIndex) => [
-      createRecord('batchDisbursement', userIndex * 2 + 1, userType, 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
-      createRecord('batchDisbursement', userIndex * 2 + 2, userType, 'initiation-file', 'integration-dashboard', '', 'asset-cash')
+      createRecord('batchDisbursement', userIndex * 2 + 1, merchantType, userType, 'initiation-auto', 'integration-bind-cashier', 'client-app', 'asset-cash'),
+      createRecord('batchDisbursement', userIndex * 2 + 2, merchantType, userType, 'initiation-file', 'integration-dashboard', '', 'asset-cash')
     ])
   ]
+}
+
+function createDefaultRecords(): PayoutCapabilityRecord[] {
+  return (['standardMerchant', 'platformMerchant'] as const).flatMap(createDefaultRecordsForMerchant)
 }
 
 function recordSignature(record: PayoutCapabilityRecord) {
   return [
     record.product,
+    record.values.merchantType,
     record.values.payeeUserType,
     record.values.initiationMethod,
     record.values.integrationForm,
     record.values.supportedClient,
     record.values.assetType
   ].join('|')
+}
+
+function ensureMerchantTypeRecords(records: PayoutCapabilityRecord[]) {
+  return records.flatMap((record) => {
+    if (record.values.merchantType) return [record]
+    return (['standardMerchant', 'platformMerchant'] as const).map((merchantType) => ({
+      ...record,
+      id: `${record.id}-${merchantType}`,
+      name: record.name,
+      values: { merchantType, ...record.values }
+    }))
+  })
 }
 
 function keepValidDefaultRecords(records: PayoutCapabilityRecord[]) {
@@ -227,8 +264,12 @@ function keepValidDefaultRecords(records: PayoutCapabilityRecord[]) {
 
 function syncCoreFieldLabels(fields: PayoutField[]) {
   const defaultFieldMap = new Map(defaultPayoutFields.map((field) => [field.id, field]))
+  const fieldsWithMissingCore = [
+    ...defaultPayoutFields.filter((defaultField) => !fields.some((field) => field.id === defaultField.id)),
+    ...fields
+  ]
 
-  return fields.map((field) => {
+  return fieldsWithMissingCore.map((field) => {
     const defaultField = defaultFieldMap.get(field.id)
     if (!defaultField) return field
 
@@ -278,41 +319,53 @@ export function loadPayoutConfig(): PayoutConfigState {
       schemaVersion?: number
       selections?: Record<SecondaryProductCategory, Record<string, string[]>>
     }
-    if (parsed.schemaVersion === 6 && Array.isArray(parsed.fields) && Array.isArray(parsed.records)) {
+    if (parsed.schemaVersion === 7 && Array.isArray(parsed.fields) && Array.isArray(parsed.records)) {
       return {
         ...parsed,
-        schemaVersion: 6,
-        fields: syncCoreFieldLabels(parsed.fields)
+        schemaVersion: 7,
+        fields: syncCoreFieldLabels(parsed.fields),
+        records: ensureMerchantTypeRecords(parsed.records)
+      }
+    }
+    if (parsed.schemaVersion === 6 && Array.isArray(parsed.fields) && Array.isArray(parsed.records)) {
+      return {
+        schemaVersion: 7,
+        fields: syncCoreFieldLabels(parsed.fields),
+        records: ensureMerchantTypeRecords(parsed.records)
       }
     }
     if (parsed.schemaVersion === 5 && Array.isArray(parsed.fields) && Array.isArray(parsed.records)) {
       return {
-        schemaVersion: 6,
+        schemaVersion: 7,
         fields: syncCoreFieldLabels(parsed.fields),
-        records: keepValidDefaultRecords(parsed.records)
+        records: keepValidDefaultRecords(ensureMerchantTypeRecords(parsed.records))
       }
     }
     if (parsed.schemaVersion === 4 && Array.isArray(parsed.fields) && Array.isArray(parsed.records)) {
       return {
-        schemaVersion: 6,
+        schemaVersion: 7,
         fields: syncCoreFieldLabels(parsed.fields),
         records: keepValidDefaultRecords(
-          parsed.records.flatMap((record) =>
-            expandSelections(record.product, record.name, record.values as unknown as Record<string, string[]>)
+          ensureMerchantTypeRecords(
+            parsed.records.flatMap((record) =>
+              expandSelections(record.product, record.name, record.values as unknown as Record<string, string[]>)
+            )
           )
         )
       }
     }
     if (parsed.schemaVersion === 3 && Array.isArray(parsed.fields) && parsed.selections) {
       return {
-        schemaVersion: 6,
+        schemaVersion: 7,
         fields: syncCoreFieldLabels(parsed.fields),
         records: keepValidDefaultRecords(
-          payoutProductOptions.flatMap((product) =>
-            expandSelections(
-              product.id,
-              `${product.label}默认配置`,
-              parsed.selections?.[product.id] ?? {}
+          ensureMerchantTypeRecords(
+            payoutProductOptions.flatMap((product) =>
+              expandSelections(
+                product.id,
+                `${product.label}默认配置`,
+                parsed.selections?.[product.id] ?? {}
+              )
             )
           )
         )
