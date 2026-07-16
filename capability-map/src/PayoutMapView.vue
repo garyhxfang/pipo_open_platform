@@ -8,7 +8,7 @@ import {
   type SecondaryProductCategory
 } from './payoutConfigData'
 
-export type PayoutStageId = 'payout' | 'return' | 'reconciliation'
+export type PayoutStageId = 'prefunding' | 'payout' | 'return' | 'reconciliation'
 
 interface ChoiceOption<T extends string> {
   value: T
@@ -44,16 +44,46 @@ interface PayoutPaymentMethodCard {
   tag: string
 }
 
+type PrefundingFieldId = 'moduleId' | 'trigger' | 'request' | 'recognition' | 'fundProcess' | 'reverse'
+
+interface PrefundingField {
+  id: PrefundingFieldId
+  label: string
+  description: string
+}
+
+interface PrefundingModule {
+  id: string
+  title: string
+  note: string
+}
+
+interface PrefundingScenario {
+  id: string
+  moduleId: string
+  trigger: string
+  request: string
+  requestNote?: string
+  requestDisplayLabel?: string
+  requestDisplayNote?: string
+  recognition: string
+  fundProcess: string
+  reverse: string
+}
+
 const props = defineProps<{
   stage: PayoutStageId
   merchantType: MerchantType
   configVersion: number
+  primaryCategory?: PrimaryProductCategory
+  hidePrimaryCategory?: boolean
 }>()
 
-const currentPrimaryCategory = ref<PrimaryProductCategory>('withdrawal')
+const currentPrimaryCategory = ref<PrimaryProductCategory>(props.primaryCategory ?? 'withdrawal')
 const currentSecondaryCategory = ref<SecondaryProductCategory>('primaryMerchantWithdrawal')
 const payoutConfig = ref(loadPayoutConfig())
 const selectedConfigOptions = ref<Record<string, string>>({})
+const selectedPrefundingOptions = ref<Partial<Record<PrefundingFieldId, string>>>({})
 
 const primaryCategoryOptions: ChoiceOption<PrimaryProductCategory>[] = [
   {
@@ -67,6 +97,118 @@ const primaryCategoryOptions: ChoiceOption<PrimaryProductCategory>[] = [
     label: '代发',
     description: '按业务逻辑向商户或用户付款',
     status: 'standard'
+  }
+]
+
+const prefundingModules: PrefundingModule[] = [
+  { id: 'incoming', title: '普通来账备款', note: 'sky配置VA' },
+  { id: 'billingExternal', title: '计费外缴备款', note: '研发配置VA' },
+  { id: 'settlementAfter', title: '清算后备款', note: '研发配置VA' },
+  { id: 'onlinePayment', title: '在线支付备款', note: '内部Lender' }
+]
+
+const prefundingFields: PrefundingField[] = [
+  {
+    id: 'moduleId',
+    label: '产品分类',
+    description: '选择备款产品分类'
+  },
+  {
+    id: 'trigger',
+    label: '备款触发方式',
+    description: '选择备款由页面、规则或上游事件触发'
+  },
+  {
+    id: 'request',
+    label: '发起付款流程/请款',
+    description: '选择是否需要请款以及对应付款流程'
+  },
+  {
+    id: 'recognition',
+    label: '付款成功来源/认款',
+    description: '选择备款成功识别或认款来源'
+  },
+  {
+    id: 'fundProcess',
+    label: '资金处理',
+    description: '选择资金记账或冲正处理方式'
+  },
+  {
+    id: 'reverse',
+    label: '是否支持逆向退回',
+    description: '根据前序配置展示是否支持逆向退回'
+  }
+]
+
+const prefundingScenarios: PrefundingScenario[] = [
+  {
+    id: 'incoming-dashboard',
+    moduleId: 'incoming',
+    trigger: 'Dashboard手动触发',
+    request: '对公付款OA',
+    recognition: '来账通知',
+    fundProcess: 'CA记账',
+    reverse: '否'
+  },
+  {
+    id: 'incoming-rule',
+    moduleId: 'incoming',
+    trigger: '系统规则自动触发',
+    request: '对公付款OA',
+    recognition: '来账通知',
+    fundProcess: 'CA记账',
+    reverse: '否'
+  },
+  {
+    id: 'incoming-notification',
+    moduleId: 'incoming',
+    trigger: '接收来账通知触发',
+    request: '不感知付款流程',
+    recognition: '来账通知',
+    fundProcess: 'CA记账',
+    reverse: '否'
+  },
+  {
+    id: 'billing-external',
+    moduleId: 'billingExternal',
+    trigger: '上游业务api触发',
+    request: '对公付款OA',
+    recognition: '来账通知',
+    fundProcess: '内部冲正',
+    reverse: '否'
+  },
+  {
+    id: 'settlement-after',
+    moduleId: 'settlementAfter',
+    trigger: '上游业务api触发',
+    request: '上报清算中心',
+    recognition: '清算成功登记结果',
+    fundProcess: 'CA记账',
+    reverse: '否'
+  },
+  {
+    id: 'online-payment-request',
+    moduleId: 'onlinePayment',
+    trigger: '上游业务api触发',
+    request: '步骤一：下payin单\n步骤二：发起Transfer',
+    requestNote: '单独请款',
+    requestDisplayLabel: 'transfer请款',
+    requestDisplayNote: '步骤一：下payin单\n步骤二：发起Transfer',
+    recognition: 'payin成功通知',
+    fundProcess: 'CA记账',
+    reverse: '是'
+  },
+  {
+    id: 'online-payment-no-request',
+    moduleId: 'onlinePayment',
+    trigger: '上游业务api触发',
+    request: '步骤一：下payin单',
+    requestNote: '无需单独请款',
+    requestDisplayLabel: '无需单独请款',
+    requestDisplayNote: '步骤一：下payin单',
+    recognition: 'payin成功通知',
+    fundProcess: 'CA记账',
+    reverse: '是'
   }
 ]
 
@@ -697,6 +839,8 @@ const currentProductRecords = computed(() =>
 const configurableFields = computed(() =>
   payoutConfig.value.fields.filter((field) => field.id !== 'merchantType' && availableOptionsFor(field).length > 0)
 )
+const secondaryCategoryLevel = computed(() => (props.hidePrimaryCategory ? 1 : 2))
+const configurableFieldLevelOffset = computed(() => secondaryCategoryLevel.value + 1)
 
 function recordsAvailableAt(field: PayoutField) {
   const fieldIndex = payoutConfig.value.fields.findIndex((item) => item.id === field.id)
@@ -715,6 +859,69 @@ function availableOptionsFor(field: PayoutField) {
   return field.options.filter((option) => optionIds.has(option.id))
 }
 
+function prefundingProductLabel(moduleId: string) {
+  return prefundingModules.find((module) => module.id === moduleId)?.title ?? moduleId
+}
+
+function prefundingProductNote(moduleId: string) {
+  return prefundingModules.find((module) => module.id === moduleId)?.note ?? ''
+}
+
+function prefundingProductInitial(moduleId: string) {
+  return prefundingProductLabel(moduleId).slice(0, 1)
+}
+
+function prefundingProductStatus(moduleId: string): SupportStatus {
+  return moduleId === prefundingModules[0]?.id ? 'standard' : 'conditional'
+}
+
+function prefundingValueFor(scenario: PrefundingScenario, fieldId: PrefundingFieldId) {
+  if (fieldId === 'moduleId') return scenario.moduleId
+  return scenario[fieldId]
+}
+
+function prefundingOptionLabel(fieldId: PrefundingFieldId, value: string) {
+  if (fieldId === 'moduleId') return prefundingProductLabel(value)
+  if (fieldId === 'request') {
+    return prefundingScenarios.find((scenario) => scenario.request === value)?.requestDisplayLabel ?? value
+  }
+  return value
+}
+
+function prefundingRecordsAvailableAt(fieldId: PrefundingFieldId) {
+  const fieldIndex = prefundingFields.findIndex((field) => field.id === fieldId)
+  const upstreamFields = prefundingFields.slice(0, fieldIndex)
+
+  return prefundingScenarios.filter((scenario) =>
+    upstreamFields.every((field) => {
+      const selected = selectedPrefundingOptions.value[field.id]
+      return !selected || prefundingValueFor(scenario, field.id) === selected
+    })
+  )
+}
+
+function prefundingOptionsFor(fieldId: PrefundingFieldId) {
+  return Array.from(
+    new Set(prefundingRecordsAvailableAt(fieldId).map((scenario) => prefundingValueFor(scenario, fieldId)))
+  )
+}
+
+function prefundingOptionNote(fieldId: PrefundingFieldId, value: string) {
+  if (fieldId === 'moduleId') return prefundingProductNote(value)
+  if (fieldId !== 'request') return ''
+  const scenario = prefundingScenarios.find((item) => item.request === value)
+  return scenario?.requestDisplayNote ?? scenario?.requestNote ?? ''
+}
+
+function selectPrefundingOption(fieldId: PrefundingFieldId, value: string) {
+  const currentSelections = { ...selectedPrefundingOptions.value, [fieldId]: value }
+  const fieldIndex = prefundingFields.findIndex((field) => field.id === fieldId)
+  for (const downstreamField of prefundingFields.slice(fieldIndex + 1)) {
+    delete currentSelections[downstreamField.id]
+  }
+  selectedPrefundingOptions.value = currentSelections
+}
+
 function resetFieldSelections() {
   selectedConfigOptions.value = {}
 }
@@ -728,6 +935,20 @@ watch(
     }
     resetFieldSelections()
   }
+)
+
+watch(
+  () => props.primaryCategory,
+  (value) => {
+    if (!value) return
+    currentPrimaryCategory.value = value
+    if (!visibleProductRows.value.some((row) => row.id === currentSecondaryCategory.value)) {
+      const firstVisibleRow = visibleProductRows.value[0]
+      if (firstVisibleRow) currentSecondaryCategory.value = firstVisibleRow.id
+    }
+    resetFieldSelections()
+  },
+  { immediate: true }
 )
 
 watch(
@@ -765,6 +986,80 @@ function toggleConfigOption(fieldId: string, optionId: string) {
 
 <template>
   <section class="payout-map-view" aria-label="出款产品能力地图">
+    <section v-if="stage === 'prefunding'" class="capability-section" aria-labelledby="prefunding-title">
+      <div class="section-heading">
+        <h2 id="prefunding-title">商户备款能力</h2>
+      </div>
+
+      <div class="prefunding-module-list">
+        <section class="prefunding-module">
+          <div class="section-heading section-heading--panel prefunding-module__heading">
+            <div>
+              <h3>商户备款能力</h3>
+            </div>
+          </div>
+
+          <fieldset
+            v-for="(field, fieldIndex) in prefundingFields"
+            :key="field.id"
+            class="choice-group"
+            :class="{ 'prefunding-product-choice-group': field.id === 'moduleId' }"
+          >
+            <legend v-if="field.id !== 'moduleId'">
+              <span><i class="payout-level-badge">{{ fieldIndex + 1 }}级</i>{{ field.label }}</span>
+              <small>{{ field.description }}</small>
+            </legend>
+            <div
+              class="choice-grid choice-grid--three"
+              :class="{ 'prefunding-product-grid': field.id === 'moduleId' }"
+            >
+              <button
+                v-for="option in prefundingOptionsFor(field.id)"
+                :key="option"
+                class="choice-card payout-config-option"
+                :class="[
+                  { 'is-active': selectedPrefundingOptions[field.id] === option },
+                  { 'prefunding-product-card': field.id === 'moduleId' }
+                ]"
+                type="button"
+                :aria-pressed="selectedPrefundingOptions[field.id] === option"
+                @click="selectPrefundingOption(field.id, option)"
+              >
+                <template v-if="field.id === 'moduleId'">
+                  <div class="card-topline">
+                    <div class="capability-identity">
+                      <span class="prefunding-product-card__mark">
+                        <span class="brand-mark brand-mark--outline" style="--mark-color: #1267f1">
+                          {{ prefundingProductInitial(option) }}
+                        </span>
+                        <em class="service-status" :class="`service-status--${prefundingProductStatus(option)}`">
+                          {{ supportStatusLabel[prefundingProductStatus(option)] }}
+                        </em>
+                      </span>
+                      <div>
+                        <h3>{{ prefundingOptionLabel(field.id, option) }}</h3>
+                        <p>{{ prefundingOptionNote(field.id, option) }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  <span class="choice-copy">
+                    <strong class="prefunding-multiline">{{ prefundingOptionLabel(field.id, option) }}</strong>
+                    <span v-if="prefundingOptionNote(field.id, option)">
+                      {{ prefundingOptionNote(field.id, option) }}
+                    </span>
+                  </span>
+                  <span class="choice-radio" aria-hidden="true"></span>
+                </template>
+              </button>
+            </div>
+          </fieldset>
+
+        </section>
+      </div>
+    </section>
+
     <template v-if="stage === 'payout'">
       <section class="filter-panel" aria-label="出款能力筛选项">
         <div class="section-heading section-heading--panel">
@@ -773,7 +1068,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
           </div>
         </div>
 
-        <fieldset class="choice-group choice-group--two">
+        <fieldset v-if="!hidePrimaryCategory" class="choice-group choice-group--two">
           <legend>
             <span><i class="payout-level-badge">1级</i>一级产品分类</span>
             <small>选择出款产品的大类</small>
@@ -804,7 +1099,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
 
         <fieldset class="choice-group">
           <legend>
-            <span><i class="payout-level-badge">2级</i>二级产品分类</span>
+            <span><i class="payout-level-badge">{{ secondaryCategoryLevel }}级</i>产品分类</span>
             <small>根据商户类型联动可选产品</small>
           </legend>
           <div class="choice-grid choice-grid--three">
@@ -833,7 +1128,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
 
         <fieldset v-for="(field, fieldIndex) in configurableFields" :key="field.id" class="choice-group">
           <legend>
-            <span><i class="payout-level-badge">{{ fieldIndex + 3 }}级</i>{{ field.label }}</span>
+            <span><i class="payout-level-badge">{{ fieldIndex + configurableFieldLevelOffset }}级</i>{{ field.label }}</span>
             <small>{{ field.description || '根据上一级选择动态筛选' }}</small>
           </legend>
           <div v-if="availableOptionsFor(field).length" class="choice-grid choice-grid--three">
@@ -935,7 +1230,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
       </section>
     </section>
 
-    <template v-else>
+    <template v-else-if="stage !== 'prefunding'">
       <section v-if="stage === 'return'" class="capability-section" aria-labelledby="return-default-products-title">
         <div class="section-heading">
           <h2 id="return-default-products-title">支持产品（默认接入） <span>{{ returnDefaultProducts.length }}</span></h2>
