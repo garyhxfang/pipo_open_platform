@@ -75,7 +75,7 @@ type IconName =
   | 'settlement'
   | 'reconciliation'
 
-type StageId = 'acquiring' | 'refundDispute' | 'settlement' | 'reconciliation'
+type StageId = 'acquiring' | 'refundDispute' | 'settlement' | 'withdrawal' | 'reconciliation'
 
 interface StageOption {
   id: StageId
@@ -139,6 +139,11 @@ const stageOptions: StageOption[] = [
     icon: 'settlement'
   },
   {
+    id: 'withdrawal',
+    title: '提现',
+    icon: 'settlement'
+  },
+  {
     id: 'reconciliation',
     title: '账单与对账',
     icon: 'reconciliation'
@@ -146,6 +151,11 @@ const stageOptions: StageOption[] = [
 ]
 
 const payoutStageOptions: Array<{ id: PayoutStageId; title: string; icon: IconName }> = [
+  {
+    id: 'prefunding',
+    title: '商户备款',
+    icon: 'settlement'
+  },
   {
     id: 'payout',
     title: '出款',
@@ -241,6 +251,13 @@ function returnFromPayoutConfig() {
   currentView.value = 'map'
 }
 
+function openConfigCenter() {
+  currentView.value =
+    currentBusinessLine.value === 'payout' || currentStage.value === 'withdrawal'
+      ? 'payoutConfig'
+      : 'acquiringConfig'
+}
+
 function integrationStatusFor(integration: IntegrationMode) {
   return getIntegrationStatus(currentMerchantType.value, currentProduct.value, currentEnvironment.value, integration)
 }
@@ -324,7 +341,7 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
 
           <div class="toolbar-divider" aria-hidden="true"></div>
 
-          <div class="toolbar-filter">
+          <div v-if="currentBusinessLine === 'collection'" class="toolbar-filter">
             <span class="toolbar-filter__label">商户类型</span>
             <div class="toolbar-segmented" role="group" aria-label="商户类型">
               <button
@@ -355,7 +372,7 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
           <button
             class="toolbar-config-button"
             type="button"
-            @click="currentView = currentBusinessLine === 'collection' ? 'acquiringConfig' : 'payoutConfig'"
+            @click="openConfigCenter"
           >
             配置中心
           </button>
@@ -602,6 +619,15 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
         :merchant-type="currentMerchantType"
       />
 
+      <PayoutMapView
+        v-else-if="currentBusinessLine === 'collection' && currentStage === 'withdrawal'"
+        stage="payout"
+        primary-category="withdrawal"
+        hide-primary-category
+        :merchant-type="currentMerchantType"
+        :config-version="payoutConfigVersion"
+      />
+
       <ReconciliationView v-else-if="currentBusinessLine === 'collection' && currentStage === 'reconciliation'" />
 
       <ReconciliationView v-else-if="currentBusinessLine === 'payout' && currentPayoutStage === 'reconciliation'" />
@@ -609,6 +635,8 @@ function paymentMethodTagsFor(capability: CapabilityItem) {
       <PayoutMapView
         v-else-if="currentBusinessLine === 'payout'"
         :stage="currentPayoutStage"
+        primary-category="disbursement"
+        hide-primary-category
         :merchant-type="currentMerchantType"
         :config-version="payoutConfigVersion"
       />
