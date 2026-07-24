@@ -7,8 +7,13 @@ export type LegacyConditionDimensionId = ScenarioDimensionId | 'market'
 export type ConflictType = 'mutuallyExclusive' | 'conditional'
 export type MarketScope = 'merchantContractingCountry' | 'consumerPaymentCountry'
 export type MarketDependency = 'none' | 'merchant' | 'consumer' | 'both'
+export type CapabilityTypeDisplayMode = 'inline' | 'catalog'
+export type CatalogCapabilityId =
+  | `paymentMethod:${string}`
+  | `pricingCurrency:${string}`
 export type CapabilityFeatureId =
   | PaymentAbilityId
+  | CatalogCapabilityId
   | 'merchantStandard'
   | 'merchantPlatform'
   | 'productOnline'
@@ -19,6 +24,7 @@ export type CapabilityFeatureId =
   | 'integrationHosted'
   | 'integrationEmbedded'
   | 'integrationApi'
+  | 'capture'
   | 'currencyExchange'
   | 'taxCalculation'
   | 'userFee'
@@ -42,6 +48,15 @@ export interface ScenarioDimensionDefinition {
   values: ConditionValueDefinition[]
 }
 
+export interface CapabilityTypeDefinition {
+  id: string
+  name: string
+  scenarioDimensionIds: ScenarioDimensionId[]
+  marketDependency: MarketDependency
+  displayMode: CapabilityTypeDisplayMode
+  previewLimit: number
+}
+
 export interface CapabilityMetadata {
   id: CapabilityFeatureId
   name: string
@@ -53,8 +68,6 @@ export interface CapabilityMetadata {
     value: string
   }
   responsibleDomains: DomainId[]
-  scenarioDimensionIds: ScenarioDimensionId[]
-  marketDependency: MarketDependency
   defaultDomains: DomainStatus
   defaultMerchantMarketStatus: SupportStatus
   defaultConsumerMarketStatus: SupportStatus
@@ -111,6 +124,7 @@ export interface CapabilityConfigPayloadV4 {
   catalogRevision: number
   exportedAt: string
   dimensions: ScenarioDimensionDefinition[]
+  capabilityTypes: CapabilityTypeDefinition[]
   capabilities: CapabilityMetadata[]
   scenarioRules: ScenarioSupportRule[]
   marketRules: MarketSupportRule[]

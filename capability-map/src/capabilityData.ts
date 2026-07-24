@@ -95,6 +95,14 @@ export interface CapabilityItem {
   paymentMethodType?: PaymentMethodType
 }
 
+export interface PaymentMethodOperationalDetails {
+  fullRefund: SupportStatus
+  partialRefund: SupportStatus
+  maxRefundPeriod: string
+  chargeback: SupportStatus
+  chargebackDescription: string
+}
+
 export const merchantTypeOptions: Option<MerchantType>[] = [
   {
     label: '普通商户',
@@ -706,6 +714,93 @@ export const capabilities: CapabilityItem[] = [
     serviceStatus: 'conditional'
   }
 ]
+
+export const paymentMethodOperationalDetails: Record<string, PaymentMethodOperationalDetails> = {
+  visa: {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '365 天',
+    chargeback: 'standard',
+    chargebackDescription: '支持拒付通知、举证与结果查询。'
+  },
+  mastercard: {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '365 天',
+    chargeback: 'standard',
+    chargebackDescription: '支持拒付通知、举证与结果查询。'
+  },
+  paypal: {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '180 天',
+    chargeback: 'standard',
+    chargebackDescription: '支持争议通知与 PayPal 争议处理流程。'
+  },
+  pix: {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '90 天',
+    chargeback: 'unsupported',
+    chargebackDescription: '不适用银行卡拒付流程。'
+  },
+  promptpay: {
+    fullRefund: 'conditional',
+    partialRefund: 'unsupported',
+    maxRefundPeriod: '180 天',
+    chargeback: 'unsupported',
+    chargebackDescription: '不适用银行卡拒付流程。'
+  },
+  gopay: {
+    fullRefund: 'standard',
+    partialRefund: 'conditional',
+    maxRefundPeriod: '90 天',
+    chargeback: 'unsupported',
+    chargebackDescription: '不适用银行卡拒付流程。'
+  },
+  fpx: {
+    fullRefund: 'standard',
+    partialRefund: 'unsupported',
+    maxRefundPeriod: '180 天',
+    chargeback: 'unsupported',
+    chargebackDescription: '不适用银行卡拒付流程。'
+  },
+  'apple-pay': {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '365 天',
+    chargeback: 'standard',
+    chargebackDescription: '按底层银行卡网络处理拒付。'
+  },
+  'google-pay': {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '365 天',
+    chargeback: 'standard',
+    chargebackDescription: '按底层银行卡网络处理拒付。'
+  },
+  'bank-transfer': {
+    fullRefund: 'conditional',
+    partialRefund: 'unsupported',
+    maxRefundPeriod: '30 天',
+    chargeback: 'unsupported',
+    chargebackDescription: '不适用银行卡拒付流程。'
+  },
+  'alipay-plus': {
+    fullRefund: 'standard',
+    partialRefund: 'conditional',
+    maxRefundPeriod: '90 天',
+    chargeback: 'conditional',
+    chargebackDescription: '争议处理能力取决于具体钱包渠道。'
+  },
+  unionpay: {
+    fullRefund: 'standard',
+    partialRefund: 'standard',
+    maxRefundPeriod: '180 天',
+    chargeback: 'standard',
+    chargebackDescription: '支持拒付通知与结果查询。'
+  }
+}
 
 export function getIntegrationStatus(
   merchantType: MerchantType,

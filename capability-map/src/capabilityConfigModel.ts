@@ -1,5 +1,6 @@
 import {
   agreementPaymentAbilityGroups,
+  capabilities,
   environmentOptions,
   integrationOptions,
   marketOptions,
@@ -16,6 +17,8 @@ import type {
   CapabilityConfigPayloadV4,
   CapabilityFeatureId,
   CapabilityMetadata,
+  CapabilityTypeDefinition,
+  CapabilityTypeDisplayMode,
   DomainId,
   DomainStatus,
   LegacyAcquiringConfigPayload,
@@ -58,16 +61,16 @@ export const countryOptions = marketOptions.filter((market) => market !== 'All')
 export const allDomains: DomainId[] = ['transaction', 'cashier', 'gn']
 
 const dimensionFeatureMetadata: CapabilityMetadata[] = [
-  dimensionFeature('merchantStandard', '普通商户', '商户类型', 'merchantType', 'standardMerchant', []),
-  dimensionFeature('merchantPlatform', '平台商户', '商户类型', 'merchantType', 'platformMerchant', []),
-  dimensionFeature('productOnline', '在线支付', '收单支付产品', 'product', 'online', []),
-  dimensionFeature('productAgreementDeduction', '协议代扣', '收单支付产品', 'product', 'agreementDeduction', []),
-  dimensionFeature('productSubscription', '订阅', '收单支付产品', 'product', 'subscription', ['merchantType']),
-  dimensionFeature('environmentTtInside', 'TT端内', '支付环境', 'environment', 'app', ['product']),
-  dimensionFeature('environmentTtOutside', 'TT端外', '支付环境', 'environment', 'web', ['integrationMode']),
-  dimensionFeature('integrationHosted', '独立收银台', '集成模式', 'integrationMode', 'hosted', ['product', 'environment']),
-  dimensionFeature('integrationEmbedded', '嵌入式收银台', '集成模式', 'integrationMode', 'embedded', ['product', 'environment']),
-  dimensionFeature('integrationApi', 'API', '集成模式', 'integrationMode', 'api', ['merchantType', 'product'])
+  dimensionFeature('merchantStandard', '普通商户', '商户类型', 'merchantType', 'standardMerchant'),
+  dimensionFeature('merchantPlatform', '平台商户', '商户类型', 'merchantType', 'platformMerchant'),
+  dimensionFeature('productOnline', '在线支付', '收单支付产品', 'product', 'online'),
+  dimensionFeature('productAgreementDeduction', '协议代扣', '收单支付产品', 'product', 'agreementDeduction'),
+  dimensionFeature('productSubscription', '订阅', '收单支付产品', 'product', 'subscription'),
+  dimensionFeature('environmentTtInside', 'TT端内', '支付环境', 'environment', 'app'),
+  dimensionFeature('environmentTtOutside', 'TT端外', '支付环境', 'environment', 'web'),
+  dimensionFeature('integrationHosted', '独立收银台', '集成模式', 'integrationMode', 'hosted'),
+  dimensionFeature('integrationEmbedded', '嵌入式收银台', '集成模式', 'integrationMode', 'embedded'),
+  dimensionFeature('integrationApi', 'API', '集成模式', 'integrationMode', 'api')
 ]
 
 const paymentMetadata: CapabilityMetadata[] = [
@@ -77,19 +80,103 @@ const paymentMetadata: CapabilityMetadata[] = [
   ...agreementPaymentAbilityGroups
 ].flatMap((group) =>
   group.options.map((option) =>
-    businessFeature(option.value, option.label, group.id, group.title, ['merchantType', 'product', 'environment', 'integrationMode'], 'none', option.status)
+    businessFeature(option.value, option.label, group.id, group.title, option.status)
   )
+)
+
+const paymentMethodMetadata: CapabilityMetadata[] = capabilities
+  .filter((item) => item.category === 'payment')
+  .map((item) =>
+    businessFeature(
+      `paymentMethod:${item.id}`,
+      item.name,
+      'paymentMethod',
+      '支付方式',
+      item.products.length ? 'standard' : 'unsupported'
+    )
+  )
+
+const pricingCurrencies = [
+  ['USD', '美元'],
+  ['EUR', '欧元'],
+  ['GBP', '英镑'],
+  ['BRL', '巴西雷亚尔'],
+  ['IDR', '印尼盾'],
+  ['THB', '泰铢'],
+  ['MYR', '马来西亚林吉特'],
+  ['SGD', '新加坡元'],
+  ['PHP', '菲律宾比索'],
+  ['JPY', '日元'],
+  ['KRW', '韩元'],
+  ['AUD', '澳大利亚元'],
+  ['CAD', '加拿大元'],
+  ['MXN', '墨西哥比索'],
+  ['AED', '阿联酋迪拉姆'],
+  ['SAR', '沙特里亚尔'],
+  ['CNY', '人民币'],
+  ['HKD', '港币'],
+  ['TWD', '新台币'],
+  ['INR', '印度卢比']
+] as const
+
+const pricingCurrencyMetadata: CapabilityMetadata[] = pricingCurrencies.map(([code, name]) =>
+  businessFeature(`pricingCurrency:${code}`, `${code} ${name}`, 'pricingCurrency', '标价币种', 'standard')
 )
 
 export const defaultCapabilityMetadata: CapabilityMetadata[] = [
   ...dimensionFeatureMetadata,
   ...paymentMetadata,
-  businessFeature('currencyExchange', '换汇', 'valueAdded', '增值服务', ['environment', 'integrationMode'], 'both', 'unsupported'),
-  businessFeature('taxCalculation', '计税', 'valueAdded', '增值服务', ['environment', 'integrationMode'], 'merchant', 'unsupported'),
-  businessFeature('userFee', '用户手续费', 'valueAdded', '增值服务', ['product', 'integrationMode'], 'both', 'unsupported'),
-  businessFeature('marketing', '营销', 'valueAdded', '增值服务', ['environment', 'integrationMode'], 'both', 'unsupported')
+  ...paymentMethodMetadata,
+  ...pricingCurrencyMetadata,
+  businessFeature('capture', '请款', 'paymentCapability', '支付能力', 'standard'),
+  businessFeature('currencyExchange', '换汇', 'currencyExchange', '换汇', 'unsupported'),
+  businessFeature('taxCalculation', '计税', 'taxCalculation', '计税', 'unsupported'),
+  businessFeature('userFee', '用户手续费', 'userFee', '用户手续费', 'unsupported'),
+  businessFeature('marketing', '营销', 'marketing', '营销', 'unsupported')
 ]
 
+const paymentCapabilityTypes = [
+  ...paymentAbilityGroups,
+  ...subscriptionManagementGroups,
+  ...subscriptionPaymentAbilityGroups,
+  ...agreementPaymentAbilityGroups
+].map((group) =>
+  capabilityType(
+    group.id,
+    group.title,
+    ['merchantType', 'product', 'environment', 'integrationMode'],
+    'none'
+  )
+)
+
+export const defaultCapabilityTypes: CapabilityTypeDefinition[] = [
+  capabilityType('merchantType', '商户类型', [], 'none'),
+  capabilityType('product', '收单支付产品', ['merchantType'], 'none'),
+  capabilityType('environment', '支付环境', ['product', 'integrationMode'], 'none'),
+  capabilityType('integrationMode', '集成模式', ['merchantType', 'product', 'environment'], 'none'),
+  capabilityType('pricingCurrency', '标价币种', ['product'], 'merchant', 'catalog', 3),
+  capabilityType(
+    'paymentMethod',
+    '支付方式',
+    ['merchantType', 'product', 'environment', 'integrationMode'],
+    'both',
+    'catalog',
+    3
+  ),
+  ...paymentCapabilityTypes,
+  capabilityType('paymentCapability', '支付能力', ['merchantType', 'product', 'environment', 'integrationMode'], 'none'),
+  capabilityType('currencyExchange', '换汇', ['product', 'environment', 'integrationMode'], 'both'),
+  capabilityType('taxCalculation', '计税', ['product', 'environment', 'integrationMode'], 'both'),
+  capabilityType('userFee', '用户手续费', ['product', 'environment', 'integrationMode'], 'both'),
+  capabilityType('marketing', '营销', ['product', 'environment', 'integrationMode'], 'both')
+]
+
+const managedValueAddedTypeNames = new Map<CapabilityFeatureId, string>([
+  ['currencyExchange', '换汇'],
+  ['taxCalculation', '计税'],
+  ['userFee', '用户手续费'],
+  ['marketing', '营销']
+])
 const managedValueAddedIds = new Set<CapabilityFeatureId>([
   'currencyExchange',
   'taxCalculation',
@@ -105,8 +192,7 @@ function dimensionFeature(
   name: string,
   groupName: string,
   dimensionId: ScenarioDimensionId,
-  value: string,
-  scenarioDimensionIds: ScenarioDimensionId[]
+  value: string
 ): CapabilityMetadata {
   return {
     id,
@@ -116,8 +202,6 @@ function dimensionFeature(
     featureType: 'dimensionValue',
     dimensionBinding: { dimensionId, value },
     responsibleDomains: [...allDomains],
-    scenarioDimensionIds,
-    marketDependency: 'none',
     defaultDomains: uniformDomains('standard'),
     defaultMerchantMarketStatus: 'standard',
     defaultConsumerMarketStatus: 'standard'
@@ -129,8 +213,6 @@ function businessFeature(
   name: string,
   groupId: string,
   groupName: string,
-  scenarioDimensionIds: ScenarioDimensionId[],
-  marketDependency: MarketDependency,
   defaultStatus: SupportStatus
 ): CapabilityMetadata {
   return {
@@ -140,12 +222,21 @@ function businessFeature(
     groupName,
     featureType: 'businessCapability',
     responsibleDomains: [...allDomains],
-    scenarioDimensionIds,
-    marketDependency,
     defaultDomains: uniformDomains(defaultStatus),
     defaultMerchantMarketStatus: 'standard',
     defaultConsumerMarketStatus: 'standard'
   }
+}
+
+function capabilityType(
+  id: string,
+  name: string,
+  scenarioDimensionIds: ScenarioDimensionId[],
+  marketDependency: MarketDependency,
+  displayMode: CapabilityTypeDisplayMode = 'inline',
+  previewLimit = 3
+): CapabilityTypeDefinition {
+  return { id, name, scenarioDimensionIds, marketDependency, displayMode, previewLimit }
 }
 
 function uniformDomains(status: SupportStatus): DomainStatus {
@@ -175,9 +266,10 @@ export function scenarioRuleId(capabilityId: CapabilityFeatureId, conditions: Sc
 export function createSeedPayload(): CapabilityConfigPayloadV4 {
   const payload: CapabilityConfigPayloadV4 = {
     schemaVersion: 4,
-    catalogRevision: 2,
+    catalogRevision: 5,
     exportedAt: new Date().toISOString(),
     dimensions: cloneValue(scenarioDimensions),
+    capabilityTypes: cloneValue(defaultCapabilityTypes),
     capabilities: cloneValue(defaultCapabilityMetadata),
     scenarioRules: [],
     marketRules: [],
@@ -238,16 +330,108 @@ function setRuleStatus(
   status: SupportStatus,
   note: string
 ) {
-  const rule = payload.scenarioRules.find(
-    (item) => item.capabilityId === capabilityId && scenarioConditionKey(item.conditions) === scenarioConditionKey(conditions)
+  const rules = payload.scenarioRules.filter(
+    (item) =>
+      item.capabilityId === capabilityId &&
+      Object.entries(conditions).every(
+        ([dimensionId, value]) => item.conditions[dimensionId as ScenarioDimensionId] === value
+      )
   )
-  if (!rule) return
-  rule.domains = uniformDomains(status)
-  rule.note = note
+  for (const rule of rules) {
+    rule.domains = uniformDomains(status)
+    rule.note = note
+  }
 }
 
-function scenarioConditionKey(conditions: ScenarioConditions) {
-  return scenarioDimensions.map((dimension) => conditions[dimension.id] ?? '*').join('|')
+type LegacyTypeConfiguration = CapabilityMetadata & {
+  scenarioDimensionIds?: ScenarioDimensionId[]
+  marketDependency?: MarketDependency
+}
+
+function normalizeCapabilityTypes(
+  suppliedTypes: CapabilityTypeDefinition[] | undefined,
+  capabilities: LegacyTypeConfiguration[],
+  defaults: CapabilityTypeDefinition[]
+) {
+  const defaultById = new Map(defaults.map((item) => [item.id, item]))
+  const configuredById = new Map((suppliedTypes ?? []).map((item) => [item.id, item]))
+  const capabilityGroupIds = [...new Set(capabilities.map((item) => item.groupId))]
+
+  const normalized = capabilityGroupIds.map((groupId) => {
+    const configured = configuredById.get(groupId)
+    if (configured) {
+      const fallback = defaultById.get(groupId)
+      return {
+        ...cloneValue(configured),
+        displayMode: configured.displayMode ?? fallback?.displayMode ?? 'inline',
+        previewLimit: configured.previewLimit ?? fallback?.previewLimit ?? 3
+      }
+    }
+
+    const members = capabilities.filter((item) => item.groupId === groupId)
+    const fallback = defaultById.get(groupId)
+    const legacyDimensions = [...new Set(members.flatMap((item) => item.scenarioDimensionIds ?? []))]
+    const legacyDependencies = members.map((item) => item.marketDependency).filter(Boolean) as MarketDependency[]
+    return capabilityType(
+      groupId,
+      members[0]?.groupName ?? fallback?.name ?? groupId,
+      legacyDimensions.length ? orderedDimensions(legacyDimensions) : cloneValue(fallback?.scenarioDimensionIds ?? []),
+      legacyDependencies.length ? mergeMarketDependencies(legacyDependencies) : fallback?.marketDependency ?? 'none',
+      fallback?.displayMode ?? 'inline',
+      fallback?.previewLimit ?? 3
+    )
+  })
+
+  const result = [
+    ...normalized,
+    ...defaults.filter((item) => !capabilityGroupIds.includes(item.id)).map(cloneValue)
+  ]
+  const defaultOrder = new Map(defaults.map((item, index) => [item.id, index]))
+  return result.sort(
+    (left, right) =>
+      (defaultOrder.get(left.id) ?? Number.MAX_SAFE_INTEGER) -
+      (defaultOrder.get(right.id) ?? Number.MAX_SAFE_INTEGER)
+  )
+}
+
+function orderedDimensions(dimensionIds: ScenarioDimensionId[]) {
+  return scenarioDimensions.map((item) => item.id).filter((id) => dimensionIds.includes(id))
+}
+
+function mergeMarketDependencies(dependencies: MarketDependency[]): MarketDependency {
+  const merchant = dependencies.some((item) => item === 'merchant' || item === 'both')
+  const consumer = dependencies.some((item) => item === 'consumer' || item === 'both')
+  if (merchant && consumer) return 'both'
+  if (merchant) return 'merchant'
+  return consumer ? 'consumer' : 'none'
+}
+
+function stripLegacyTypeConfiguration(metadata: LegacyTypeConfiguration): CapabilityMetadata {
+  const {
+    scenarioDimensionIds: _scenarioDimensionIds,
+    marketDependency: _marketDependency,
+    ...capability
+  } = metadata
+  return capability
+}
+
+function synchronizeCapabilityTypeNames(payload: CapabilityConfigPayloadV4) {
+  const typeNames = new Map(payload.capabilityTypes.map((item) => [item.id, item.name]))
+  for (const capability of payload.capabilities) {
+    capability.groupName = typeNames.get(capability.groupId) ?? capability.groupName
+  }
+}
+
+export function capabilityTypeFor(
+  payload: CapabilityConfigPayloadV4,
+  capabilityOrId: CapabilityMetadata | CapabilityFeatureId
+) {
+  const capability = typeof capabilityOrId === 'string'
+    ? payload.capabilities.find((item) => item.id === capabilityOrId)
+    : capabilityOrId
+  return capability
+    ? payload.capabilityTypes.find((item) => item.id === capability.groupId)
+    : undefined
 }
 
 export function normalizeConfigPayload(payload?: StoredCapabilityConfigPayload): CapabilityConfigPayloadV4 {
@@ -259,15 +443,46 @@ export function normalizeConfigPayload(payload?: StoredCapabilityConfigPayload):
 
 function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloadV4 {
   const seed = createSeedPayload()
-  const needsCatalogUpgrade = (payload.catalogRevision ?? 0) < seed.catalogRevision
+  const needsCatalogUpgrade = (payload.catalogRevision ?? 0) < 2
   const suppliedCapabilityIds = new Set(payload.capabilities.map((item) => item.id))
   const suppliedRuleCapabilities = new Set(payload.scenarioRules.map((item) => item.capabilityId))
+  const suppliedCapabilities = cloneValue(payload.capabilities) as Array<CapabilityMetadata & {
+    scenarioDimensionIds?: ScenarioDimensionId[]
+    marketDependency?: MarketDependency
+  }>
+  const suppliedCapabilityTypes = cloneValue(payload.capabilityTypes ?? [])
+  const legacyValueAddedType = suppliedCapabilityTypes.find((item) => item.id === 'valueAdded')
+
+  for (const capability of suppliedCapabilities) {
+    const typeName = managedValueAddedTypeNames.get(capability.id)
+    if (!typeName) continue
+    capability.groupId = capability.id
+    capability.groupName = typeName
+
+    if (!suppliedCapabilityTypes.some((item) => item.id === capability.id)) {
+      const defaultType = seed.capabilityTypes.find((item) => item.id === capability.id)
+      if (!defaultType) continue
+      suppliedCapabilityTypes.push({
+        ...cloneValue(defaultType),
+        scenarioDimensionIds: cloneValue(legacyValueAddedType?.scenarioDimensionIds ?? defaultType.scenarioDimensionIds),
+        marketDependency: legacyValueAddedType?.marketDependency ?? defaultType.marketDependency,
+        displayMode: legacyValueAddedType?.displayMode ?? defaultType.displayMode,
+        previewLimit: legacyValueAddedType?.previewLimit ?? defaultType.previewLimit
+      })
+    }
+  }
+
   const normalized: CapabilityConfigPayloadV4 = {
     ...seed,
     ...cloneValue(payload),
     dimensions: payload.dimensions?.length ? cloneValue(payload.dimensions) : seed.dimensions,
+    capabilityTypes: normalizeCapabilityTypes(
+      suppliedCapabilityTypes,
+      suppliedCapabilities,
+      seed.capabilityTypes
+    ),
     capabilities: [
-      ...cloneValue(payload.capabilities),
+      ...suppliedCapabilities.map(stripLegacyTypeConfiguration),
       ...seed.capabilities.filter((item) => !suppliedCapabilityIds.has(item.id))
     ],
     scenarioRules: [
@@ -293,6 +508,7 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
   normalized.scenarioRules = normalized.scenarioRules.filter((item) => !deprecatedCapabilityIds.has(item.capabilityId))
   const preAuth = normalized.capabilities.find((item) => item.id === 'preAuthMultiple')
   if (preAuth) preAuth.name = '预授权支付'
+  synchronizeCapabilityTypeNames(normalized)
   materializeDimensionFeatureRules(normalized)
   materializeBusinessCapabilityRules(normalized)
   return normalized
@@ -374,15 +590,27 @@ function mergeLegacyBusinessMetadata(
     metadata.name = legacy.name
     metadata.groupId = legacy.groupId
     metadata.groupName = legacy.groupName
-    metadata.scenarioDimensionIds = legacy.scenarioDimensionIds ?? legacy.applicableDimensionIds?.filter(
+    const legacyDimensions = legacy.scenarioDimensionIds ?? legacy.applicableDimensionIds?.filter(
       (id): id is ScenarioDimensionId => id !== 'market'
-    ) ?? metadata.scenarioDimensionIds
-    metadata.responsibleDomains = legacy.responsibleDomains ?? metadata.responsibleDomains
-    metadata.marketDependency = legacy.marketDependency ?? (
-      legacy.applicableDimensionIds?.includes('market') ? 'consumer' : metadata.marketDependency
     )
+    const typeMetadata = target.capabilityTypes.find((item) => item.id === legacy.groupId)
+    if (typeMetadata) {
+      typeMetadata.name = legacy.groupName
+      if (legacyDimensions?.length) {
+        typeMetadata.scenarioDimensionIds = orderedDimensions([
+          ...typeMetadata.scenarioDimensionIds,
+          ...legacyDimensions
+        ])
+      }
+      typeMetadata.marketDependency = mergeMarketDependencies([
+        typeMetadata.marketDependency,
+        legacy.marketDependency ?? (legacy.applicableDimensionIds?.includes('market') ? 'consumer' : 'none')
+      ])
+    }
+    metadata.responsibleDomains = legacy.responsibleDomains ?? metadata.responsibleDomains
     metadata.defaultDomains = cloneValue(legacy.defaultDomains ?? metadata.defaultDomains)
   }
+  synchronizeCapabilityTypeNames(target)
 }
 
 function replaceLegacyRules(target: CapabilityConfigPayloadV4, rules: ScenarioSupportRule[]) {
@@ -412,24 +640,26 @@ export function buildScenarioCombinations(
 export function materializeScenarioRules(payload: CapabilityConfigPayloadV4, capabilityId: CapabilityFeatureId) {
   const metadata = payload.capabilities.find((item) => item.id === capabilityId)
   if (!metadata) return
+  const typeMetadata = capabilityTypeFor(payload, metadata)
+  const scenarioDimensionIds = typeMetadata?.scenarioDimensionIds ?? []
   const existing = payload.scenarioRules.filter((rule) => rule.capabilityId === capabilityId)
-  const combinations = buildScenarioCombinations(metadata.scenarioDimensionIds, payload.dimensions)
+  const combinations = buildScenarioCombinations(scenarioDimensionIds, payload.dimensions)
     .filter((conditions) => metadata.featureType === 'dimensionValue' || scenarioCombinationStatus(payload, conditions) !== 'unsupported')
 
   const materialized = combinations.map((conditions) => {
     const candidates = existing.filter((rule) =>
-      metadata.scenarioDimensionIds.every(
+      scenarioDimensionIds.every(
         (dimensionId) => !rule.conditions[dimensionId] || rule.conditions[dimensionId] === conditions[dimensionId]
       )
     )
     const maxSpecificity = Math.max(
       0,
       ...candidates.map((rule) =>
-        metadata.scenarioDimensionIds.filter((dimensionId) => Boolean(rule.conditions[dimensionId])).length
+        scenarioDimensionIds.filter((dimensionId) => Boolean(rule.conditions[dimensionId])).length
       )
     )
     const strongest = candidates.filter(
-      (rule) => metadata.scenarioDimensionIds.filter((dimensionId) => Boolean(rule.conditions[dimensionId])).length === maxSpecificity
+      (rule) => scenarioDimensionIds.filter((dimensionId) => Boolean(rule.conditions[dimensionId])).length === maxSpecificity
     )
     return {
       id: scenarioRuleId(capabilityId, conditions),
@@ -514,16 +744,17 @@ export function resolveCapabilityStatus(
 ): SupportStatus | undefined {
   const metadata = payload.capabilities.find((item) => item.id === capabilityId)
   if (!metadata) return undefined
+  const typeMetadata = capabilityTypeFor(payload, metadata)
   const statuses: SupportStatus[] = [directCapabilityStatus(payload, capabilityId, context) ?? 'standard']
   if (metadata.featureType === 'businessCapability') statuses.push(scenarioCombinationStatus(payload, context))
 
-  if (metadata.marketDependency === 'merchant' || metadata.marketDependency === 'both') {
+  if (typeMetadata?.marketDependency === 'merchant' || typeMetadata?.marketDependency === 'both') {
     statuses.push(resolveMarketStatus(payload, capabilityId, 'merchantContractingCountry', context.merchantContractingCountry, metadata.defaultMerchantMarketStatus))
   }
-  if (metadata.marketDependency === 'consumer' || metadata.marketDependency === 'both') {
+  if (typeMetadata?.marketDependency === 'consumer' || typeMetadata?.marketDependency === 'both') {
     statuses.push(resolveMarketStatus(payload, capabilityId, 'consumerPaymentCountry', context.consumerPaymentCountry, metadata.defaultConsumerMarketStatus))
   }
-  if (metadata.marketDependency === 'both' && context.merchantContractingCountry && context.consumerPaymentCountry) {
+  if (typeMetadata?.marketDependency === 'both' && context.merchantContractingCountry && context.consumerPaymentCountry) {
     const pair = payload.marketPairExceptions.find(
       (item) =>
         item.capabilityId === capabilityId &&

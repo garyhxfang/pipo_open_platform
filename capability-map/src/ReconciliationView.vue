@@ -225,7 +225,7 @@ function toggleDeliveryMethod(option: ChoiceOption<BillDeliveryMethod>) {
 
     <div class="reconciliation-footer">
       <div class="reconciliation-legend" aria-label="支持状态图例">
-        <span><i class="reconciliation-dot reconciliation-dot--standard"></i>标准支持</span>
+        <span>未标记表示标准支持</span>
         <span><i class="reconciliation-dot reconciliation-dot--conditional"></i>条件支持</span>
         <span><i class="reconciliation-dot reconciliation-dot--unsupported"></i>不支持</span>
       </div>

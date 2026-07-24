@@ -562,7 +562,7 @@ function toggleRefundDecision(value: RefundDecision) {
 
     <div class="refund-footer">
       <div class="refund-legend" aria-label="支持状态图例">
-        <span><i class="refund-dot refund-dot--standard"></i>标准支持</span>
+        <span>未标记表示标准支持</span>
         <span><i class="refund-dot refund-dot--conditional"></i>条件支持</span>
         <span><i class="refund-dot refund-dot--unsupported"></i>不支持</span>
       </div>

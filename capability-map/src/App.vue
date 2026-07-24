@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { loadPublishedConfig } from './acquiringConfigRepository'
 import {
   createSeedPayload,
@@ -8,9 +8,12 @@ import {
   scenarioCombinationStatus
 } from './capabilityConfigModel'
 import AcquiringConfigView from './AcquiringConfigView.vue'
+import AgileIntakeView from './AgileIntakeView.vue'
 import ReconciliationView from './ReconciliationView.vue'
 import RefundDisputeView from './RefundDisputeView.vue'
+import RuntimeStatusView from './RuntimeStatusView.vue'
 import SettlementView from './SettlementView.vue'
+import SubjectCapabilityView from './SubjectCapabilityView.vue'
 import {
   agreementPaymentAbilityGroups,
   capabilities,
@@ -20,6 +23,7 @@ import {
   marketOptions,
   merchantTypeOptions,
   paymentAbilityGroups,
+  paymentMethodOperationalDetails,
   paymentMethodTypeOptions,
   subscriptionManagementGroups,
   subscriptionPaymentAbilityGroups,
@@ -27,7 +31,6 @@ import {
   productOptions,
   shortSupportLabel,
   supportStatusLabel,
-  versionLabel,
   type CapabilityItem,
   type Environment,
   type IntegrationMode,
@@ -41,13 +44,17 @@ import {
   type SupportStatus
 } from './capabilityData'
 import type { CapabilityConfigPayloadV4, CapabilityFeatureId } from './configTypes'
+import { acquiringProductCatalog } from './acquiringProductCatalog'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
-const currentView = ref<'map' | 'config'>('map')
+type WorkspacePage = 'map' | 'runtime-status' | 'agile-intake' | 'config' | 'subject-capabilities'
+
+const currentWorkspacePage = ref<WorkspacePage>('map')
 const currentProduct = ref<ProductType>('online')
 const currentEnvironment = ref<Environment>('web')
 const currentIntegration = ref<IntegrationMode>('hosted')
 const currentStage = ref<StageId>('acquiring')
+const selectedPaymentMethod = ref<CapabilityItem>()
 const merchantContractingCountry = ref<MarketSelection>('All')
 const consumerPaymentCountry = ref<MarketSelection>('All')
 const selectedPaymentMethodType = ref<PaymentMethodTypeSelection>('All')
@@ -233,9 +240,26 @@ const paymentCapabilities = computed(() =>
   )
 )
 
+const selectedPaymentMethodOperationalDetails = computed(() =>
+  selectedPaymentMethod.value
+    ? paymentMethodOperationalDetails[selectedPaymentMethod.value.id]
+    : undefined
+)
+
 const valueAddedCapabilities = computed(() =>
   capabilities.filter((capability) => capability.category === 'valueAdded')
 )
+
+const matchedAcquiringProducts = computed(() => {
+  if (merchantContractingCountry.value === 'All') return []
+  const matchedProducts = acquiringProductCatalog.filter(
+    (product) =>
+      product.merchantType === currentMerchantType.value &&
+      product.country === merchantContractingCountry.value &&
+      (currentMerchantType.value !== 'platformMerchant' || product.name.includes('担保交易'))
+  )
+  return currentMerchantType.value === 'platformMerchant' ? matchedProducts.slice(0, 1) : matchedProducts
+})
 
 function selectMerchantType(value: MerchantType) {
   currentMerchantType.value = value
@@ -261,7 +285,24 @@ function selectIntegration(value: IntegrationMode) {
 }
 
 function selectStage(value: StageId) {
+  selectedPaymentMethod.value = undefined
   currentStage.value = value
+}
+
+function openPaymentMethodDetails(capability: CapabilityItem) {
+  selectedPaymentMethod.value = capability
+}
+
+function closePaymentMethodDetails() {
+  selectedPaymentMethod.value = undefined
+}
+
+function handleWorkspaceKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && selectedPaymentMethod.value) closePaymentMethodDetails()
+}
+
+function selectedOptionLabel<T extends string>(options: Array<{ value: T; label: string }>, value: T) {
+  return options.find((option) => option.value === value)?.label ?? value
 }
 
 function integrationStatusFor(integration: IntegrationMode) {
@@ -382,18 +423,149 @@ async function refreshPublishedConfig() {
 
 async function returnToMap() {
   await refreshPublishedConfig()
-  currentView.value = 'map'
   normalizeDependentSelections()
+  navigateWorkspace('map')
 }
 
-onMounted(refreshPublishedConfig)
+function syncWorkspacePageFromHash() {
+  if (window.location.hash === '#runtime-status') {
+    currentWorkspacePage.value = 'runtime-status'
+    return
+  }
+  if (window.location.hash === '#agile-intake') {
+    currentWorkspacePage.value = 'agile-intake'
+    return
+  }
+  if (window.location.hash === '#subject-capabilities') {
+    currentWorkspacePage.value = 'subject-capabilities'
+    return
+  }
+  currentWorkspacePage.value = window.location.hash === '#config' ? 'config' : 'map'
+}
+
+function navigateWorkspace(page: WorkspacePage) {
+  currentWorkspacePage.value = page
+  const nextHash =
+    page === 'runtime-status'
+      ? '#runtime-status'
+      : page === 'agile-intake'
+        ? '#agile-intake'
+        : page === 'subject-capabilities'
+          ? '#subject-capabilities'
+        : page === 'config'
+          ? '#config'
+          : '#map'
+  if (window.location.hash !== nextHash) window.location.hash = nextHash
+}
+
+onMounted(() => {
+  syncWorkspacePageFromHash()
+  window.addEventListener('hashchange', syncWorkspacePageFromHash)
+  window.addEventListener('keydown', handleWorkspaceKeydown)
+  void refreshPublishedConfig()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncWorkspacePageFromHash)
+  window.removeEventListener('keydown', handleWorkspaceKeydown)
+})
 
 </script>
 
 <template>
-  <AcquiringConfigView v-if="currentView === 'config'" @back="returnToMap" />
+  <div class="workspace-shell">
+    <aside class="workspace-sidebar" aria-label="工作台导航">
+      <div class="workspace-brand">
+        <span aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="m4.5 6.2 5-2.2 5 2.2 5-2.2v13.8l-5 2.2-5-2.2-5 2.2V6.2Z"/><path d="M9.5 4v13.8M14.5 6.2V20"/></svg>
+        </span>
+        <div><strong>标准能力接入工作台</strong><small>收单产品能力中心</small></div>
+      </div>
+      <nav class="workspace-nav">
+        <button
+          type="button"
+          :class="{ 'is-active': currentWorkspacePage === 'map' }"
+          @click="navigateWorkspace('map')"
+        >
+          <span aria-hidden="true" v-html="iconSvg.map"></span>
+          <strong>能力地图</strong>
+        </button>
+        <button
+          type="button"
+          :class="{ 'is-active': currentWorkspacePage === 'runtime-status' }"
+          @click="navigateWorkspace('runtime-status')"
+        >
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 19V11M10 19V5M15 19v-7M20 19V8"/><path d="M3.5 19.5h18"/></svg>
+          </span>
+          <strong>能力运行现状</strong>
+        </button>
+        <div
+          class="workspace-config-nav"
+          :class="{ 'is-active': currentWorkspacePage === 'config' || currentWorkspacePage === 'subject-capabilities' }"
+        >
+          <button
+            class="workspace-config-parent"
+            type="button"
+            :class="{ 'is-active': currentWorkspacePage === 'config' || currentWorkspacePage === 'subject-capabilities' }"
+            @click="navigateWorkspace('config')"
+          >
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/>
+                <circle cx="14" cy="7" r="2"/><circle cx="6" cy="17" r="2"/>
+              </svg>
+            </span>
+            <strong>产品能力管理</strong>
+          </button>
+          <div class="workspace-subnav" aria-label="产品能力管理子菜单">
+            <button
+              type="button"
+              :class="{ 'is-active': currentWorkspacePage === 'config' }"
+              @click="navigateWorkspace('config')"
+            >
+              <strong>产品能力配置</strong>
+            </button>
+            <button
+              type="button"
+              :class="{ 'is-active': currentWorkspacePage === 'subject-capabilities' }"
+              @click="navigateWorkspace('subject-capabilities')"
+            >
+              <strong>主体能力管理</strong>
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          :class="{ 'is-active': currentWorkspacePage === 'agile-intake' }"
+          @click="navigateWorkspace('agile-intake')"
+        >
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 4.5h10l4 4V20H5zM15 4.5V9h4M8.5 13h7M8.5 16.5h4"/></svg>
+          </span>
+          <strong>敏捷接入提需</strong>
+        </button>
+      </nav>
+      <p class="workspace-sidebar__note">能力查询与结构化提需 Demo</p>
+    </aside>
 
-  <main v-else class="app-shell">
+    <div class="workspace-content">
+      <AgileIntakeView
+        v-if="currentWorkspacePage === 'agile-intake'"
+        :capability-config="activeCapabilityConfig()"
+        @go-map="navigateWorkspace('map')"
+      />
+
+      <RuntimeStatusView v-else-if="currentWorkspacePage === 'runtime-status'" />
+
+      <SubjectCapabilityView
+        v-else-if="currentWorkspacePage === 'subject-capabilities'"
+        :capability-config="activeCapabilityConfig()"
+      />
+
+      <AcquiringConfigView v-else-if="currentWorkspacePage === 'config'" @back="returnToMap" />
+
+      <main v-else class="app-shell">
     <section class="capability-map" aria-labelledby="capability-map-title">
       <div class="sticky-header">
         <header class="capability-map__heading">
@@ -432,9 +604,6 @@ onMounted(refreshPublishedConfig)
             </select>
           </label>
 
-          <button class="toolbar-config-button" type="button" @click="currentView = 'config'">
-            配置中心
-          </button>
         </header>
 
         <section class="stage-flow" aria-label="业务阶段">
@@ -455,6 +624,38 @@ onMounted(refreshPublishedConfig)
       </div>
 
       <template v-if="currentStage === 'acquiring'">
+      <section
+        v-if="merchantContractingCountry !== 'All'"
+        class="product-match-panel"
+        aria-labelledby="matched-product-title"
+      >
+        <div class="product-match-panel__heading">
+          <div>
+            <h2 id="matched-product-title">匹配收单产品</h2>
+            <p>根据商户类型和商户签约国家/地区匹配可用产品码</p>
+          </div>
+          <span class="product-match-context">
+            {{ merchantTypeOptions.find(option => option.value === currentMerchantType)?.label }}
+            · {{ merchantContractingCountry }}
+          </span>
+        </div>
+
+        <div v-if="matchedAcquiringProducts.length" class="product-match-grid">
+          <article v-for="product in matchedAcquiringProducts" :key="product.code" class="product-match-card">
+            <span class="product-match-card__mark" aria-hidden="true">AQ</span>
+            <div>
+              <h3>{{ product.name }}</h3>
+              <p>收单产品码 <code>{{ product.code }}</code></p>
+            </div>
+            <span class="product-match-card__status"><i></i>可用</span>
+          </article>
+        </div>
+
+        <div v-else class="product-match-empty">
+          当前商户类型与签约国家/地区暂无匹配的已上架收单产品。
+        </div>
+      </section>
+
       <section class="filter-panel" aria-label="能力地图筛选项">
         <fieldset class="choice-group">
           <legend>
@@ -624,7 +825,18 @@ onMounted(refreshPublishedConfig)
         </div>
 
         <div v-if="paymentCapabilities.length" class="capability-grid">
-          <article v-for="capability in paymentCapabilities" :key="capability.id" class="capability-card">
+          <article
+            v-for="capability in paymentCapabilities"
+            :key="capability.id"
+            class="capability-card capability-card--interactive"
+            role="button"
+            tabindex="0"
+            aria-haspopup="dialog"
+            :aria-label="`查看 ${capability.name} 详情能力`"
+            @click="openPaymentMethodDetails(capability)"
+            @keydown.enter="openPaymentMethodDetails(capability)"
+            @keydown.space.prevent="openPaymentMethodDetails(capability)"
+          >
             <div class="card-topline">
               <div class="capability-identity">
                 <span class="brand-mark" :style="{ '--mark-color': capability.accent }">
@@ -635,9 +847,7 @@ onMounted(refreshPublishedConfig)
                   <p>{{ capability.description }}</p>
                 </div>
               </div>
-              <span class="version-tag" :class="`version-tag--${capability.version}`">
-                {{ versionLabel[capability.version] }}
-              </span>
+              <span class="capability-card__arrow" aria-hidden="true">›</span>
             </div>
 
             <div v-if="paymentMethodTagsFor(capability).length" class="method-tags" aria-label="支持的支付能力">
@@ -698,7 +908,7 @@ onMounted(refreshPublishedConfig)
         <div class="section-heading">
           <h2 id="value-added-title">增值服务 <span>{{ valueAddedCapabilities.length }}</span></h2>
           <div class="legend" aria-label="支持状态图例">
-            <span><i class="dot dot--standard"></i>标准支持</span>
+            <span>未标记表示标准支持</span>
             <span><i class="dot dot--conditional"></i>条件支持</span>
             <span><i class="dot dot--unsupported"></i>不支持</span>
           </div>
@@ -739,5 +949,143 @@ onMounted(refreshPublishedConfig)
         当前阶段能力地图正在完善中。
       </section>
     </section>
-  </main>
+      </main>
+
+      <div
+        v-if="selectedPaymentMethod && selectedPaymentMethodOperationalDetails"
+        class="payment-detail-backdrop"
+        @click.self="closePaymentMethodDetails"
+      >
+        <aside
+          class="payment-detail-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="payment-detail-title"
+        >
+          <header class="payment-detail-header">
+            <div class="payment-detail-identity">
+              <span class="brand-mark" :style="{ '--mark-color': selectedPaymentMethod.accent }">
+                {{ selectedPaymentMethod.initial }}
+              </span>
+              <div>
+                <span>{{ selectedOptionLabel(paymentMethodTypeOptions, selectedPaymentMethod.paymentMethodType ?? 'card') }}</span>
+                <h2 id="payment-detail-title">{{ selectedPaymentMethod.name }}</h2>
+                <p>{{ selectedPaymentMethod.description }}</p>
+              </div>
+            </div>
+            <button type="button" aria-label="关闭支付方式详情" @click="closePaymentMethodDetails">×</button>
+          </header>
+
+          <div class="payment-detail-context" aria-label="当前筛选场景">
+            <span>{{ selectedOptionLabel(merchantTypeOptions, currentMerchantType) }}</span>
+            <span>{{ selectedOptionLabel(productOptions, currentProduct) }}</span>
+            <span>{{ selectedOptionLabel(environmentOptions, currentEnvironment) }}</span>
+            <span>{{ selectedOptionLabel(integrationOptions, currentIntegration) }}</span>
+            <span>{{ consumerPaymentCountry === 'All' ? '全部用户支付地区' : consumerPaymentCountry }}</span>
+          </div>
+
+          <div class="payment-detail-body">
+            <section class="payment-detail-section">
+              <div class="payment-detail-section__heading">
+                <span aria-hidden="true">01</span>
+                <div><h3>绑定支付方式</h3><p>支付方式在当前产品场景下可使用的绑定模式。</p></div>
+              </div>
+              <dl class="payment-detail-list">
+                <div>
+                  <dt>独立绑定</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethod.paymentMethodTags?.standaloneBinding ?? 'unsupported'}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethod.paymentMethodTags?.standaloneBinding ?? 'unsupported'] }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>支付并绑定</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethod.paymentMethodTags?.payAndBind ?? 'unsupported'}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethod.paymentMethodTags?.payAndBind ?? 'unsupported'] }}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="payment-detail-section">
+              <div class="payment-detail-section__heading">
+                <span aria-hidden="true">02</span>
+                <div><h3>预授权支付</h3><p>支付方式是否支持先冻结额度、再按实际金额请款。</p></div>
+              </div>
+              <dl class="payment-detail-list">
+                <div>
+                  <dt>预授权支付</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethod.paymentMethodTags?.preAuthPay ?? 'unsupported'}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethod.paymentMethodTags?.preAuthPay ?? 'unsupported'] }}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="payment-detail-section">
+              <div class="payment-detail-section__heading">
+                <span aria-hidden="true">03</span>
+                <div><h3>退款能力</h3><p>原路退款能力及渠道允许发起退款的最长周期。</p></div>
+              </div>
+              <dl class="payment-detail-list">
+                <div>
+                  <dt>全额退款</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.fullRefund}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.fullRefund] }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>部分退款</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.partialRefund}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.partialRefund] }}
+                  </dd>
+                </div>
+                <div>
+                  <dt>最长退款周期</dt>
+                  <dd class="payment-detail-value">{{ selectedPaymentMethodOperationalDetails.maxRefundPeriod }}</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="payment-detail-section">
+              <div class="payment-detail-section__heading">
+                <span aria-hidden="true">04</span>
+                <div><h3>拒付能力</h3><p>支付完成后是否适用拒付或渠道争议处理流程。</p></div>
+              </div>
+              <dl class="payment-detail-list">
+                <div>
+                  <dt>拒付处理</dt>
+                  <dd
+                    class="payment-detail-status"
+                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.chargeback}`"
+                  >
+                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.chargeback] }}
+                  </dd>
+                </div>
+              </dl>
+              <p class="payment-detail-description">{{ selectedPaymentMethodOperationalDetails.chargebackDescription }}</p>
+            </section>
+          </div>
+
+          <footer class="payment-detail-footer">
+            能力范围可能因支付渠道、商户资质及当地规则变化，当前数据仅用于 Demo。
+          </footer>
+        </aside>
+      </div>
+    </div>
+  </div>
 </template>

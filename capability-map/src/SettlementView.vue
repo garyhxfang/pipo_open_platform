@@ -318,7 +318,7 @@ function toggleSplitFunction(value: SplitFunction) {
 
     <div class="settlement-footer">
       <div class="settlement-legend" aria-label="支持状态图例">
-        <span><i class="settlement-dot settlement-dot--standard"></i>标准支持</span>
+        <span>未标记表示标准支持</span>
         <span><i class="settlement-dot settlement-dot--conditional"></i>条件支持</span>
         <span><i class="settlement-dot settlement-dot--unsupported"></i>不支持</span>
       </div>

@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - codex/capability-map-preview-pages
   workflow_dispatch:
 
 permissions:
