@@ -185,7 +185,12 @@ const managedValueAddedIds = new Set<CapabilityFeatureId>([
 ])
 const deprecatedCapabilityIds = new Set<string>(['incrementalPreAuth', 'overCapture'])
 
-const statusWeight: Record<SupportStatus, number> = { standard: 0, conditional: 1, unsupported: 2 }
+const statusWeight: Record<SupportStatus, number> = {
+  standard: 0,
+  conditional: 1,
+  onDemand: 2,
+  unsupported: 3
+}
 
 function dimensionFeature(
   id: CapabilityFeatureId,

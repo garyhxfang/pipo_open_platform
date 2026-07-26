@@ -6,6 +6,7 @@ on:
       - main
       - master
       - codex/capability-map-preview-pages
+      - codex/capability-map-combined-pages
   workflow_dispatch:
 
 permissions:
@@ -49,7 +50,7 @@ jobs:
 
   deploy:
     environment:
-      name: github-pages
+      name: github-pages-preview
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest

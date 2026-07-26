@@ -4,7 +4,7 @@ export type Environment = 'web' | 'app'
 export type IntegrationMode = 'hosted' | 'embedded' | 'api'
 export type MarketCode = 'US' | 'BR' | 'ID' | 'TH' | 'MY' | 'SG' | 'PH' | 'JP' | 'KR' | 'GB'
 export type MarketSelection = 'All' | MarketCode
-export type SupportStatus = 'standard' | 'conditional' | 'unsupported'
+export type SupportStatus = 'standard' | 'conditional' | 'onDemand' | 'unsupported'
 export type VersionTag = 'standard' | 'beta'
 export type CapabilityCategory = 'payment' | 'valueAdded'
 export type PaymentMethodType = 'card' | 'wallet' | 'bankTransfer' | 'localPayment'
@@ -178,12 +178,14 @@ export const paymentMethodTypeOptions: Array<{ label: string; value: PaymentMeth
 export const supportStatusLabel: Record<SupportStatus, string> = {
   standard: '标准支持',
   conditional: '条件支持',
+  onDemand: '按需支持',
   unsupported: '不支持'
 }
 
 export const shortSupportLabel: Record<SupportStatus, string> = {
   standard: '支持',
   conditional: '部分支持',
+  onDemand: '按需支持',
   unsupported: '不支持'
 }
 

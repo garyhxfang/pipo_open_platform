@@ -9,6 +9,8 @@ import {
 } from './capabilityConfigModel'
 import AcquiringConfigView from './AcquiringConfigView.vue'
 import AgileIntakeView from './AgileIntakeView.vue'
+import PayoutConfigView from './PayoutConfigView.vue'
+import PayoutMapView, { type PayoutStageId } from './PayoutMapView.vue'
 import ReconciliationView from './ReconciliationView.vue'
 import RefundDisputeView from './RefundDisputeView.vue'
 import RuntimeStatusView from './RuntimeStatusView.vue'
@@ -47,9 +49,18 @@ import type { CapabilityConfigPayloadV4, CapabilityFeatureId } from './configTyp
 import { acquiringProductCatalog } from './acquiringProductCatalog'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
-type WorkspacePage = 'map' | 'runtime-status' | 'agile-intake' | 'config' | 'subject-capabilities'
+type WorkspacePage =
+  | 'map'
+  | 'runtime-status'
+  | 'agile-intake'
+  | 'config'
+  | 'subject-capabilities'
+  | 'payout-config'
 
 const currentWorkspacePage = ref<WorkspacePage>('map')
+const currentBusinessLine = ref<'collection' | 'payout'>('collection')
+const currentPayoutStage = ref<PayoutStageId>('payout')
+const payoutConfigVersion = ref(0)
 const currentProduct = ref<ProductType>('online')
 const currentEnvironment = ref<Environment>('web')
 const currentIntegration = ref<IntegrationMode>('hosted')
@@ -95,7 +106,7 @@ type IconName =
   | 'settlement'
   | 'reconciliation'
 
-type StageId = 'acquiring' | 'refundDispute' | 'settlement' | 'reconciliation'
+type StageId = 'acquiring' | 'refundDispute' | 'settlement' | 'withdrawal' | 'reconciliation'
 
 interface StageOption {
   id: StageId
@@ -157,6 +168,34 @@ const stageOptions: StageOption[] = [
     id: 'settlement',
     title: '清结算',
     icon: 'settlement'
+  },
+  {
+    id: 'withdrawal',
+    title: '提现',
+    icon: 'settlement'
+  },
+  {
+    id: 'reconciliation',
+    title: '账单与对账',
+    icon: 'reconciliation'
+  }
+]
+
+const payoutStageOptions: Array<{ id: PayoutStageId; title: string; icon: IconName }> = [
+  {
+    id: 'prefunding',
+    title: '商户备款',
+    icon: 'settlement'
+  },
+  {
+    id: 'payout',
+    title: '出款',
+    icon: 'settlement'
+  },
+  {
+    id: 'return',
+    title: '退票',
+    icon: 'refund'
   },
   {
     id: 'reconciliation',
@@ -287,6 +326,20 @@ function selectIntegration(value: IntegrationMode) {
 function selectStage(value: StageId) {
   selectedPaymentMethod.value = undefined
   currentStage.value = value
+}
+
+function selectPayoutStage(value: PayoutStageId) {
+  selectedPaymentMethod.value = undefined
+  currentPayoutStage.value = value
+}
+
+function selectBusinessLine(value: 'collection' | 'payout') {
+  selectedPaymentMethod.value = undefined
+  currentBusinessLine.value = value
+}
+
+function refreshPayoutConfig() {
+  payoutConfigVersion.value += 1
 }
 
 function openPaymentMethodDetails(capability: CapabilityItem) {
@@ -440,6 +493,10 @@ function syncWorkspacePageFromHash() {
     currentWorkspacePage.value = 'subject-capabilities'
     return
   }
+  if (window.location.hash === '#payout-config') {
+    currentWorkspacePage.value = 'payout-config'
+    return
+  }
   currentWorkspacePage.value = window.location.hash === '#config' ? 'config' : 'map'
 }
 
@@ -450,8 +507,10 @@ function navigateWorkspace(page: WorkspacePage) {
       ? '#runtime-status'
       : page === 'agile-intake'
         ? '#agile-intake'
-        : page === 'subject-capabilities'
+      : page === 'subject-capabilities'
           ? '#subject-capabilities'
+        : page === 'payout-config'
+          ? '#payout-config'
         : page === 'config'
           ? '#config'
           : '#map'
@@ -502,12 +561,22 @@ onBeforeUnmount(() => {
         </button>
         <div
           class="workspace-config-nav"
-          :class="{ 'is-active': currentWorkspacePage === 'config' || currentWorkspacePage === 'subject-capabilities' }"
+          :class="{
+            'is-active':
+              currentWorkspacePage === 'config' ||
+              currentWorkspacePage === 'subject-capabilities' ||
+              currentWorkspacePage === 'payout-config'
+          }"
         >
           <button
             class="workspace-config-parent"
             type="button"
-            :class="{ 'is-active': currentWorkspacePage === 'config' || currentWorkspacePage === 'subject-capabilities' }"
+            :class="{
+              'is-active':
+                currentWorkspacePage === 'config' ||
+                currentWorkspacePage === 'subject-capabilities' ||
+                currentWorkspacePage === 'payout-config'
+            }"
             @click="navigateWorkspace('config')"
           >
             <span aria-hidden="true">
@@ -532,6 +601,13 @@ onBeforeUnmount(() => {
               @click="navigateWorkspace('subject-capabilities')"
             >
               <strong>主体能力管理</strong>
+            </button>
+            <button
+              type="button"
+              :class="{ 'is-active': currentWorkspacePage === 'payout-config' }"
+              @click="navigateWorkspace('payout-config')"
+            >
+              <strong>代发能力配置</strong>
             </button>
           </div>
         </div>
@@ -565,6 +641,12 @@ onBeforeUnmount(() => {
 
       <AcquiringConfigView v-else-if="currentWorkspacePage === 'config'" @back="returnToMap" />
 
+      <PayoutConfigView
+        v-else-if="currentWorkspacePage === 'payout-config'"
+        @back="navigateWorkspace('map')"
+        @saved="refreshPayoutConfig"
+      />
+
       <main v-else class="app-shell">
     <section class="capability-map" aria-labelledby="capability-map-title">
       <div class="sticky-header">
@@ -574,9 +656,30 @@ onBeforeUnmount(() => {
             <h1 id="capability-map-title">能力地图</h1>
           </div>
 
+          <div class="business-tabs" role="group" aria-label="业务类型">
+            <button
+              class="business-tabs__item"
+              :class="{ 'is-active': currentBusinessLine === 'collection' }"
+              type="button"
+              :aria-pressed="currentBusinessLine === 'collection'"
+              @click="selectBusinessLine('collection')"
+            >
+              收款
+            </button>
+            <button
+              class="business-tabs__item"
+              :class="{ 'is-active': currentBusinessLine === 'payout' }"
+              type="button"
+              :aria-pressed="currentBusinessLine === 'payout'"
+              @click="selectBusinessLine('payout')"
+            >
+              出款
+            </button>
+          </div>
+
           <div class="toolbar-divider" aria-hidden="true"></div>
 
-          <div class="toolbar-filter">
+          <div v-if="currentBusinessLine === 'collection'" class="toolbar-filter">
             <span class="toolbar-filter__label">商户类型</span>
             <div class="toolbar-segmented" role="group" aria-label="商户类型">
               <button
@@ -593,9 +696,9 @@ onBeforeUnmount(() => {
             </div>
           </div>
 
-          <div class="toolbar-divider" aria-hidden="true"></div>
+          <div v-if="currentBusinessLine === 'collection'" class="toolbar-divider" aria-hidden="true"></div>
 
-          <label class="toolbar-filter market-select">
+          <label v-if="currentBusinessLine === 'collection'" class="toolbar-filter market-select">
             <span class="toolbar-filter__label">商户签约国家/地区</span>
             <select v-model="merchantContractingCountry" aria-label="商户签约国家/地区">
               <option v-for="market in marketOptions" :key="market" :value="market">
@@ -606,7 +709,7 @@ onBeforeUnmount(() => {
 
         </header>
 
-        <section class="stage-flow" aria-label="业务阶段">
+        <section v-if="currentBusinessLine === 'collection'" class="stage-flow" aria-label="业务阶段">
           <template v-for="(stage, index) in stageOptions" :key="stage.id">
             <button
               class="stage-card"
@@ -621,9 +724,25 @@ onBeforeUnmount(() => {
             <span v-if="index < stageOptions.length - 1" class="stage-arrow" aria-hidden="true">&gt;</span>
           </template>
         </section>
+
+        <section v-else class="stage-flow" aria-label="出款业务阶段">
+          <template v-for="(stage, index) in payoutStageOptions" :key="stage.id">
+            <button
+              class="stage-card"
+              :class="{ 'is-active': currentPayoutStage === stage.id }"
+              type="button"
+              :aria-pressed="currentPayoutStage === stage.id"
+              @click="selectPayoutStage(stage.id)"
+            >
+              <span class="stage-icon" aria-hidden="true" v-html="iconSvg[stage.icon]"></span>
+              <strong>{{ stage.title }}</strong>
+            </button>
+            <span v-if="index < payoutStageOptions.length - 1" class="stage-arrow" aria-hidden="true">&gt;</span>
+          </template>
+        </section>
       </div>
 
-      <template v-if="currentStage === 'acquiring'">
+      <template v-if="currentBusinessLine === 'collection' && currentStage === 'acquiring'">
       <section
         v-if="merchantContractingCountry !== 'All'"
         class="product-match-panel"
@@ -939,11 +1058,34 @@ onBeforeUnmount(() => {
       </p>
       </template>
 
-      <RefundDisputeView v-else-if="currentStage === 'refundDispute'" />
+      <RefundDisputeView v-else-if="currentBusinessLine === 'collection' && currentStage === 'refundDispute'" />
 
-      <SettlementView v-else-if="currentStage === 'settlement'" :merchant-type="currentMerchantType" />
+      <SettlementView
+        v-else-if="currentBusinessLine === 'collection' && currentStage === 'settlement'"
+        :merchant-type="currentMerchantType"
+      />
 
-      <ReconciliationView v-else-if="currentStage === 'reconciliation'" />
+      <PayoutMapView
+        v-else-if="currentBusinessLine === 'collection' && currentStage === 'withdrawal'"
+        stage="payout"
+        primary-category="withdrawal"
+        hide-primary-category
+        :merchant-type="currentMerchantType"
+        :config-version="payoutConfigVersion"
+      />
+
+      <ReconciliationView v-else-if="currentBusinessLine === 'collection' && currentStage === 'reconciliation'" />
+
+      <ReconciliationView v-else-if="currentBusinessLine === 'payout' && currentPayoutStage === 'reconciliation'" />
+
+      <PayoutMapView
+        v-else-if="currentBusinessLine === 'payout'"
+        :stage="currentPayoutStage"
+        primary-category="disbursement"
+        hide-primary-category
+        :merchant-type="currentMerchantType"
+        :config-version="payoutConfigVersion"
+      />
 
       <section v-else class="empty-state stage-empty-state">
         当前阶段能力地图正在完善中。
