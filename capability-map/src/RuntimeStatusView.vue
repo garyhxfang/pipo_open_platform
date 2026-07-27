@@ -2,7 +2,19 @@
 import { computed, ref, watch } from 'vue'
 
 type HealthStatus = 'healthy' | 'attention' | 'inactive'
-type RuntimeStage = 'acquiring' | 'refund' | 'dispute' | 'settlement' | 'reconciliation'
+type RuntimeBusinessLine = 'collection' | 'payout'
+type MerchantBusiness = 'TikTok Shop' | 'TikTok LIVE'
+type RuntimeStage =
+  | 'acquiring'
+  | 'refund'
+  | 'dispute'
+  | 'settlement'
+  | 'withdrawal'
+  | 'reconciliation'
+  | 'payoutPrefunding'
+  | 'payoutExecution'
+  | 'payoutReturn'
+  | 'payoutReconciliation'
 type CapabilityCategory =
   | '支付产品'
   | '收银台场景'
@@ -12,8 +24,20 @@ type CapabilityCategory =
   | '退款能力'
   | '拒付能力'
   | '结算能力'
+  | '提现产品'
+  | '提现场景'
+  | '提现能力'
+  | '提现增值服务'
   | '账单能力'
   | '对账能力'
+  | '备款能力'
+  | '代发产品'
+  | '代发场景'
+  | '代发能力'
+  | '代发增值服务'
+  | '收款方式'
+  | '退票能力'
+  | '出款账单能力'
 type AcquiringProduct = '在线支付' | '协议代扣' | '订阅'
 type IntegrationMode = '独立收银台' | '嵌入式收银台' | 'API'
 type PaymentEnvironment = 'TT 端内' | 'TT 端外'
@@ -21,8 +45,11 @@ type PaymentEnvironment = 'TT 端内' | 'TT 端外'
 interface Merchant {
   id: string
   name: string
+  business: MerchantBusiness
   entity: string
   market: string
+  acquiringProductCode: string
+  acquiringProductName: string
   lastSynced: string
 }
 
@@ -53,9 +80,36 @@ interface PaymentMethodDetail {
 }
 
 const merchants: Merchant[] = [
-  { id: 'm-10086', name: 'OceanMall 跨境商城', entity: 'OceanMall Pte. Ltd.', market: 'SG / US / GB', lastSynced: '今天 14:32' },
-  { id: 'm-20247', name: 'NovaPlay 游戏平台', entity: 'NovaPlay Technology Ltd.', market: 'US / BR / ID', lastSynced: '今天 14:29' },
-  { id: 'm-30918', name: 'StyleLoop 时尚电商', entity: 'StyleLoop Commerce Inc.', market: 'GB / US', lastSynced: '今天 14:31' }
+  {
+    id: 'm-10086',
+    name: 'OceanMall 跨境商城',
+    business: 'TikTok Shop',
+    entity: 'OceanMall Pte. Ltd.',
+    market: 'SG / US / GB',
+    acquiringProductCode: 'AQ514788',
+    acquiringProductName: 'SG自营即时到账收单产品',
+    lastSynced: '今天 14:32'
+  },
+  {
+    id: 'm-20247',
+    name: 'NovaPlay 游戏平台',
+    business: 'TikTok LIVE',
+    entity: 'NovaPlay Technology Ltd.',
+    market: 'US / BR / ID',
+    acquiringProductCode: 'AQ105046',
+    acquiringProductName: 'US多渠道托管担保交易收单产品',
+    lastSynced: '今天 14:29'
+  },
+  {
+    id: 'm-30918',
+    name: 'StyleLoop 时尚电商',
+    business: 'TikTok Shop',
+    entity: 'StyleLoop Commerce Inc.',
+    market: 'GB / US',
+    acquiringProductCode: 'AQ433168',
+    acquiringProductName: 'UK托管担保交易收单产品',
+    lastSynced: '今天 14:31'
+  }
 ]
 
 const runtimeCapabilities: RuntimeCapability[] = [
@@ -121,6 +175,26 @@ function createLifecycleCapabilities(merchantId: string, scale: number): Runtime
     item('settlement-fx-timing', '换汇报价时点', '结算能力', 13120, 98.02, 15.6),
     item('settlement-refund-cycle', '退款结算账期', '结算能力', 8860, 98.87, 2.4),
     item('settlement-service', '结算增值服务', '结算能力', 2680, 96.42, 7.9),
+    item('withdrawal-product', '提现产品', '提现产品', 18420, 97.86, 10.4),
+    item('withdrawal-initiation', '发起方式', '提现场景', 18420, 97.86, 10.4),
+    item('withdrawal-integration', '接入形态', '提现场景', 18420, 96.92, 8.7),
+    item('withdrawal-core', '提现核心能力', '提现能力', 18420, 97.24, 9.3),
+    item('withdrawal-service', '提现增值服务', '提现增值服务', 9680, 94.85, 13.2),
+    item('prefunding-module', '备款产品分类', '备款能力', 28640, 98.72, 8.6),
+    item('prefunding-trigger', '备款触发方式', '备款能力', 28640, 98.72, 8.6),
+    item('prefunding-process', '请款与认款流程', '备款能力', 28640, 97.84, 6.8),
+    item('disbursement-product', '代发产品', '代发产品', 24860, 96.58, 14.2),
+    item('disbursement-user-type', '收款用户类型', '代发场景', 24860, 96.58, 14.2),
+    item('disbursement-initiation', '发起方式', '代发场景', 24860, 96.58, 12.8),
+    item('disbursement-integration', '接入形态', '代发场景', 24860, 95.92, 11.3),
+    item('disbursement-asset', '支持的资产类型', '代发场景', 24860, 96.14, 9.7),
+    item('disbursement-core', '代发核心能力', '代发能力', 24860, 96.58, 14.2),
+    item('disbursement-service', '代发增值服务', '代发增值服务', 13720, 93.86, 16.4),
+    item('disbursement-method', '收款方式', '收款方式', 24860, 96.58, 14.2),
+    item('payout-return-core', '退票处理能力', '退票能力', 1680, 88.42, -4.6, 'attention'),
+    item('payout-return-product', '默认接入产品', '退票能力', 1680, 88.42, -4.6, 'attention'),
+    item('payout-return-difference', '退票补差模式', '退票能力', 1680, 86.72, -6.8, 'attention'),
+    item('payout-recon-bill', '出款账单能力', '出款账单能力', 24860, 99.46, 7.2),
     { id: `bill-generate-${merchantId}`, merchantId, name: '账单生成', category: '账单能力', scene: '', orders: metric(68420), traffic: metric(68510), successRate: 99.87, change: 6.3, status: 'healthy', trend: [55, 58, 61, 64, 68, 72, 77] },
     { id: `recon-auto-${merchantId}`, merchantId, name: '自动对账', category: '对账能力', scene: '', orders: metric(66840), traffic: metric(68420), successRate: 97.69, change: 8.1, status: 'healthy', trend: [51, 55, 60, 63, 68, 73, 79] },
     { id: `recon-diff-${merchantId}`, merchantId, name: '差异处理', category: '对账能力', scene: '', orders: metric(1268), traffic: metric(1580), successRate: 80.25, change: -12.7, status: 'attention', trend: [82, 77, 72, 66, 61, 56, 50] }
@@ -202,7 +276,119 @@ function createLifecycleDetails(merchantId: string, scale: number): PaymentMetho
     ...buildGroup('settlement-destination', [{ name: '结算到户' }, { name: '结算到B钱包', conditional: true }, { name: '内部结转清' }], 32610, 99.7),
     ...buildGroup('settlement-fx-timing', [{ name: '交易成功时' }, { name: '发起结算时' }, { name: '交易前锁价', conditional: true }], 13120, 99.1),
     ...buildGroup('settlement-refund-cycle', [{ name: '退随收' }, { name: '收退分离', conditional: true }], 8860, 99.2),
-    ...buildGroup('settlement-service', [{ name: '结算预留金', conditional: true }], 2680, 96.4)
+    ...buildGroup('settlement-service', [{ name: '结算预留金', conditional: true }], 2680, 96.4),
+    ...buildGroup(
+      'withdrawal-product',
+      merchantId === 'm-20247'
+        ? [{ name: '一级商户提现' }, { name: '二级商户提现' }, { name: '用户提现' }]
+        : [{ name: '一级商户提现' }, { name: '用户提现' }],
+      18420,
+      98.4
+    ),
+    ...buildGroup('withdrawal-initiation', [{ name: '系统自动发起' }, { name: '用户手动发起' }], 18420, 98.2),
+    ...buildGroup('withdrawal-integration', [
+      { name: 'Sky 规则配置' },
+      { name: 'Dashboard' },
+      { name: '独立绑卡收银台 + 接口提现' },
+      { name: '独立提现收银台', conditional: true }
+    ], 18420, 98.1),
+    ...buildGroup('withdrawal-core', [
+      { name: '出款指令创建' },
+      { name: '资金与余额校验' },
+      { name: '风控与限额' },
+      { name: '通道路由', conditional: true },
+      { name: '状态查询' },
+      { name: '结果通知' }
+    ], 18420, 98.5),
+    ...buildGroup('withdrawal-service', [
+      { name: '换汇' },
+      { name: '同名校验', conditional: true },
+      { name: '收款 PI 跨业务共享', conditional: true },
+      { name: '金融-溢缴款提现', conditional: true }
+    ], 9680, 97.4),
+    ...buildGroup('prefunding-module', [
+      { name: '普通来账备款' },
+      { name: '计费外缴备款' },
+      { name: '清算后备款' },
+      { name: '在线支付备款' }
+    ], 28640, 99.1),
+    ...buildGroup('prefunding-trigger', [
+      { name: '页面触发' },
+      { name: 'Sky 规则触发' },
+      { name: '上游业务 API 触发' }
+    ], 28640, 98.9),
+    ...buildGroup('prefunding-process', [
+      { name: '付款与请款' },
+      { name: '付款成功认款' },
+      { name: 'CA 记账' },
+      { name: '备款冲正', conditional: true }
+    ], 28640, 98.4),
+    ...buildGroup('disbursement-product', [{ name: '单笔代发' }, { name: '批量代发' }], 24860, 97.3),
+    ...buildGroup('disbursement-user-type', [{ name: 'B 端用户' }, { name: 'C 端用户' }], 24860, 97.3),
+    ...buildGroup('disbursement-initiation', [
+      { name: '系统自动发起' },
+      { name: '用户手动发起' },
+      { name: 'Dashboard 上传文件' }
+    ], 24860, 97.2),
+    ...buildGroup('disbursement-integration', [
+      { name: '独立绑卡收银台 + 接口代发' },
+      { name: '独立代发收银台' },
+      { name: 'Drop-in 代发收银台', conditional: true },
+      { name: 'Dashboard' }
+    ], 24860, 97.1),
+    ...buildGroup('disbursement-asset', [
+      { name: '现金' },
+      { name: '话费', conditional: true },
+      { name: '礼品卡', conditional: true }
+    ], 24860, 97.2),
+    ...buildGroup('disbursement-core', [
+      { name: '出款指令创建' },
+      { name: '资金与余额校验' },
+      { name: '风控与限额' },
+      { name: '通道路由', conditional: true },
+      { name: '状态查询' },
+      { name: '结果通知' }
+    ], 24860, 97.4),
+    ...buildGroup('disbursement-service', [
+      { name: '批量试算', conditional: true },
+      { name: '换汇' },
+      { name: '同名校验', conditional: true },
+      { name: '收款 PI 跨业务共享', conditional: true },
+      { name: '商家备款' }
+    ], 13720, 96.8),
+    ...buildGroup('disbursement-method', [
+      { name: 'TikTok Seller Wallet' },
+      { name: '银行账户转账' },
+      { name: 'PayPal' },
+      { name: 'PIX' },
+      { name: 'TikTok Pay' },
+      { name: '达人卡' },
+      { name: '礼品卡', conditional: true },
+      { name: '话费充值', conditional: true }
+    ], 24860, 98),
+    ...buildGroup('payout-return-core', [
+      { name: '退票识别' },
+      { name: '原因归类' },
+      { name: '资金退回' },
+      { name: '重新出款', conditional: true }
+    ], 1680, 94.2),
+    ...buildGroup('payout-return-product', [
+      { name: '二级商户提现' },
+      { name: '用户提现' },
+      { name: '单笔代发' },
+      { name: '批量代发' }
+    ], 1680, 94.2),
+    ...buildGroup('payout-return-difference', [
+      { name: '净额模式' },
+      { name: '足额模式', conditional: true },
+      { name: 'PiPO 受益模式', conditional: true }
+    ], 1680, 92.8),
+    ...buildGroup('payout-recon-bill', [
+      { name: '出款账单' },
+      { name: '退票账单' },
+      { name: '资金账单' },
+      { name: '差异处理', conditional: true }
+    ], 24860, 99.2)
   ]
 
   if (merchantId === 'm-20247') {
@@ -251,7 +437,9 @@ const paymentCapabilityDetails: PaymentMethodDetail[] = [
   { id: 'backup-pi-polling', parentId: 'renewal', name: '备用支付方式轮询', orders: 9200, traffic: 14360, successRate: 64.07, change: -9.2, status: 'attention', trend: [84, 80, 75, 69, 62, 56, 50] }
 ]
 
-const selectedMerchantId = ref(merchants[0].id)
+const selectedMerchantId = ref('')
+const selectedBusinessLine = ref<RuntimeBusinessLine>('collection')
+const selectedMerchantBusiness = ref<'全部' | MerchantBusiness>('TikTok Shop')
 const selectedRuntimeStage = ref<RuntimeStage>('acquiring')
 const dateRange = ref('近 7 天')
 const selectedCategory = ref<'全部' | CapabilityCategory>('全部')
@@ -289,13 +477,25 @@ const capabilityDimensions: Record<string, {
   'card-3': { product: '在线支付', integration: '独立收银台', environment: 'TT 端内', markets: ['GB', 'US'] }
 }
 
-const runtimeStageOptions: Array<{ id: RuntimeStage; label: string; short: string }> = [
+const collectionStageOptions: Array<{ id: RuntimeStage; label: string; short: string }> = [
   { id: 'acquiring', label: '收单支付', short: '支付' },
   { id: 'refund', label: '退款', short: '退' },
   { id: 'dispute', label: '拒付', short: '拒' },
   { id: 'settlement', label: '清结算', short: '结' },
+  { id: 'withdrawal', label: '提现', short: '提' },
   { id: 'reconciliation', label: '账单与对账', short: '账' }
 ]
+
+const payoutStageOptions: Array<{ id: RuntimeStage; label: string; short: string }> = [
+  { id: 'payoutPrefunding', label: '备款', short: '备' },
+  { id: 'payoutExecution', label: '代发', short: '发' },
+  { id: 'payoutReturn', label: '退票', short: '退' },
+  { id: 'payoutReconciliation', label: '账单与对账', short: '账' }
+]
+
+const runtimeStageOptions = computed(() =>
+  selectedBusinessLine.value === 'collection' ? collectionStageOptions : payoutStageOptions
+)
 
 const stageMetricCopy: Record<RuntimeStage, {
   total: string
@@ -307,13 +507,23 @@ const stageMetricCopy: Record<RuntimeStage, {
   refund: { total: '退款申请总单量', success: '退款成功单量', rate: '整体退款成功率', note: '按退款申请创建时间聚合' },
   dispute: { total: '拒付处理总单量', success: '处理完成单量', rate: '拒付处理完成率', note: '按拒付任务创建时间聚合' },
   settlement: { total: '结算总单量', success: '结算成功单量', rate: '整体结算成功率', note: '按结算任务创建时间聚合' },
-  reconciliation: { total: '对账总单量', success: '对账成功单量', rate: '整体对账成功率', note: '按账单与对账任务创建时间聚合' }
+  withdrawal: { total: '提现申请总单量', success: '提现成功单量', rate: '整体提现成功率', note: '按提现申请创建时间聚合' },
+  reconciliation: { total: '对账总单量', success: '对账成功单量', rate: '整体对账成功率', note: '按账单与对账任务创建时间聚合' },
+  payoutPrefunding: { total: '备款任务总量', success: '备款完成量', rate: '整体备款完成率', note: '按备款任务创建时间聚合' },
+  payoutExecution: { total: '代发总单量', success: '代发成功单量', rate: '整体代发成功率', note: '按代发指令创建时间聚合' },
+  payoutReturn: { total: '退票处理总量', success: '处理完成量', rate: '退票处理完成率', note: '按退票回执创建时间聚合' },
+  payoutReconciliation: { total: '出款对账总量', success: '对账成功单量', rate: '整体出款对账成功率', note: '按出款账单创建时间聚合' }
 }
 
 function runtimeStageFor(capability: RuntimeCapability): RuntimeStage {
+  if (capability.id.startsWith('prefunding-')) return 'payoutPrefunding'
+  if (capability.id.startsWith('disbursement-')) return 'payoutExecution'
+  if (capability.id.startsWith('payout-return-')) return 'payoutReturn'
+  if (capability.id.startsWith('payout-recon-')) return 'payoutReconciliation'
   if (capability.id.startsWith('refund-')) return 'refund'
   if (capability.id.startsWith('chargeback-')) return 'dispute'
   if (capability.id.startsWith('settlement-')) return 'settlement'
+  if (capability.id.startsWith('withdrawal-')) return 'withdrawal'
   if (capability.id.startsWith('bill-') || capability.id.startsWith('recon-')) return 'reconciliation'
   return 'acquiring'
 }
@@ -330,11 +540,20 @@ function dimensionsFor(capability: RuntimeCapability) {
   return { product: '在线支付' as AcquiringProduct, integration: '嵌入式收银台' as IntegrationMode, environment: 'TT 端外' as PaymentEnvironment, markets: ['SG', 'US', 'GB'] }
 }
 
-const selectedMerchant = computed(() => merchants.find((merchant) => merchant.id === selectedMerchantId.value) ?? merchants[0])
+const selectedMerchant = computed(() => merchants.find((merchant) => merchant.id === selectedMerchantId.value))
+const businessMerchants = computed(() =>
+  merchants.filter(
+    (merchant) => selectedMerchantBusiness.value === '全部' || merchant.business === selectedMerchantBusiness.value
+  )
+)
+const businessMerchantIds = computed(() => new Set(businessMerchants.value.map((merchant) => merchant.id)))
 const allCapabilities = computed(() => [...runtimeCapabilities, ...lifecycleCapabilities])
 const merchantCapabilities = computed(() =>
   allCapabilities.value.filter(
-    (capability) => capability.merchantId === selectedMerchantId.value && runtimeStageFor(capability) === selectedRuntimeStage.value
+    (capability) =>
+      businessMerchantIds.value.has(capability.merchantId) &&
+      (!selectedMerchantId.value || capability.merchantId === selectedMerchantId.value) &&
+      runtimeStageFor(capability) === selectedRuntimeStage.value
   )
 )
 const availableMarkets = computed(() => Array.from(new Set(merchantCapabilities.value.flatMap((capability) => dimensionsFor(capability).markets))))
@@ -366,7 +585,12 @@ const summaryCapabilities = computed(() => {
   const anchorPrefix: Partial<Record<RuntimeStage, string>> = {
     refund: 'refund-method-',
     dispute: 'chargeback-funding-',
-    settlement: 'settlement-mode-'
+    settlement: 'settlement-mode-',
+    withdrawal: 'withdrawal-product-',
+    payoutPrefunding: 'prefunding-module-',
+    payoutExecution: 'disbursement-product-',
+    payoutReturn: 'payout-return-core-',
+    payoutReconciliation: 'payout-recon-bill-'
   }
   const prefix = anchorPrefix[selectedRuntimeStage.value]
   return prefix ? merchantCapabilities.value.filter((item) => item.id.startsWith(prefix)) : merchantCapabilities.value
@@ -379,7 +603,7 @@ const stageSuccessTotal = computed(() =>
 const weightedSuccessRate = computed(() => totalTraffic.value ? totalOrders.value / totalTraffic.value * 100 : 0)
 const attentionCount = computed(() => merchantCapabilities.value.filter((item) => item.status === 'attention').length)
 const activeDimensionCount = computed(() =>
-  [selectedProduct.value, selectedIntegration.value, selectedEnvironment.value, selectedMarket.value]
+  [selectedProduct.value, selectedIntegration.value, selectedEnvironment.value]
     .filter((value) => value !== '全部').length
 )
 
@@ -390,6 +614,18 @@ const categoryOptions = computed<Array<'全部' | CapabilityCategory>>(() => [
 const currentMetricCopy = computed(() => stageMetricCopy[selectedRuntimeStage.value])
 const statusLabels: Record<HealthStatus, string> = { healthy: '运行正常', attention: '需要关注', inactive: '暂无流量' }
 
+watch(selectedMerchantBusiness, () => {
+  if (selectedMerchant.value && !businessMerchantIds.value.has(selectedMerchant.value.id)) {
+    selectedMerchantId.value = ''
+  }
+  selectedCategory.value = '全部'
+  selectedProduct.value = '全部'
+  selectedIntegration.value = '全部'
+  selectedEnvironment.value = '全部'
+  selectedMarket.value = '全部'
+  searchQuery.value = ''
+})
+
 watch(selectedMerchantId, () => {
   selectedCategory.value = '全部'
   selectedProduct.value = '全部'
@@ -398,14 +634,22 @@ watch(selectedMerchantId, () => {
   selectedMarket.value = '全部'
   searchQuery.value = ''
   const firstPaymentMethod = runtimeCapabilities.find(
-    (capability) => capability.merchantId === selectedMerchantId.value && capability.category === '支付方式'
+    (capability) =>
+      (!selectedMerchantId.value || capability.merchantId === selectedMerchantId.value) &&
+      capability.category === '支付方式'
   )
   const firstPaymentCapability = runtimeCapabilities.find(
-    (capability) => capability.merchantId === selectedMerchantId.value && capability.category === '支付能力'
+    (capability) =>
+      (!selectedMerchantId.value || capability.merchantId === selectedMerchantId.value) &&
+      capability.category === '支付能力'
   )
   expandedCapabilityGroups.value = new Set(
     [firstPaymentMethod?.id, firstPaymentCapability?.id].filter((id): id is string => Boolean(id))
   )
+})
+
+watch(selectedBusinessLine, (businessLine) => {
+  selectedRuntimeStage.value = businessLine === 'collection' ? 'acquiring' : 'payoutPrefunding'
 })
 
 watch(selectedRuntimeStage, () => {
@@ -413,11 +657,10 @@ watch(selectedRuntimeStage, () => {
   selectedProduct.value = '全部'
   selectedIntegration.value = '全部'
   selectedEnvironment.value = '全部'
-  selectedMarket.value = '全部'
   searchQuery.value = ''
   const firstGroup = allCapabilities.value.find(
     (capability) =>
-      capability.merchantId === selectedMerchantId.value &&
+      (!selectedMerchantId.value || capability.merchantId === selectedMerchantId.value) &&
       runtimeStageFor(capability) === selectedRuntimeStage.value &&
       capabilityGroupChildren(capability.id).length
   )
@@ -436,6 +679,15 @@ function formatCompact(value: number) {
 function categoryCount(category: '全部' | CapabilityCategory) {
   if (category === '全部') return dimensionFilteredCapabilities.value.length
   return dimensionFilteredCapabilities.value.filter((capability) => capability.category === category).length
+}
+
+function stageCapabilityCount(stage: RuntimeStage) {
+  return allCapabilities.value.filter(
+    (capability) =>
+      businessMerchantIds.value.has(capability.merchantId) &&
+      (!selectedMerchantId.value || capability.merchantId === selectedMerchantId.value) &&
+      runtimeStageFor(capability) === stage
+  ).length
 }
 
 function capabilityGroupChildren(capabilityId: string) {
@@ -464,32 +716,80 @@ function toggleCapabilityGroup(capabilityId: string) {
         <p>查看商户在支付全生命周期中的能力接入与线上运行质量</p>
       </div>
       <div class="runtime-sync">
-        <span>数据更新于 {{ selectedMerchant.lastSynced }}</span>
+        <span>数据更新于 {{ selectedMerchant?.lastSynced ?? '今天 14:32' }}</span>
         <button type="button" aria-label="刷新数据">↻ 刷新</button>
       </div>
     </header>
 
-    <section class="runtime-filter-card" aria-label="商户和时间筛选">
-      <label class="runtime-merchant-select">
-        <span>商户</span>
-        <select v-model="selectedMerchantId">
-          <option v-for="merchant in merchants" :key="merchant.id" :value="merchant.id">
-            {{ merchant.name }}（{{ merchant.id }}）
-          </option>
-        </select>
-      </label>
-      <div class="runtime-merchant-meta">
-        <span>签约主体 <strong>{{ selectedMerchant.entity }}</strong></span>
-        <span>覆盖市场 <strong>{{ selectedMerchant.market }}</strong></span>
+    <div class="runtime-business-switcher" role="group" aria-label="资金业务类型">
+      <button
+        type="button"
+        :class="{ 'is-active': selectedBusinessLine === 'collection' }"
+        :aria-pressed="selectedBusinessLine === 'collection'"
+        @click="selectedBusinessLine = 'collection'"
+      >
+        <span aria-hidden="true">收</span>
+        <div><strong>收单</strong><small>支付、退款、结算及提现</small></div>
+      </button>
+      <button
+        type="button"
+        :class="{ 'is-active': selectedBusinessLine === 'payout' }"
+        :aria-pressed="selectedBusinessLine === 'payout'"
+        @click="selectedBusinessLine = 'payout'"
+      >
+        <span aria-hidden="true">发</span>
+        <div><strong>代发</strong><small>备款、代发、退票及对账</small></div>
+      </button>
+    </div>
+
+    <section class="runtime-filter-card" aria-label="业务、商户和时间筛选">
+      <div class="runtime-filter-row runtime-filter-row--primary">
+        <label class="runtime-context-select runtime-context-select--business">
+          <span>业务</span>
+          <select v-model="selectedMerchantBusiness">
+            <option value="全部">全部业务</option>
+            <option value="TikTok Shop">TikTok Shop</option>
+            <option value="TikTok LIVE">TikTok LIVE</option>
+          </select>
+        </label>
+        <label class="runtime-context-select runtime-context-select--merchant">
+          <span>商户号</span>
+          <select v-model="selectedMerchantId">
+            <option value="">全部商户</option>
+            <option v-for="merchant in businessMerchants" :key="merchant.id" :value="merchant.id">
+              {{ merchant.name }}（{{ merchant.id }}）
+            </option>
+          </select>
+        </label>
+        <label class="runtime-context-select runtime-context-select--country">
+          <span>用户支付国家</span>
+          <select v-model="selectedMarket">
+            <option value="全部">全部国家</option>
+            <option v-for="market in availableMarkets" :key="market" :value="market">{{ market }}</option>
+          </select>
+        </label>
       </div>
-      <div class="runtime-range" role="group" aria-label="时间范围">
-        <button v-for="range in ['今日', '近 7 天', '近 30 天']" :key="range" type="button" :class="{ 'is-active': dateRange === range }" @click="dateRange = range">
-          {{ range }}
-        </button>
+      <div class="runtime-filter-row runtime-filter-row--secondary">
+        <div v-if="selectedMerchant" class="runtime-merchant-meta">
+          <span>签约主体 <strong>{{ selectedMerchant.entity }}</strong></span>
+          <span v-if="selectedBusinessLine === 'collection'" class="runtime-product-meta">
+            收单产品码
+            <strong>{{ selectedMerchant.acquiringProductName }} <code>{{ selectedMerchant.acquiringProductCode }}</code></strong>
+          </span>
+        </div>
+        <p v-else class="runtime-aggregate-note">
+          当前汇总 {{ selectedMerchantBusiness === '全部' ? '全部业务' : selectedMerchantBusiness }}
+          下 {{ businessMerchants.length }} 个商户号的数据
+        </p>
+        <div class="runtime-range" role="group" aria-label="时间范围">
+          <button v-for="range in ['今日', '近 7 天', '近 30 天']" :key="range" type="button" :class="{ 'is-active': dateRange === range }" @click="dateRange = range">
+            {{ range }}
+          </button>
+        </div>
       </div>
     </section>
 
-    <nav class="runtime-stage-switcher" aria-label="支付业务阶段">
+    <nav class="runtime-stage-switcher" :class="`runtime-stage-switcher--${selectedBusinessLine}`" aria-label="业务阶段">
       <button
         v-for="stage in runtimeStageOptions"
         :key="stage.id"
@@ -500,7 +800,7 @@ function toggleCapabilityGroup(capabilityId: string) {
       >
         <span>{{ stage.short }}</span>
         <strong>{{ stage.label }}</strong>
-        <em>{{ allCapabilities.filter(item => item.merchantId === selectedMerchantId && runtimeStageFor(item) === stage.id).length }}</em>
+        <em>{{ stageCapabilityCount(stage.id) }}</em>
       </button>
     </nav>
 
@@ -549,7 +849,7 @@ function toggleCapabilityGroup(capabilityId: string) {
           <strong>运行范围</strong>
           <span>{{ activeDimensionCount ? `已选 ${activeDimensionCount} 个条件` : '全部场景' }}</span>
         </div>
-        <label :class="{ 'is-selected': selectedProduct !== '全部' }">
+        <label v-if="selectedBusinessLine === 'collection'" :class="{ 'is-selected': selectedProduct !== '全部' }">
           <span>收单支付产品</span>
           <select v-model="selectedProduct">
             <option value="全部">全部产品</option>
@@ -558,7 +858,7 @@ function toggleCapabilityGroup(capabilityId: string) {
             <option value="订阅">订阅</option>
           </select>
         </label>
-        <label :class="{ 'is-selected': selectedIntegration !== '全部' }">
+        <label v-if="selectedBusinessLine === 'collection'" :class="{ 'is-selected': selectedIntegration !== '全部' }">
           <span>集成模式</span>
           <select v-model="selectedIntegration">
             <option value="全部">全部模式</option>
@@ -567,7 +867,7 @@ function toggleCapabilityGroup(capabilityId: string) {
             <option value="API">API</option>
           </select>
         </label>
-        <label :class="{ 'is-selected': selectedEnvironment !== '全部' }">
+        <label v-if="selectedBusinessLine === 'collection'" :class="{ 'is-selected': selectedEnvironment !== '全部' }">
           <span>支付环境</span>
           <select v-model="selectedEnvironment">
             <option value="全部">全部环境</option>
@@ -575,18 +875,11 @@ function toggleCapabilityGroup(capabilityId: string) {
             <option value="TT 端外">TT 端外</option>
           </select>
         </label>
-        <label :class="{ 'is-selected': selectedMarket !== '全部' }">
-          <span>用户所在市场</span>
-          <select v-model="selectedMarket">
-            <option value="全部">全部市场</option>
-            <option v-for="market in availableMarkets" :key="market" :value="market">{{ market }}</option>
-          </select>
-        </label>
         <button
-          v-if="selectedProduct !== '全部' || selectedIntegration !== '全部' || selectedEnvironment !== '全部' || selectedMarket !== '全部'"
+          v-if="selectedProduct !== '全部' || selectedIntegration !== '全部' || selectedEnvironment !== '全部'"
           type="button"
           class="runtime-clear-filters"
-          @click="selectedProduct = '全部'; selectedIntegration = '全部'; selectedEnvironment = '全部'; selectedMarket = '全部'"
+          @click="selectedProduct = '全部'; selectedIntegration = '全部'; selectedEnvironment = '全部'"
         >
           清除筛选
         </button>

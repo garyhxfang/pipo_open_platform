@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { loadPublishedConfig } from './acquiringConfigRepository'
 import {
   createSeedPayload,
@@ -41,6 +41,7 @@ import {
   type PaymentAbilityId,
   type PaymentAbilityGroupId,
   type PaymentMethodTagId,
+  type PaymentMethodOperationalDetails,
   type PaymentMethodTypeSelection,
   type ProductType,
   type SupportStatus
@@ -278,11 +279,51 @@ const paymentCapabilities = computed(() =>
       (selectedPaymentMethodType.value === 'All' || capability.paymentMethodType === selectedPaymentMethodType.value)
   )
 )
+const paymentMethodGridColumns = ref(5)
+const paymentMethodPage = ref(1)
+const paymentMethodPageSize = computed(() => paymentMethodGridColumns.value * 4)
+const paymentMethodPageCount = computed(() =>
+  Math.max(1, Math.ceil(paymentCapabilities.value.length / paymentMethodPageSize.value))
+)
+const paymentMethodVisiblePages = computed(() => {
+  const visibleCount = Math.min(5, paymentMethodPageCount.value)
+  const start = Math.max(
+    1,
+    Math.min(paymentMethodPage.value - 2, paymentMethodPageCount.value - visibleCount + 1)
+  )
+  return Array.from({ length: visibleCount }, (_, index) => start + index)
+})
+const paginatedPaymentCapabilities = computed(() => {
+  const start = (paymentMethodPage.value - 1) * paymentMethodPageSize.value
+  return paymentCapabilities.value.slice(start, start + paymentMethodPageSize.value)
+})
+
+function syncPaymentMethodGridColumns() {
+  paymentMethodGridColumns.value = window.innerWidth <= 900 ? 1 : window.innerWidth <= 1280 ? 3 : 5
+}
+
+watch([paymentCapabilities, paymentMethodPageSize], () => {
+  paymentMethodPage.value = 1
+})
+
+const unconfiguredPaymentMethodOperationalDetails: PaymentMethodOperationalDetails = {
+  fullRefund: 'unsupported',
+  partialRefund: 'unsupported',
+  maxRefundPeriod: '未配置',
+  chargeback: 'unsupported',
+  chargebackDescription: '退款与拒付支持情况尚未配置。'
+}
+
+const selectedPaymentMethodHasOperationalDetails = computed(() =>
+  selectedPaymentMethod.value
+    ? Boolean(paymentMethodOperationalDetails[selectedPaymentMethod.value.id])
+    : false
+)
 
 const selectedPaymentMethodOperationalDetails = computed(() =>
   selectedPaymentMethod.value
-    ? paymentMethodOperationalDetails[selectedPaymentMethod.value.id]
-    : undefined
+    ? paymentMethodOperationalDetails[selectedPaymentMethod.value.id] ?? unconfiguredPaymentMethodOperationalDetails
+    : unconfiguredPaymentMethodOperationalDetails
 )
 
 const valueAddedCapabilities = computed(() =>
@@ -517,16 +558,23 @@ function navigateWorkspace(page: WorkspacePage) {
   if (window.location.hash !== nextHash) window.location.hash = nextHash
 }
 
+function switchConfigBusiness(business: 'collection' | 'payout') {
+  navigateWorkspace(business === 'collection' ? 'config' : 'payout-config')
+}
+
 onMounted(() => {
   syncWorkspacePageFromHash()
+  syncPaymentMethodGridColumns()
   window.addEventListener('hashchange', syncWorkspacePageFromHash)
   window.addEventListener('keydown', handleWorkspaceKeydown)
+  window.addEventListener('resize', syncPaymentMethodGridColumns)
   void refreshPublishedConfig()
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('hashchange', syncWorkspacePageFromHash)
   window.removeEventListener('keydown', handleWorkspaceKeydown)
+  window.removeEventListener('resize', syncPaymentMethodGridColumns)
 })
 
 </script>
@@ -590,7 +638,10 @@ onBeforeUnmount(() => {
           <div class="workspace-subnav" aria-label="产品能力管理子菜单">
             <button
               type="button"
-              :class="{ 'is-active': currentWorkspacePage === 'config' }"
+              :class="{
+                'is-active':
+                  currentWorkspacePage === 'config' || currentWorkspacePage === 'payout-config'
+              }"
               @click="navigateWorkspace('config')"
             >
               <strong>产品能力配置</strong>
@@ -601,13 +652,6 @@ onBeforeUnmount(() => {
               @click="navigateWorkspace('subject-capabilities')"
             >
               <strong>主体能力管理</strong>
-            </button>
-            <button
-              type="button"
-              :class="{ 'is-active': currentWorkspacePage === 'payout-config' }"
-              @click="navigateWorkspace('payout-config')"
-            >
-              <strong>代发能力配置</strong>
             </button>
           </div>
         </div>
@@ -639,12 +683,17 @@ onBeforeUnmount(() => {
         :capability-config="activeCapabilityConfig()"
       />
 
-      <AcquiringConfigView v-else-if="currentWorkspacePage === 'config'" @back="returnToMap" />
+      <AcquiringConfigView
+        v-else-if="currentWorkspacePage === 'config'"
+        @back="returnToMap"
+        @switch-business="switchConfigBusiness"
+      />
 
       <PayoutConfigView
         v-else-if="currentWorkspacePage === 'payout-config'"
         @back="navigateWorkspace('map')"
         @saved="refreshPayoutConfig"
+        @switch-business="switchConfigBusiness"
       />
 
       <main v-else class="app-shell">
@@ -664,7 +713,7 @@ onBeforeUnmount(() => {
               :aria-pressed="currentBusinessLine === 'collection'"
               @click="selectBusinessLine('collection')"
             >
-              收款
+              收单
             </button>
             <button
               class="business-tabs__item"
@@ -673,7 +722,7 @@ onBeforeUnmount(() => {
               :aria-pressed="currentBusinessLine === 'payout'"
               @click="selectBusinessLine('payout')"
             >
-              出款
+              代发
             </button>
           </div>
 
@@ -945,7 +994,7 @@ onBeforeUnmount(() => {
 
         <div v-if="paymentCapabilities.length" class="capability-grid">
           <article
-            v-for="capability in paymentCapabilities"
+            v-for="capability in paginatedPaymentCapabilities"
             :key="capability.id"
             class="capability-card capability-card--interactive"
             role="button"
@@ -982,6 +1031,41 @@ onBeforeUnmount(() => {
             </div>
           </article>
         </div>
+        <nav
+          v-if="paymentMethodPageCount > 1"
+          class="card-pagination"
+          aria-label="支付方式分页"
+        >
+          <span>第 {{ paymentMethodPage }} / {{ paymentMethodPageCount }} 页 · 共 {{ paymentCapabilities.length }} 项</span>
+          <div>
+            <button
+              type="button"
+              aria-label="上一页"
+              :disabled="paymentMethodPage === 1"
+              @click="paymentMethodPage -= 1"
+            >
+              ‹
+            </button>
+            <button
+              v-for="page in paymentMethodVisiblePages"
+              :key="page"
+              type="button"
+              :class="{ 'is-active': paymentMethodPage === page }"
+              :aria-current="paymentMethodPage === page ? 'page' : undefined"
+              @click="paymentMethodPage = page"
+            >
+              {{ page }}
+            </button>
+            <button
+              type="button"
+              aria-label="下一页"
+              :disabled="paymentMethodPage === paymentMethodPageCount"
+              @click="paymentMethodPage += 1"
+            >
+              ›
+            </button>
+          </div>
+        </nav>
         <div v-else class="empty-state">暂无可展示的支付方式，请调整产品、环境、集成模式或市场。</div>
       </section>
 
@@ -1094,7 +1178,7 @@ onBeforeUnmount(() => {
       </main>
 
       <div
-        v-if="selectedPaymentMethod && selectedPaymentMethodOperationalDetails"
+        v-if="selectedPaymentMethod"
         class="payment-detail-backdrop"
         @click.self="closePaymentMethodDetails"
       >
@@ -1172,54 +1256,63 @@ onBeforeUnmount(() => {
               </dl>
             </section>
 
-            <section class="payment-detail-section">
+            <template v-if="selectedPaymentMethodHasOperationalDetails">
+              <section class="payment-detail-section">
+                <div class="payment-detail-section__heading">
+                  <span aria-hidden="true">03</span>
+                  <div><h3>退款能力</h3><p>原路退款能力及渠道允许发起退款的最长周期。</p></div>
+                </div>
+                <dl class="payment-detail-list">
+                  <div>
+                    <dt>全额退款</dt>
+                    <dd
+                      class="payment-detail-status"
+                      :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.fullRefund}`"
+                    >
+                      {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.fullRefund] }}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>部分退款</dt>
+                    <dd
+                      class="payment-detail-status"
+                      :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.partialRefund}`"
+                    >
+                      {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.partialRefund] }}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>最长退款周期</dt>
+                    <dd class="payment-detail-value">{{ selectedPaymentMethodOperationalDetails.maxRefundPeriod }}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="payment-detail-section">
+                <div class="payment-detail-section__heading">
+                  <span aria-hidden="true">04</span>
+                  <div><h3>拒付能力</h3><p>支付完成后是否适用拒付或渠道争议处理流程。</p></div>
+                </div>
+                <dl class="payment-detail-list">
+                  <div>
+                    <dt>拒付处理</dt>
+                    <dd
+                      class="payment-detail-status"
+                      :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.chargeback}`"
+                    >
+                      {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.chargeback] }}
+                    </dd>
+                  </div>
+                </dl>
+                <p class="payment-detail-description">{{ selectedPaymentMethodOperationalDetails.chargebackDescription }}</p>
+              </section>
+            </template>
+
+            <section v-else class="payment-detail-section">
               <div class="payment-detail-section__heading">
                 <span aria-hidden="true">03</span>
-                <div><h3>退款能力</h3><p>原路退款能力及渠道允许发起退款的最长周期。</p></div>
+                <div><h3>交易后能力</h3><p>退款与拒付支持情况尚未配置，不影响查看当前支付和绑定能力。</p></div>
               </div>
-              <dl class="payment-detail-list">
-                <div>
-                  <dt>全额退款</dt>
-                  <dd
-                    class="payment-detail-status"
-                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.fullRefund}`"
-                  >
-                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.fullRefund] }}
-                  </dd>
-                </div>
-                <div>
-                  <dt>部分退款</dt>
-                  <dd
-                    class="payment-detail-status"
-                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.partialRefund}`"
-                  >
-                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.partialRefund] }}
-                  </dd>
-                </div>
-                <div>
-                  <dt>最长退款周期</dt>
-                  <dd class="payment-detail-value">{{ selectedPaymentMethodOperationalDetails.maxRefundPeriod }}</dd>
-                </div>
-              </dl>
-            </section>
-
-            <section class="payment-detail-section">
-              <div class="payment-detail-section__heading">
-                <span aria-hidden="true">04</span>
-                <div><h3>拒付能力</h3><p>支付完成后是否适用拒付或渠道争议处理流程。</p></div>
-              </div>
-              <dl class="payment-detail-list">
-                <div>
-                  <dt>拒付处理</dt>
-                  <dd
-                    class="payment-detail-status"
-                    :class="`payment-detail-status--${selectedPaymentMethodOperationalDetails.chargeback}`"
-                  >
-                    {{ supportStatusLabel[selectedPaymentMethodOperationalDetails.chargeback] }}
-                  </dd>
-                </div>
-              </dl>
-              <p class="payment-detail-description">{{ selectedPaymentMethodOperationalDetails.chargebackDescription }}</p>
             </section>
           </div>
 

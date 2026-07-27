@@ -11,6 +11,11 @@ import {
   subscriptionPaymentAbilityGroups,
   type SupportStatus
 } from './capabilityData'
+import {
+  payAndBindElectronicWalletIds,
+  recurringElectronicWalletIds,
+  standaloneBindingElectronicWalletIds
+} from './paymentMethodCatalog'
 import type {
   CapabilityConfigPayloadV2,
   CapabilityConfigPayloadV3,
@@ -116,11 +121,77 @@ const pricingCurrencies = [
   ['CNY', '人民币'],
   ['HKD', '港币'],
   ['TWD', '新台币'],
-  ['INR', '印度卢比']
+  ['INR', '印度卢比'],
+  ['CLP', '智利比索'],
+  ['VND', '越南盾']
 ] as const
 
 const pricingCurrencyMetadata: CapabilityMetadata[] = pricingCurrencies.map(([code, name]) =>
   businessFeature(`pricingCurrency:${code}`, `${code} ${name}`, 'pricingCurrency', '标价币种', 'standard')
+)
+
+const collectionStageCapabilityDefinitions = [
+  ['collection:refund:dashboard', 'Dashboard 退款', 'refund', '退款能力', 'standard'],
+  ['collection:refund:api', 'API 退款', 'refund', '退款能力', 'standard'],
+  ['collection:refund:original', '原路退款', 'refund', '退款能力', 'standard'],
+  ['collection:refund:wallet', '退至钱包', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:payout', '退款转代发', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:userChoice', '用户主动选择', 'refund', '退款能力', 'standard'],
+  ['collection:refund:autoRoute', '系统自动路由', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:hosted', '独立收银台', 'refund', '退款能力', 'standard'],
+  ['collection:refund:embedded', '嵌入式收银台', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:merchantFunded', '商户出资', 'refund', '退款能力', 'standard'],
+  ['collection:refund:platformAdvance', '平台商户垫资退款', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:proof', '退款查单凭证', 'refund', '退款能力', 'standard'],
+  ['collection:refund:fxLock', '退款换汇保价', 'refund', '退款能力', 'conditional'],
+  ['collection:chargeback:merchantLoss', '商户承担', 'chargeback', '拒付能力', 'standard'],
+  ['collection:chargeback:fraudProtection', '欺诈拒付包赔', 'chargeback', '拒付能力', 'conditional'],
+  ['collection:chargeback:alert', '拒付预警消息', 'chargeback', '拒付能力', 'standard'],
+  ['collection:chargeback:fxLock', '拒付换汇保价', 'chargeback', '拒付能力', 'conditional'],
+  ['collection:settlement:periodic', '周期结算', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:realtime', '实时结算', 'settlement', '结算能力', 'conditional'],
+  ['collection:settlement:instruction', '指令结算', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:account', '结算到户', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:bWallet', '结算到B钱包', 'settlement', '结算能力', 'conditional'],
+  ['collection:settlement:internalTransfer', '内部结转清', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:transactionSuccessQuote', '交易成功时报价', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:settlementStartQuote', '发起结算时报价', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:preTradeLock', '交易前锁价', 'settlement', '结算能力', 'conditional'],
+  ['collection:settlement:followCollection', '退随收', 'settlement', '结算能力', 'standard'],
+  ['collection:settlement:separated', '收退分离', 'settlement', '结算能力', 'conditional'],
+  ['collection:settlement:reserve', '结算预留金', 'settlement', '结算能力', 'conditional'],
+  ['collection:split:instruction', '指令分账', 'split', '分账能力', 'standard'],
+  ['collection:split:agreement', '协议分账', 'split', '分账能力', 'conditional'],
+  ['collection:split:split', '分账', 'split', '分账能力', 'standard'],
+  ['collection:split:return', '分账退回', 'split', '分账能力', 'standard'],
+  ['collection:split:secondary', '二次分账', 'split', '分账能力', 'conditional'],
+  ['collection:split:adjustment', '分账补差', 'split', '分账能力', 'conditional'],
+  ['collection:split:advanceRecovery', '垫资回补', 'split', '分账能力', 'conditional'],
+  ['collection:platformTransfer:dashboard', 'Dashboard 发起', 'platformTransfer', '平台转账能力', 'standard'],
+  ['collection:platformTransfer:api', 'API 发起', 'platformTransfer', '平台转账能力', 'standard'],
+  ['collection:withdrawal:primaryMerchant', '一级商户提现', 'withdrawal', '提现能力', 'standard'],
+  ['collection:withdrawal:subMerchant', '二级商户提现', 'withdrawal', '提现能力', 'standard'],
+  ['collection:withdrawal:auto', '系统自动提现', 'withdrawal', '提现能力', 'standard'],
+  ['collection:withdrawal:dashboardManual', 'Dashboard 手动提现', 'withdrawal', '提现能力', 'standard'],
+  ['collection:withdrawal:userManual', '用户手动提现', 'withdrawal', '提现能力', 'standard'],
+  ['collection:withdrawal:bankTransfer', '银行账户转账', 'withdrawal', '提现能力', 'standard'],
+  ['collection:reconciliation:groupFinance', '集团财务对账', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:independent', '自主对账', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:settlementBill', '结算账单', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:transactionBill', '交易账单', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:fundBill', '资金账单', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:groupSettlementBill', '集团专用结算账单', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:groupFundBill', '集团专用资金账单', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:taxBill', '计税账单', 'reconciliation', '账单与对账', 'conditional'],
+  ['collection:reconciliation:marketingBill', '营销账单', 'reconciliation', '账单与对账', 'conditional'],
+  ['collection:reconciliation:dashboard', 'Dashboard', 'reconciliation', '账单与对账', 'standard'],
+  ['collection:reconciliation:api', 'API', 'reconciliation', '账单与对账', 'unsupported'],
+  ['collection:reconciliation:sftp', 'SFTP', 'reconciliation', '账单与对账', 'unsupported']
+] as const
+
+const collectionStageMetadata: CapabilityMetadata[] = collectionStageCapabilityDefinitions.map(
+  ([id, name, groupId, groupName, status]) =>
+    businessFeature(id, name, groupId, groupName, status)
 )
 
 export const defaultCapabilityMetadata: CapabilityMetadata[] = [
@@ -128,6 +199,7 @@ export const defaultCapabilityMetadata: CapabilityMetadata[] = [
   ...paymentMetadata,
   ...paymentMethodMetadata,
   ...pricingCurrencyMetadata,
+  ...collectionStageMetadata,
   businessFeature('capture', '请款', 'paymentCapability', '支付能力', 'standard'),
   businessFeature('currencyExchange', '换汇', 'currencyExchange', '换汇', 'unsupported'),
   businessFeature('taxCalculation', '计税', 'taxCalculation', '计税', 'unsupported'),
@@ -149,6 +221,16 @@ const paymentCapabilityTypes = [
   )
 )
 
+const collectionStageCapabilityTypes: CapabilityTypeDefinition[] = [
+  capabilityType('refund', '退款能力', ['merchantType', 'product', 'environment', 'integrationMode'], 'both', 'inline', 4),
+  capabilityType('chargeback', '拒付能力', ['merchantType', 'product'], 'both', 'inline', 4),
+  capabilityType('settlement', '结算能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
+  capabilityType('split', '分账能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
+  capabilityType('platformTransfer', '平台转账能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
+  capabilityType('withdrawal', '提现能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
+  capabilityType('reconciliation', '账单与对账', ['merchantType', 'product'], 'merchant', 'inline', 4)
+]
+
 export const defaultCapabilityTypes: CapabilityTypeDefinition[] = [
   capabilityType('merchantType', '商户类型', [], 'none'),
   capabilityType('product', '收单支付产品', ['merchantType'], 'none'),
@@ -168,7 +250,8 @@ export const defaultCapabilityTypes: CapabilityTypeDefinition[] = [
   capabilityType('currencyExchange', '换汇', ['product', 'environment', 'integrationMode'], 'both'),
   capabilityType('taxCalculation', '计税', ['product', 'environment', 'integrationMode'], 'both'),
   capabilityType('userFee', '用户手续费', ['product', 'environment', 'integrationMode'], 'both'),
-  capabilityType('marketing', '营销', ['product', 'environment', 'integrationMode'], 'both')
+  capabilityType('marketing', '营销', ['product', 'environment', 'integrationMode'], 'both'),
+  ...collectionStageCapabilityTypes
 ]
 
 const managedValueAddedTypeNames = new Map<CapabilityFeatureId, string>([
@@ -183,7 +266,19 @@ const managedValueAddedIds = new Set<CapabilityFeatureId>([
   'userFee',
   'marketing'
 ])
-const deprecatedCapabilityIds = new Set<string>(['incrementalPreAuth', 'overCapture'])
+const deprecatedCapabilityIds = new Set<string>([
+  'incrementalPreAuth',
+  'overCapture',
+  'paymentMethod:bank-transfer'
+])
+const electronicWalletCatalogV8Ids = new Set<CapabilityFeatureId>(
+  [
+    ...standaloneBindingElectronicWalletIds,
+    ...payAndBindElectronicWalletIds,
+    ...recurringElectronicWalletIds,
+    'razergold'
+  ].map((id) => `paymentMethod:${id}` as CapabilityFeatureId)
+)
 
 const statusWeight: Record<SupportStatus, number> = {
   standard: 0,
@@ -271,7 +366,7 @@ export function scenarioRuleId(capabilityId: CapabilityFeatureId, conditions: Sc
 export function createSeedPayload(): CapabilityConfigPayloadV4 {
   const payload: CapabilityConfigPayloadV4 = {
     schemaVersion: 4,
-    catalogRevision: 5,
+    catalogRevision: 12,
     exportedAt: new Date().toISOString(),
     dimensions: cloneValue(scenarioDimensions),
     capabilityTypes: cloneValue(defaultCapabilityTypes),
@@ -285,6 +380,7 @@ export function createSeedPayload(): CapabilityConfigPayloadV4 {
   applyDefaultDimensionFeatureStatuses(payload)
   materializeBusinessCapabilityRules(payload)
   applyDefaultBusinessCapabilityStatuses(payload)
+  applyDefaultPaymentMethodMarketStatuses(payload)
   return payload
 }
 
@@ -321,11 +417,65 @@ function applyDefaultDimensionFeatureStatuses(payload: CapabilityConfigPayloadV4
 }
 
 function applyDefaultBusinessCapabilityStatuses(payload: CapabilityConfigPayloadV4) {
+  for (const paymentMethod of capabilities.filter((item) => item.category === 'payment')) {
+    for (const product of productOptions) {
+      if (paymentMethod.products.includes(product.value)) continue
+      setRuleStatus(
+        payload,
+        `paymentMethod:${paymentMethod.id}`,
+        { product: product.value },
+        'unsupported',
+        `${paymentMethod.name} 不支持${product.label}`
+      )
+    }
+  }
+
   setRuleStatus(payload, 'currencyExchange', { environment: 'web', integrationMode: 'hosted' }, 'standard', 'TT 端外独立收银台支持换汇，适用于全部支付产品')
   setRuleStatus(payload, 'taxCalculation', { environment: 'web', integrationMode: 'hosted' }, 'standard', 'TT 端外独立收银台支持计税，适用于全部支付产品')
   setRuleStatus(payload, 'marketing', { environment: 'app', integrationMode: 'embedded' }, 'conditional', 'TT 端内嵌入式收银台条件支持营销')
   setRuleStatus(payload, 'userFee', { product: 'online', integrationMode: 'hosted' }, 'standard', '在线支付独立收银台支持用户手续费')
   setRuleStatus(payload, 'userFee', { product: 'online', integrationMode: 'embedded' }, 'standard', '在线支付嵌入式收银台支持用户手续费')
+
+  const platformMerchantOnlyCapabilities: CapabilityFeatureId[] = [
+    'collection:refund:platformAdvance',
+    ...collectionStageCapabilityDefinitions
+      .filter(([, , groupId]) => groupId === 'split' || groupId === 'platformTransfer')
+      .map(([id]) => id),
+    'collection:withdrawal:subMerchant',
+    'collection:withdrawal:userManual'
+  ]
+  for (const capabilityId of platformMerchantOnlyCapabilities) {
+    setRuleStatus(
+      payload,
+      capabilityId,
+      { merchantType: 'standardMerchant' },
+      'unsupported',
+      '该能力仅适用于平台商户'
+    )
+  }
+}
+
+function applyDefaultPaymentMethodMarketStatuses(payload: CapabilityConfigPayloadV4) {
+  for (const paymentMethod of capabilities.filter((item) => item.category === 'payment')) {
+    for (const [country, status] of Object.entries(paymentMethod.marketStatus)) {
+      payload.marketRules.push({
+        id: `paymentMethod:${paymentMethod.id}|consumerPaymentCountry=${country}`,
+        capabilityId: `paymentMethod:${paymentMethod.id}`,
+        scope: 'consumerPaymentCountry',
+        country,
+        status,
+        note: `${paymentMethod.name} ${
+          status === 'standard'
+            ? '支持'
+            : status === 'conditional'
+              ? '条件支持'
+              : status === 'onDemand'
+                ? '按需支持'
+                : '不支持'
+        } ${country}`
+      })
+    }
+  }
 }
 
 function setRuleStatus(
@@ -449,8 +599,10 @@ export function normalizeConfigPayload(payload?: StoredCapabilityConfigPayload):
 function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloadV4 {
   const seed = createSeedPayload()
   const needsCatalogUpgrade = (payload.catalogRevision ?? 0) < 2
+  const needsElectronicWalletCatalogUpgrade = (payload.catalogRevision ?? 0) < 8
   const suppliedCapabilityIds = new Set(payload.capabilities.map((item) => item.id))
   const suppliedRuleCapabilities = new Set(payload.scenarioRules.map((item) => item.capabilityId))
+  const suppliedMarketRuleIds = new Set((payload.marketRules ?? []).map((item) => item.id))
   const suppliedCapabilities = cloneValue(payload.capabilities) as Array<CapabilityMetadata & {
     scenarioDimensionIds?: ScenarioDimensionId[]
     marketDependency?: MarketDependency
@@ -494,7 +646,10 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
       ...cloneValue(payload.scenarioRules ?? []),
       ...seed.scenarioRules.filter((item) => !suppliedRuleCapabilities.has(item.capabilityId))
     ],
-    marketRules: cloneValue(payload.marketRules ?? []),
+    marketRules: [
+      ...cloneValue(payload.marketRules ?? []),
+      ...seed.marketRules.filter((item) => !suppliedMarketRuleIds.has(item.id))
+    ],
     marketPairExceptions: cloneValue(payload.marketPairExceptions ?? []),
     conflicts: cloneValue(payload.conflicts ?? [])
   }
@@ -509,8 +664,23 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
       ...seed.scenarioRules.filter((item) => managedValueAddedIds.has(item.capabilityId))
     ]
   }
+  if (needsElectronicWalletCatalogUpgrade) {
+    normalized.capabilities = [
+      ...normalized.capabilities.filter((item) => !electronicWalletCatalogV8Ids.has(item.id)),
+      ...seed.capabilities.filter((item) => electronicWalletCatalogV8Ids.has(item.id))
+    ]
+    normalized.scenarioRules = [
+      ...normalized.scenarioRules.filter((item) => !electronicWalletCatalogV8Ids.has(item.capabilityId)),
+      ...seed.scenarioRules.filter((item) => electronicWalletCatalogV8Ids.has(item.capabilityId))
+    ]
+    normalized.marketRules = [
+      ...normalized.marketRules.filter((item) => !electronicWalletCatalogV8Ids.has(item.capabilityId)),
+      ...seed.marketRules.filter((item) => electronicWalletCatalogV8Ids.has(item.capabilityId))
+    ]
+  }
   normalized.capabilities = normalized.capabilities.filter((item) => !deprecatedCapabilityIds.has(item.id))
   normalized.scenarioRules = normalized.scenarioRules.filter((item) => !deprecatedCapabilityIds.has(item.capabilityId))
+  normalized.marketRules = normalized.marketRules.filter((item) => !deprecatedCapabilityIds.has(item.capabilityId))
   const preAuth = normalized.capabilities.find((item) => item.id === 'preAuthMultiple')
   if (preAuth) preAuth.name = '预授权支付'
   synchronizeCapabilityTypeNames(normalized)

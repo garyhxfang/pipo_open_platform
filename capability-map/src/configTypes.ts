@@ -11,9 +11,11 @@ export type CapabilityTypeDisplayMode = 'inline' | 'catalog'
 export type CatalogCapabilityId =
   | `paymentMethod:${string}`
   | `pricingCurrency:${string}`
+export type CollectionStageCapabilityId = `collection:${string}`
 export type CapabilityFeatureId =
   | PaymentAbilityId
   | CatalogCapabilityId
+  | CollectionStageCapabilityId
   | 'merchantStandard'
   | 'merchantPlatform'
   | 'productOnline'

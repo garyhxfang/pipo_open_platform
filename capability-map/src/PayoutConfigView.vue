@@ -16,6 +16,7 @@ import {
 const emit = defineEmits<{
   back: []
   saved: []
+  switchBusiness: [business: 'collection' | 'payout']
 }>()
 
 function cloneConfig(value: PayoutConfigState) {
@@ -262,10 +263,18 @@ function editorTitle() {
 </script>
 
 <template>
-  <main class="config-shell">
-    <header class="config-header">
-      <div class="config-header__title">
-        <strong>能力配置中心</strong>
+  <main class="config-shell payout-config-shell">
+    <header class="config-header payout-config-header">
+      <div class="product-config-header-main">
+        <div class="config-header__title">
+          <strong>产品能力配置</strong>
+        </div>
+        <div class="product-config-business-tabs" role="tablist" aria-label="业务类型">
+          <button type="button" role="tab" aria-selected="false" @click="emit('switchBusiness', 'collection')">
+            收单
+          </button>
+          <button class="is-active" type="button" role="tab" aria-selected="true">代发</button>
+        </div>
       </div>
       <div class="config-header__actions">
         <span v-if="savedMessage" class="config-save-message" role="status">{{ savedMessage }}</span>
@@ -278,9 +287,13 @@ function editorTitle() {
     <section class="config-content">
       <div class="config-intro">
         <div>
-          <h1>出款产品能力配置</h1>
-          <p>按产品场景维护各字段的可用枚举，发布后自动生成出款能力地图。</p>
+          <span class="payout-config-kicker">能力配置</span>
+          <h1>代发产品能力配置</h1>
+          <p>按产品场景维护各字段的可用枚举，发布后自动生成代发能力地图。</p>
         </div>
+        <span class="payout-config-summary">
+          {{ currentMode === 'capability' ? `${visibleRecords.length} 条配置` : `${config.fields.length} 个字段` }}
+        </span>
       </div>
 
       <div class="payout-config-tabs" role="tablist" aria-label="配置模式">
@@ -306,7 +319,7 @@ function editorTitle() {
 
       <template v-if="currentMode === 'capability'">
         <section class="payout-config-module" aria-label="能力配置模块">
-          <section class="filter-toolbar payout-list-toolbar" aria-label="出款配置筛选">
+          <section class="filter-toolbar payout-list-toolbar" aria-label="代发配置筛选">
             <label class="filter-field">
               <span>一级产品分类</span>
               <select v-model="primaryFilter" @change="productFilter = 'all'">
@@ -333,7 +346,7 @@ function editorTitle() {
           <section class="config-table-panel" aria-labelledby="payout-record-title">
             <div class="table-toolbar">
               <div>
-                <strong id="payout-record-title">出款能力配置列表</strong>
+                <strong id="payout-record-title">代发能力配置列表</strong>
                 <span>每条配置只包含一个枚举值组合，能力地图按这些记录动态生成。</span>
               </div>
               <div class="table-toolbar__right">

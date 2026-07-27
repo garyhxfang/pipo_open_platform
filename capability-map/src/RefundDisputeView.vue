@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { supportStatusLabel, type SupportStatus } from './capabilityData'
+import {
+  bankCardPaymentMethodById,
+  electronicWalletPaymentMethodById,
+  type BankCardPaymentMethodId,
+  type ElectronicWalletPaymentMethodId
+} from './paymentMethodCatalog'
 
 type RefundLaunchMode = 'dashboard' | 'api'
 type RefundMethod = 'original' | 'wallet' | 'payout'
@@ -42,6 +48,26 @@ interface RefundPaymentMethod {
   accent: string
   originalRefund: SupportStatus
   partialRefund: SupportStatus
+}
+
+function bankCardIdentity(id: BankCardPaymentMethodId) {
+  const method = bankCardPaymentMethodById[id]
+  return {
+    id: method.id,
+    name: method.name,
+    initial: method.initial,
+    accent: method.accent
+  }
+}
+
+function electronicWalletIdentity(id: ElectronicWalletPaymentMethodId) {
+  const method = electronicWalletPaymentMethodById[id]
+  return {
+    id: method.id,
+    name: method.name,
+    initial: method.initial,
+    accent: method.accent
+  }
 }
 
 const launchMode = ref<RefundLaunchMode>('dashboard')
@@ -92,83 +118,62 @@ const payoutMethods: PayoutMethod[] = [
     status: 'standard'
   },
   {
-    id: 'paypal',
-    name: 'PayPal',
+    ...electronicWalletIdentity('paypal'),
     description: '跨境钱包退款代发',
-    initial: 'P',
-    accent: '#0070ba',
     status: 'standard'
   },
   {
-    id: 'gopay',
-    name: 'GoPay',
+    ...electronicWalletIdentity('gopay'),
     description: '印尼本地电子钱包',
-    initial: 'G',
-    accent: '#1a8fe3',
     status: 'standard'
   },
   {
-    id: 'ovo',
-    name: 'OVO',
+    ...electronicWalletIdentity('ovo'),
     description: '印尼本地电子钱包',
-    initial: 'O',
-    accent: '#6b35a5',
     status: 'conditional'
   },
   {
-    id: 'dana',
-    name: 'DANA',
+    ...electronicWalletIdentity('dana'),
     description: '印尼本地电子钱包',
-    initial: 'D',
-    accent: '#118eea',
     status: 'conditional'
   },
   {
-    id: 'gcash',
-    name: 'GCash',
+    ...electronicWalletIdentity('gcash'),
     description: '菲律宾本地电子钱包',
-    initial: 'G',
-    accent: '#1677ff',
     status: 'standard'
   },
   {
-    id: 'grabpay',
-    name: 'GrabPay',
+    ...electronicWalletIdentity('grabpay'),
     description: '东南亚区域电子钱包',
-    initial: 'G',
-    accent: '#00b14f',
     status: 'conditional'
   },
   {
-    id: 'tng',
-    name: "Touch 'n Go",
+    ...electronicWalletIdentity('touchngo'),
     description: '马来西亚本地电子钱包',
-    initial: 'T',
-    accent: '#1455ad',
     status: 'conditional'
   }
 ]
 
 const refundPaymentMethods: RefundPaymentMethod[] = [
-  { id: 'visa', name: 'Visa', description: '国际银行卡', initial: 'V', accent: '#174ea6', originalRefund: 'standard', partialRefund: 'standard' },
-  { id: 'mastercard', name: 'Mastercard', description: '国际银行卡', initial: 'M', accent: '#eb001b', originalRefund: 'standard', partialRefund: 'standard' },
-  { id: 'paypal', name: 'PayPal', description: '跨境电子钱包', initial: 'P', accent: '#0070ba', originalRefund: 'standard', partialRefund: 'conditional' },
+  { ...bankCardIdentity('visa'), description: '国际银行卡', originalRefund: 'standard', partialRefund: 'standard' },
+  { ...bankCardIdentity('mastercard'), description: '国际银行卡', originalRefund: 'standard', partialRefund: 'standard' },
+  { ...electronicWalletIdentity('paypal'), description: '跨境电子钱包', originalRefund: 'standard', partialRefund: 'conditional' },
   { id: 'pix', name: 'PIX', description: '巴西本地支付', initial: 'P', accent: '#12b3a8', originalRefund: 'conditional', partialRefund: 'unsupported' },
   { id: 'promptpay', name: 'PromptPay', description: '泰国本地支付', initial: 'P', accent: '#265fcf', originalRefund: 'conditional', partialRefund: 'unsupported' },
-  { id: 'gopay', name: 'GoPay', description: '印尼电子钱包', initial: 'G', accent: '#1a8fe3', originalRefund: 'unsupported', partialRefund: 'unsupported' },
+  { ...electronicWalletIdentity('gopay'), description: '印尼电子钱包', originalRefund: 'unsupported', partialRefund: 'unsupported' },
   { id: 'fpx', name: 'FPX', description: '马来西亚网银', initial: 'F', accent: '#0b4ea2', originalRefund: 'conditional', partialRefund: 'unsupported' },
   { id: 'apple-pay', name: 'Apple Pay', description: '快捷支付钱包', initial: 'A', accent: '#111827', originalRefund: 'standard', partialRefund: 'standard' },
   { id: 'google-pay', name: 'Google Pay', description: '快捷支付钱包', initial: 'G', accent: '#4285f4', originalRefund: 'standard', partialRefund: 'standard' },
-  { id: 'bank-transfer', name: 'Bank Transfer', description: '银行转账', initial: 'B', accent: '#0f766e', originalRefund: 'conditional', partialRefund: 'unsupported' },
+  { id: 'banktransfer', name: 'Bank Transfer', description: '银行转账', initial: 'B', accent: '#0f766e', originalRefund: 'conditional', partialRefund: 'unsupported' },
   { id: 'alipay-plus', name: 'Alipay+', description: '区域钱包网络', initial: 'A', accent: '#1677ff', originalRefund: 'conditional', partialRefund: 'conditional' },
-  { id: 'unionpay', name: '银联卡', description: '银行卡支付', initial: 'U', accent: '#d91f2d', originalRefund: 'standard', partialRefund: 'conditional' }
+  { ...bankCardIdentity('unionpay'), description: '银行卡支付', originalRefund: 'standard', partialRefund: 'conditional' }
 ]
 
 const chargebackPaymentMethods: PayoutMethod[] = [
-  { id: 'visa', name: 'Visa', description: '国际银行卡争议处理', initial: 'V', accent: '#174ea6', status: 'standard' },
-  { id: 'mastercard', name: 'Mastercard', description: '国际银行卡争议处理', initial: 'M', accent: '#eb001b', status: 'standard' },
-  { id: 'paypal', name: 'PayPal', description: '钱包交易争议处理', initial: 'P', accent: '#0070ba', status: 'conditional' },
-  { id: 'unionpay', name: '银联卡', description: '银联卡争议处理', initial: 'U', accent: '#d91f2d', status: 'conditional' },
+  { ...bankCardIdentity('visa'), description: '国际银行卡争议处理', status: 'standard' },
+  { ...bankCardIdentity('mastercard'), description: '国际银行卡争议处理', status: 'standard' },
+  { ...electronicWalletIdentity('paypal'), description: '钱包交易争议处理', status: 'conditional' },
+  { ...bankCardIdentity('unionpay'), description: '银联卡争议处理', status: 'conditional' },
   { id: 'apple-pay', name: 'Apple Pay', description: '底层银行卡争议处理', initial: 'A', accent: '#111827', status: 'standard' }
 ]
 

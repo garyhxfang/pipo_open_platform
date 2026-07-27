@@ -1,17 +1,21 @@
-import type {
-  Environment,
-  IntegrationMode,
-  MarketSelection,
-  MerchantType,
-  PaymentMethodTypeSelection,
-  ProductType,
-  SupportStatus
+import {
+  productOptions,
+  type Environment,
+  type IntegrationMode,
+  type MarketSelection,
+  type MerchantType,
+  type PaymentMethodTypeSelection,
+  type ProductType,
+  type SupportStatus
 } from './capabilityData'
 import type { DomainId } from './configTypes'
 
 export type IntakeType = 'newBusiness' | 'newProduct' | 'newMerchantAccount' | 'capabilityExpansion'
-export type IntakeStep = 1 | 2 | 3 | 4
+export type IntakeBusinessType = 'acquiring' | 'payout'
+export type IntakeProductType = ProductType | 'iap'
+export type IntakeStep = 1 | 2 | 3
 export type IntakeStageId = 'acquiring' | 'refund' | 'chargeback' | 'settlement' | 'reconciliation'
+export type MerchantAccountSelectionMode = 'existing' | 'new'
 export type PaymentBindingMode = 'none' | 'standaloneBinding' | 'payAndBind'
 export type PaymentCardType = 'credit' | 'debit' | 'prepaid'
 
@@ -42,12 +46,38 @@ export interface SelectedCapability {
   responsibleDomains: DomainId[]
 }
 
+export interface IntakeMerchantSubject {
+  id: string
+  accountMode: MerchantAccountSelectionMode
+  merchantAccountId: string
+  subjectName: string
+  merchantType: MerchantType
+  merchantContractingCountry: MarketSelection
+  newProducts: IntakeProductType[]
+}
+
+export interface IntakeCapabilityPlan {
+  id: string
+  merchantSubjectId: string
+  product: IntakeProductType
+  environment: Environment
+  integrationMode: IntegrationMode
+  consumerPaymentCountry: MarketSelection
+  paymentMethodType: PaymentMethodTypeSelection
+  paymentMethodRequirements: PaymentMethodRequirement[]
+  selectedCapabilities: SelectedCapability[]
+  configured: boolean
+}
+
 export interface AgileIntakeDraft {
   currentStep: IntakeStep
+  businessType: IntakeBusinessType
   intakeType: IntakeType
   businessName: string
   businessId: string
   product: ProductType
+  merchantSubjects: IntakeMerchantSubject[]
+  capabilityPlans: IntakeCapabilityPlan[]
   merchantAccountId: string
   merchantType: MerchantType
   merchantContractingCountry: MarketSelection
@@ -62,6 +92,7 @@ export interface AgileIntakeDraft {
 export interface DemoMerchantAccount {
   id: string
   name: string
+  subjectName: string
   merchantType: MerchantType
   country: MarketSelection
   products: ProductType[]
@@ -85,6 +116,42 @@ export interface IntakeCapabilityTemplate {
   platformOnly?: boolean
 }
 
+export const intakeBusinessTypeOptions: Array<{
+  value: IntakeBusinessType
+  title: string
+  englishTitle: string
+  description: string
+  icon: 'acquiring' | 'payout'
+}> = [
+  {
+    value: 'acquiring',
+    title: '收单',
+    englishTitle: 'Pay-in',
+    description: '面向用户付款、退款、拒付和清结算场景',
+    icon: 'acquiring'
+  },
+  {
+    value: 'payout',
+    title: '代发',
+    englishTitle: 'Pay-out',
+    description: '面向用户或合作方的资金出款场景',
+    icon: 'payout'
+  }
+]
+
+export const intakeProductOptions: Array<{
+  label: string
+  value: IntakeProductType
+  description: string
+}> = [
+  ...productOptions,
+  {
+    label: 'IAP',
+    value: 'iap',
+    description: '应用商店内购支付，适合数字内容和虚拟权益'
+  }
+]
+
 export const intakeTypeOptions: Array<{
   value: IntakeType
   level: string
@@ -96,28 +163,28 @@ export const intakeTypeOptions: Array<{
     value: 'newBusiness',
     level: '业务级',
     title: '新业务接入',
-    description: '首次为该业务设计完整收单方案',
+    description: '业务首次接入收单或代发产品',
     icon: 'business'
   },
   {
     value: 'newProduct',
     level: '产品级',
     title: '新产品接入',
-    description: '已有业务接入新的收单支付产品',
+    description: '已有业务接入新的产品；即使同时新增商户号，也选择此项',
     icon: 'product'
   },
   {
     value: 'newMerchantAccount',
     level: '商户号级',
-    title: '新增商户号',
-    description: '复用已有方案，为新主体或场景开户',
+    title: '产品应用至其他商户号',
+    description: '将业务已接入的产品应用至其他商户号；商户号可为已有或新增',
     icon: 'merchant'
   },
   {
     value: 'capabilityExpansion',
     level: '能力级',
-    title: '存量能力扩展',
-    description: '在已有商户号上扩展支付方式或功能',
+    title: '能力扩展',
+    description: '产品和商户号不变，仅新增支付方式或其他能力',
     icon: 'capability'
   }
 ]
@@ -131,6 +198,7 @@ export const demoBusinesses: DemoBusiness[] = [
       {
         id: 'SEA-PLAT-1001',
         name: 'SEA 平台主商户号',
+        subjectName: 'TikTok Shop SEA Pte. Ltd.',
         merchantType: 'platformMerchant',
         country: 'SG',
         products: ['online', 'agreementDeduction']
@@ -138,6 +206,7 @@ export const demoBusinesses: DemoBusiness[] = [
       {
         id: 'SEA-STD-1038',
         name: '泰国直营商户号',
+        subjectName: 'TikTok Shop Thailand Ltd.',
         merchantType: 'standardMerchant',
         country: 'TH',
         products: ['online']
@@ -152,6 +221,7 @@ export const demoBusinesses: DemoBusiness[] = [
       {
         id: 'US-STD-2086',
         name: '美国订阅商户号',
+        subjectName: 'CapCut Commerce Inc.',
         merchantType: 'standardMerchant',
         country: 'US',
         products: ['online', 'subscription']
@@ -166,6 +236,7 @@ export const demoBusinesses: DemoBusiness[] = [
       {
         id: 'JP-STD-3012',
         name: '日本会员业务商户号',
+        subjectName: 'Lemon8 Japan G.K.',
         merchantType: 'standardMerchant',
         country: 'JP',
         products: ['subscription']
@@ -230,13 +301,31 @@ export const nonAcquiringCapabilities: IntakeCapabilityTemplate[] = [
   { id: 'bill-sftp', name: 'SFTP', description: '通过 SFTP 定时接收账单', stage: 'reconciliation', group: '账单获取方式', status: 'unsupported', responsibleDomains: ['gn'] }
 ]
 
+export function createDefaultMerchantSubject(
+  id = 'merchant-subject:1',
+  newProducts: IntakeProductType[] = ['subscription']
+): IntakeMerchantSubject {
+  return {
+    id,
+    accountMode: 'new',
+    merchantAccountId: '',
+    subjectName: '',
+    merchantType: 'standardMerchant',
+    merchantContractingCountry: 'SG',
+    newProducts
+  }
+}
+
 export function createDefaultAgileDraft(): AgileIntakeDraft {
   return {
     currentStep: 1,
+    businessType: 'acquiring',
     intakeType: 'newProduct',
     businessName: '',
     businessId: 'tiktok-shop-sea',
     product: 'subscription',
+    merchantSubjects: [createDefaultMerchantSubject()],
+    capabilityPlans: [],
     merchantAccountId: '',
     merchantType: 'standardMerchant',
     merchantContractingCountry: 'SG',

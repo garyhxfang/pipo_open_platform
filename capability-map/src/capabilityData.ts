@@ -1,13 +1,43 @@
+import {
+  bankTransferPaymentMethods,
+  bankCardPaymentMethods,
+  electronicWalletPaymentMethods,
+  mobileBankingPaymentMethods,
+  realtimePaymentNetworks
+} from './paymentMethodCatalog'
+
 export type MerchantType = 'standardMerchant' | 'platformMerchant'
 export type ProductType = 'online' | 'agreementDeduction' | 'subscription'
 export type Environment = 'web' | 'app'
 export type IntegrationMode = 'hosted' | 'embedded' | 'api'
-export type MarketCode = 'US' | 'BR' | 'ID' | 'TH' | 'MY' | 'SG' | 'PH' | 'JP' | 'KR' | 'GB'
+export type MarketCode =
+  | 'US'
+  | 'BR'
+  | 'ID'
+  | 'TH'
+  | 'MY'
+  | 'SG'
+  | 'PH'
+  | 'JP'
+  | 'KR'
+  | 'GB'
+  | 'HK'
+  | 'CL'
+  | 'MX'
+  | 'VN'
+  | 'CN'
 export type MarketSelection = 'All' | MarketCode
 export type SupportStatus = 'standard' | 'conditional' | 'onDemand' | 'unsupported'
 export type VersionTag = 'standard' | 'beta'
 export type CapabilityCategory = 'payment' | 'valueAdded'
-export type PaymentMethodType = 'card' | 'wallet' | 'bankTransfer' | 'localPayment'
+export type PaymentMethodType =
+  | 'card'
+  | 'passThroughWallet'
+  | 'wallet'
+  | 'mobileBanking'
+  | 'realTimePaymentNetwork'
+  | 'bankTransfer'
+  | 'localPayment'
 export type PaymentMethodTypeSelection = 'All' | PaymentMethodType
 export type PaymentAbilityGroupId =
   | 'retry'
@@ -165,12 +195,32 @@ export const integrationOptions: Option<IntegrationMode>[] = [
   }
 ]
 
-export const marketOptions: MarketSelection[] = ['All', 'US', 'BR', 'ID', 'TH', 'MY', 'SG', 'PH', 'JP', 'KR', 'GB']
+export const marketOptions: MarketSelection[] = [
+  'All',
+  'US',
+  'BR',
+  'ID',
+  'TH',
+  'MY',
+  'SG',
+  'PH',
+  'JP',
+  'KR',
+  'GB',
+  'HK',
+  'CL',
+  'MX',
+  'VN',
+  'CN'
+]
 
 export const paymentMethodTypeOptions: Array<{ label: string; value: PaymentMethodTypeSelection }> = [
   { label: 'All', value: 'All' },
   { label: '银行卡', value: 'card' },
+  { label: '穿透式钱包', value: 'passThroughWallet' },
   { label: '电子钱包', value: 'wallet' },
+  { label: '手机银行', value: 'mobileBanking' },
+  { label: '实时支付网络', value: 'realTimePaymentNetwork' },
   { label: '银行转账', value: 'bankTransfer' },
   { label: '本地支付方式', value: 'localPayment' }
 ]
@@ -353,7 +403,12 @@ const allMarketsStandard: Record<MarketCode, SupportStatus> = {
   PH: 'standard',
   JP: 'standard',
   KR: 'standard',
-  GB: 'standard'
+  GB: 'standard',
+  HK: 'standard',
+  CL: 'standard',
+  MX: 'standard',
+  VN: 'standard',
+  CN: 'standard'
 }
 
 const allMarketsUnsupported: Record<MarketCode, SupportStatus> = {
@@ -366,138 +421,118 @@ const allMarketsUnsupported: Record<MarketCode, SupportStatus> = {
   PH: 'unsupported',
   JP: 'unsupported',
   KR: 'unsupported',
-  GB: 'unsupported'
+  GB: 'unsupported',
+  HK: 'unsupported',
+  CL: 'unsupported',
+  MX: 'unsupported',
+  VN: 'unsupported',
+  CN: 'unsupported'
 }
 
 export const capabilities: CapabilityItem[] = [
-  {
-    id: 'visa',
-    name: 'Visa',
+  ...bankCardPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
     category: 'payment',
     paymentMethodType: 'card',
     version: 'standard',
-    description: '覆盖主流国际卡组织收单。',
-    initial: 'V',
-    accent: '#174ea6',
-    products: ['online', 'agreementDeduction', 'subscription'],
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
     environments: ['web', 'app'],
     integrationModes: ['hosted', 'embedded', 'api'],
-    marketStatus: { ...allMarketsStandard, KR: 'conditional' },
+    marketStatus: method.availability === 'global'
+      ? { ...allMarketsStandard }
+      : {
+          ...allMarketsUnsupported,
+          ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+        },
     paymentMethodTags: {
-      standaloneBinding: 'standard',
-      payAndBind: 'standard',
-      preAuthPay: 'standard'
+      standaloneBinding: method.bindingModes.includes('standaloneBinding') ? 'standard' : 'unsupported',
+      payAndBind: method.bindingModes.includes('payAndBind') ? 'standard' : 'unsupported',
+      preAuthPay: method.preAuthPay ?? 'unsupported'
     }
-  },
-  {
-    id: 'mastercard',
-    name: 'Mastercard',
-    category: 'payment',
-    paymentMethodType: 'card',
-    version: 'standard',
-    description: '支持银行卡支付、授权与交易查询。',
-    initial: 'M',
-    accent: '#eb001b',
-    products: ['online', 'agreementDeduction', 'subscription'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'embedded', 'api'],
-    marketStatus: { ...allMarketsStandard, KR: 'conditional' },
-    paymentMethodTags: {
-      standaloneBinding: 'standard',
-      payAndBind: 'standard',
-      preAuthPay: 'standard'
-    }
-  },
-  {
-    id: 'paypal',
-    name: 'PayPal',
+  })),
+  ...electronicWalletPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
     category: 'payment',
     paymentMethodType: 'wallet',
-    version: 'standard',
-    description: '适合跨境电商和钱包支付场景。',
-    initial: 'P',
-    accent: '#0070ba',
-    products: ['online', 'subscription'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'embedded'],
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
+    marketStatus: method.availability === 'global'
+      ? { ...allMarketsStandard }
+      : {
+          ...allMarketsUnsupported,
+          ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+        },
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
+  ...mobileBankingPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
+    category: 'payment',
+    paymentMethodType: 'mobileBanking',
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
     marketStatus: {
       ...allMarketsUnsupported,
-      US: 'standard',
-      BR: 'conditional',
-      MY: 'conditional',
-      SG: 'standard',
-      PH: 'standard',
-      JP: 'standard',
-      GB: 'standard'
+      ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
     },
-    paymentMethodTags: {
-      standaloneBinding: 'unsupported',
-      payAndBind: 'standard',
-      preAuthPay: 'unsupported'
-    }
-  },
-  {
-    id: 'pix',
-    name: 'PIX',
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
+  ...bankTransferPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
     category: 'payment',
-    paymentMethodType: 'localPayment',
-    version: 'standard',
-    description: '巴西本地实时付款网络。',
-    initial: 'P',
-    accent: '#12b3a8',
-    products: ['online', 'subscription'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'embedded', 'api'],
-    marketStatus: { ...allMarketsUnsupported, BR: 'standard' },
-    paymentMethodTags: {
-      standaloneBinding: 'unsupported',
-      payAndBind: 'standard',
-      preAuthPay: 'unsupported'
-    }
-  },
-  {
-    id: 'promptpay',
-    name: 'PromptPay',
+    paymentMethodType: 'bankTransfer',
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
+    marketStatus: {
+      ...allMarketsUnsupported,
+      ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+    },
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
+  ...realtimePaymentNetworks.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
     category: 'payment',
-    paymentMethodType: 'localPayment',
-    version: 'standard',
-    description: '泰国本地转账和二维码支付。',
-    initial: 'P',
-    accent: '#265fcf',
-    products: ['online'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'embedded', 'api'],
-    marketStatus: { ...allMarketsUnsupported, TH: 'standard' },
-    paymentMethodTags: {
-      standaloneBinding: 'unsupported',
-      payAndBind: 'standard',
-      preAuthPay: 'unsupported'
-    }
-  },
-  {
-    id: 'gopay',
-    name: 'GoPay',
-    category: 'payment',
-    paymentMethodType: 'wallet',
-    version: 'beta',
-    description: '印尼本地电子钱包。',
-    initial: 'G',
-    accent: '#1a8fe3',
-    products: ['online', 'subscription'],
-    environments: ['app'],
-    integrationModes: ['hosted', 'api'],
-    marketStatus: { ...allMarketsUnsupported, ID: 'standard' },
-    paymentMethodTags: {
-      standaloneBinding: 'conditional',
-      payAndBind: 'standard',
-      preAuthPay: 'unsupported'
-    }
-  },
+    paymentMethodType: 'realTimePaymentNetwork',
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
+    marketStatus: {
+      ...allMarketsUnsupported,
+      ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+    },
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
   {
     id: 'fpx',
     name: 'FPX',
     category: 'payment',
-    paymentMethodType: 'bankTransfer',
+    paymentMethodType: 'localPayment',
     version: 'standard',
     description: '马来西亚本地网银支付。',
     initial: 'F',
@@ -516,7 +551,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'apple-pay',
     name: 'Apple Pay',
     category: 'payment',
-    paymentMethodType: 'wallet',
+    paymentMethodType: 'passThroughWallet',
     version: 'standard',
     description: '支持 Apple 设备上的快捷支付。',
     initial: 'A',
@@ -542,7 +577,7 @@ export const capabilities: CapabilityItem[] = [
     id: 'google-pay',
     name: 'Google Pay',
     category: 'payment',
-    paymentMethodType: 'wallet',
+    paymentMethodType: 'passThroughWallet',
     version: 'standard',
     description: '支持 Android 与浏览器快捷支付。',
     initial: 'G',
@@ -567,30 +602,6 @@ export const capabilities: CapabilityItem[] = [
     }
   },
   {
-    id: 'bank-transfer',
-    name: 'Bank Transfer',
-    category: 'payment',
-    paymentMethodType: 'bankTransfer',
-    version: 'standard',
-    description: '面向本地银行转账与虚拟账户场景。',
-    initial: 'B',
-    accent: '#0f766e',
-    products: ['online', 'agreementDeduction'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'api'],
-    marketStatus: {
-      ...allMarketsStandard,
-      PH: 'conditional',
-      JP: 'conditional',
-      KR: 'conditional'
-    },
-    paymentMethodTags: {
-      standaloneBinding: 'standard',
-      payAndBind: 'standard',
-      preAuthPay: 'conditional'
-    }
-  },
-  {
     id: 'alipay-plus',
     name: 'Alipay+',
     category: 'payment',
@@ -611,36 +622,6 @@ export const capabilities: CapabilityItem[] = [
       PH: 'standard',
       JP: 'standard',
       KR: 'standard'
-    },
-    paymentMethodTags: {
-      standaloneBinding: 'standard',
-      payAndBind: 'standard',
-      preAuthPay: 'conditional'
-    }
-  },
-  {
-    id: 'unionpay',
-    name: '银联卡',
-    category: 'payment',
-    paymentMethodType: 'card',
-    version: 'standard',
-    description: '支持银联卡线上收单。',
-    initial: 'U',
-    accent: '#d91f2d',
-    products: ['online', 'subscription'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'api'],
-    marketStatus: {
-      ...allMarketsUnsupported,
-      US: 'conditional',
-      ID: 'conditional',
-      TH: 'standard',
-      MY: 'standard',
-      SG: 'standard',
-      PH: 'conditional',
-      JP: 'standard',
-      KR: 'conditional',
-      GB: 'conditional'
     },
     paymentMethodTags: {
       standaloneBinding: 'standard',
@@ -781,7 +762,7 @@ export const paymentMethodOperationalDetails: Record<string, PaymentMethodOperat
     chargeback: 'standard',
     chargebackDescription: '按底层银行卡网络处理拒付。'
   },
-  'bank-transfer': {
+  banktransfer: {
     fullRefund: 'conditional',
     partialRefund: 'unsupported',
     maxRefundPeriod: '30 天',

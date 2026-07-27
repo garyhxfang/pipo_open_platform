@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { supportStatusLabel, type MerchantType, type SupportStatus } from './capabilityData'
 import {
   loadPayoutConfig,
@@ -85,6 +85,9 @@ const currentPrimaryCategory = ref<PrimaryProductCategory>(props.primaryCategory
 const currentSecondaryCategory = ref<SecondaryProductCategory>('primaryMerchantWithdrawal')
 const payoutConfig = ref(loadPayoutConfig())
 const selectedConfigOptions = ref<Record<string, string>>({})
+const selectedWithdrawalOptions = ref<
+  Partial<Record<SecondaryProductCategory, Record<string, string>>>
+>({})
 const selectedPrefundingOptions = ref<Partial<Record<PrefundingFieldId, string>>>({})
 
 const primaryCategoryOptions: ChoiceOption<PrimaryProductCategory>[] = [
@@ -227,17 +230,9 @@ const productCategoryRows: ProductCategoryRow[] = [
     id: 'subMerchantWithdrawal',
     primary: 'withdrawal',
     secondaryLabel: '二级商户提现',
-    merchantTypes: ['platformMerchant', 'standardMerchant'],
+    merchantTypes: ['platformMerchant'],
     payeeUserTypes: ['bUser'],
     scenario: '平台商户下的二级商户收单/分账资金提现'
-  },
-  {
-    id: 'userWithdrawal',
-    primary: 'withdrawal',
-    secondaryLabel: '用户提现',
-    merchantTypes: ['platformMerchant', 'standardMerchant'],
-    payeeUserTypes: ['cUser'],
-    scenario: '商户所属用户的账户余额提现'
   },
   {
     id: 'singleDisbursement',
@@ -340,22 +335,6 @@ const payoutServices: CapabilityCard[] = [
     initial: 'P',
     accent: '#7c3aed',
     status: 'conditional'
-  },
-  {
-    id: 'finance-overpayment-withdrawal',
-    name: '金融-溢缴款提现',
-    description: '普通用户提现能力基础上，支持跨主体出款。',
-    initial: 'O',
-    accent: '#0891b2',
-    status: 'conditional'
-  },
-  {
-    id: 'merchant-prefunding',
-    name: '商家备款',
-    description: '代发场景，发起代发前需要商户向在PIPO开立的账户完成充值，在账户余额充足的前提下，才能成功发起代发。',
-    initial: 'M',
-    accent: '#0f766e',
-    status: 'standard'
   }
 ]
 
@@ -800,6 +779,52 @@ const cUserPaymentMethods: PayoutPaymentMethodCard[] = [
     tag: '无'
   }
 ]
+const primaryWithdrawalPaymentMethods = bUserPaymentMethods.filter(
+  (method) => method.id === 'bank-transfer'
+)
+
+const paymentMethodGridColumns = ref(4)
+const bUserPaymentMethodPage = ref(1)
+const cUserPaymentMethodPage = ref(1)
+const payoutPaymentMethodPageSize = computed(() => paymentMethodGridColumns.value * 4)
+const bUserPaymentMethodPageCount = computed(() =>
+  Math.max(1, Math.ceil(bUserPaymentMethods.length / payoutPaymentMethodPageSize.value))
+)
+const cUserPaymentMethodPageCount = computed(() =>
+  Math.max(1, Math.ceil(cUserPaymentMethods.length / payoutPaymentMethodPageSize.value))
+)
+const paginatedBUserPaymentMethods = computed(() => {
+  const start = (bUserPaymentMethodPage.value - 1) * payoutPaymentMethodPageSize.value
+  return bUserPaymentMethods.slice(start, start + payoutPaymentMethodPageSize.value)
+})
+const paginatedCUserPaymentMethods = computed(() => {
+  const start = (cUserPaymentMethodPage.value - 1) * payoutPaymentMethodPageSize.value
+  return cUserPaymentMethods.slice(start, start + payoutPaymentMethodPageSize.value)
+})
+
+function syncPaymentMethodGridColumns() {
+  paymentMethodGridColumns.value = window.innerWidth <= 900 ? 1 : window.innerWidth <= 1280 ? 2 : 4
+}
+
+function visiblePageNumbers(currentPage: number, pageCount: number) {
+  const visibleCount = Math.min(5, pageCount)
+  const start = Math.max(1, Math.min(currentPage - 2, pageCount - visibleCount + 1))
+  return Array.from({ length: visibleCount }, (_, index) => start + index)
+}
+
+watch(payoutPaymentMethodPageSize, () => {
+  bUserPaymentMethodPage.value = 1
+  cUserPaymentMethodPage.value = 1
+})
+
+onMounted(() => {
+  syncPaymentMethodGridColumns()
+  window.addEventListener('resize', syncPaymentMethodGridColumns)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', syncPaymentMethodGridColumns)
+})
 
 const currentStageTitle = computed(() => {
   if (props.stage === 'return') return '退票'
@@ -838,11 +863,17 @@ const currentProductRecords = computed(() =>
     (record) => record.product === currentSecondaryCategory.value && record.values.merchantType === props.merchantType
   )
 )
+const isWithdrawalMap = computed(
+  () => props.stage === 'payout' && currentPrimaryCategory.value === 'withdrawal'
+)
+const withdrawalProductRows = computed(() =>
+  visibleProductRows.value.filter(
+    (row) => row.id === 'primaryMerchantWithdrawal' || row.id === 'subMerchantWithdrawal'
+  )
+)
 const configurableFields = computed(() =>
   payoutConfig.value.fields.filter((field) => field.id !== 'merchantType' && availableOptionsFor(field).length > 0)
 )
-const secondaryCategoryLevel = computed(() => (props.hidePrimaryCategory ? 1 : 2))
-const configurableFieldLevelOffset = computed(() => secondaryCategoryLevel.value + 1)
 
 function recordsAvailableAt(field: PayoutField) {
   const fieldIndex = payoutConfig.value.fields.findIndex((item) => item.id === field.id)
@@ -859,6 +890,83 @@ function recordsAvailableAt(field: PayoutField) {
 function availableOptionsFor(field: PayoutField) {
   const optionIds = new Set(recordsAvailableAt(field).map((record) => record.values[field.id]).filter(Boolean))
   return field.options.filter((option) => optionIds.has(option.id))
+}
+
+function withdrawalSelectionsFor(product: SecondaryProductCategory) {
+  return selectedWithdrawalOptions.value[product] ?? {}
+}
+
+function recordsAvailableForWithdrawal(product: SecondaryProductCategory, field: PayoutField) {
+  const fieldIndex = payoutConfig.value.fields.findIndex((item) => item.id === field.id)
+  const upstreamFields = payoutConfig.value.fields.slice(0, fieldIndex)
+  const selections = withdrawalSelectionsFor(product)
+
+  return payoutConfig.value.records.filter(
+    (record) =>
+      record.product === product &&
+      record.values.merchantType === props.merchantType &&
+      upstreamFields.every((upstreamField) => {
+        if (upstreamField.id === 'payeeUserType' || upstreamField.id === 'assetType') return true
+        const selected = selections[upstreamField.id]
+        return !selected || record.values[upstreamField.id] === selected
+      })
+  )
+}
+
+function availableWithdrawalOptions(product: SecondaryProductCategory, field: PayoutField) {
+  const optionIds = new Set(
+    recordsAvailableForWithdrawal(product, field)
+      .map((record) => record.values[field.id])
+      .filter(Boolean)
+  )
+  return field.options.filter((option) => optionIds.has(option.id))
+}
+
+function withdrawalFieldsFor(product: SecondaryProductCategory) {
+  const hiddenFieldIds = new Set(['merchantType', 'payeeUserType', 'assetType'])
+  if (product === 'primaryMerchantWithdrawal') hiddenFieldIds.add('integrationForm')
+  return payoutConfig.value.fields.filter(
+    (field) => !hiddenFieldIds.has(field.id) && availableWithdrawalOptions(product, field).length > 0
+  )
+}
+
+function withdrawalFieldLabel(field: PayoutField) {
+  return field.id === 'initiationMethod' ? '发起方式' : field.label
+}
+
+function withdrawalFieldDescription(field: PayoutField) {
+  if (field.id === 'initiationMethod') return '选择提现由系统自动执行或通过 Dashboard 手动发起'
+  return field.description || '根据前序选择动态筛选'
+}
+
+function withdrawalOptionLabel(
+  product: SecondaryProductCategory,
+  fieldId: string,
+  optionId: string,
+  fallback: string
+) {
+  if (fieldId !== 'initiationMethod') return fallback
+  if (optionId === 'initiation-auto') return '系统自动提现'
+  if (optionId === 'initiation-manual') {
+    return product === 'subMerchantWithdrawal' ? '用户手动提现' : 'Dashboard手动提现'
+  }
+  return fallback
+}
+
+function withdrawalOptionDescription(
+  product: SecondaryProductCategory,
+  fieldId: string,
+  optionId: string,
+  fallback: string
+) {
+  if (fieldId !== 'initiationMethod') return fallback
+  if (optionId === 'initiation-auto') return '业务系统根据提现规则自动执行'
+  if (optionId === 'initiation-manual') {
+    return product === 'subMerchantWithdrawal'
+      ? '用户通过业务页面手动发起提现'
+      : '运营人员通过 Dashboard 手动发起'
+  }
+  return fallback
 }
 
 function prefundingProductLabel(moduleId: string) {
@@ -926,6 +1034,7 @@ function selectPrefundingOption(fieldId: PrefundingFieldId, value: string) {
 
 function resetFieldSelections() {
   selectedConfigOptions.value = {}
+  selectedWithdrawalOptions.value = {}
 }
 
 watch(
@@ -984,6 +1093,27 @@ function toggleConfigOption(fieldId: string, optionId: string) {
     delete selectedConfigOptions.value[downstreamField.id]
   }
 }
+
+function toggleWithdrawalOption(
+  product: SecondaryProductCategory,
+  fieldId: string,
+  optionId: string
+) {
+  const fieldIndex = payoutConfig.value.fields.findIndex((field) => field.id === fieldId)
+  const selections = {
+    ...withdrawalSelectionsFor(product),
+    [fieldId]: optionId
+  }
+
+  for (const downstreamField of payoutConfig.value.fields.slice(fieldIndex + 1)) {
+    delete selections[downstreamField.id]
+  }
+
+  selectedWithdrawalOptions.value = {
+    ...selectedWithdrawalOptions.value,
+    [product]: selections
+  }
+}
 </script>
 
 <template>
@@ -1002,13 +1132,13 @@ function toggleConfigOption(fieldId: string, optionId: string) {
           </div>
 
           <fieldset
-            v-for="(field, fieldIndex) in prefundingFields"
+            v-for="field in prefundingFields"
             :key="field.id"
             class="choice-group"
             :class="{ 'prefunding-product-choice-group': field.id === 'moduleId' }"
           >
             <legend v-if="field.id !== 'moduleId'">
-              <span><i class="payout-level-badge">{{ fieldIndex + 1 }}级</i>{{ field.label }}</span>
+              <span>{{ field.label }}</span>
               <small>{{ field.description }}</small>
             </legend>
             <div
@@ -1063,7 +1193,84 @@ function toggleConfigOption(fieldId: string, optionId: string) {
     </section>
 
     <template v-if="stage === 'payout'">
-      <section class="filter-panel" aria-label="出款能力筛选项">
+      <div v-if="isWithdrawalMap" class="withdrawal-section-stack">
+        <section
+          v-for="product in withdrawalProductRows"
+          :key="product.id"
+          class="withdrawal-product-section"
+        >
+          <header class="withdrawal-product-section__heading">
+            <h2>{{ product.secondaryLabel }}</h2>
+            <p>{{ product.scenario }}</p>
+          </header>
+
+          <div class="filter-panel withdrawal-product-panel">
+            <fieldset
+              v-for="field in withdrawalFieldsFor(product.id)"
+              :key="field.id"
+              class="choice-group withdrawal-choice-group"
+            >
+              <legend>
+                <span>{{ withdrawalFieldLabel(field) }}</span>
+                <small>{{ withdrawalFieldDescription(field) }}</small>
+              </legend>
+              <div class="choice-grid choice-grid--three">
+                <button
+                  v-for="option in availableWithdrawalOptions(product.id, field)"
+                  :key="option.id"
+                  class="choice-card payout-config-option"
+                  :class="{
+                    'is-active': withdrawalSelectionsFor(product.id)[field.id] === option.id
+                  }"
+                  type="button"
+                  :aria-pressed="withdrawalSelectionsFor(product.id)[field.id] === option.id"
+                  @click="toggleWithdrawalOption(product.id, field.id, option.id)"
+                >
+                  <span class="choice-copy">
+                    <strong>{{ withdrawalOptionLabel(product.id, field.id, option.id, option.label) }}</strong>
+                    <span>
+                      {{ withdrawalOptionDescription(product.id, field.id, option.id, option.description) }}
+                    </span>
+                  </span>
+                  <span class="choice-radio" aria-hidden="true"></span>
+                </button>
+              </div>
+            </fieldset>
+          </div>
+
+          <section
+            v-if="product.id === 'primaryMerchantWithdrawal'"
+            class="filter-panel withdrawal-primary-methods-panel"
+            aria-labelledby="primary-withdrawal-payment-methods-title"
+          >
+            <div class="withdrawal-inline-methods__heading">
+              <h3 id="primary-withdrawal-payment-methods-title">支持的支付方式</h3>
+              <p>一级商户提现仅支持结算至银行账户。</p>
+            </div>
+            <div class="capability-grid capability-grid--value-added">
+              <article
+                v-for="method in primaryWithdrawalPaymentMethods"
+                :key="method.id"
+                class="capability-card"
+              >
+                <div class="card-topline">
+                  <div class="capability-identity">
+                    <span class="brand-mark" :style="{ '--mark-color': method.accent }">
+                      {{ method.initial }}
+                    </span>
+                    <div>
+                      <h3>{{ method.name }}</h3>
+                      <p>{{ method.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      <section v-else class="filter-panel" aria-label="出款能力筛选项">
         <div class="section-heading section-heading--panel">
           <div>
             <h2>出款对客产品</h2>
@@ -1072,7 +1279,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
 
         <fieldset v-if="!hidePrimaryCategory" class="choice-group choice-group--two">
           <legend>
-            <span><i class="payout-level-badge">1级</i>一级产品分类</span>
+            <span>一级产品分类</span>
             <small>选择出款产品的大类</small>
           </legend>
           <div class="choice-grid choice-grid--two">
@@ -1101,7 +1308,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
 
         <fieldset class="choice-group">
           <legend>
-            <span><i class="payout-level-badge">{{ secondaryCategoryLevel }}级</i>产品分类</span>
+            <span>产品分类</span>
             <small>根据商户类型联动可选产品</small>
           </legend>
           <div class="choice-grid choice-grid--three">
@@ -1128,9 +1335,9 @@ function toggleConfigOption(fieldId: string, optionId: string) {
           </div>
         </fieldset>
 
-        <fieldset v-for="(field, fieldIndex) in configurableFields" :key="field.id" class="choice-group">
+        <fieldset v-for="field in configurableFields" :key="field.id" class="choice-group">
           <legend>
-            <span><i class="payout-level-badge">{{ fieldIndex + configurableFieldLevelOffset }}级</i>{{ field.label }}</span>
+            <span>{{ field.label }}</span>
             <small>{{ field.description || '根据上一级选择动态筛选' }}</small>
           </legend>
           <div v-if="availableOptionsFor(field).length" class="choice-grid choice-grid--three">
@@ -1153,7 +1360,7 @@ function toggleConfigOption(fieldId: string, optionId: string) {
         </fieldset>
       </section>
 
-      <section class="payment-ability-panel" aria-labelledby="payout-service-title">
+      <section v-if="!isWithdrawalMap" class="payment-ability-panel" aria-labelledby="payout-service-title">
         <div class="section-heading section-heading--panel">
           <div>
             <h2 id="payout-service-title">出款增值服务</h2>
@@ -1181,17 +1388,27 @@ function toggleConfigOption(fieldId: string, optionId: string) {
       </section>
     </template>
 
-    <section v-if="stage === 'payout'" class="capability-section" aria-labelledby="payout-payment-methods-title">
+    <section
+      v-if="stage === 'payout' && (!isWithdrawalMap || merchantType === 'platformMerchant')"
+      class="capability-section"
+      aria-labelledby="payout-payment-methods-title"
+    >
       <div class="section-heading">
-        <h2 id="payout-payment-methods-title">出款支持的支付方式</h2>
+        <h2 id="payout-payment-methods-title">
+          {{ isWithdrawalMap ? '二级商户提现支持的支付方式' : '出款支持的支付方式' }}
+        </h2>
       </div>
 
-      <section class="payout-payment-method-group" aria-labelledby="b-user-payment-methods-title">
-        <div class="payout-payment-method-group__heading">
+      <section
+        class="payout-payment-method-group"
+        :aria-label="isWithdrawalMap ? '二级商户提现支付方式' : undefined"
+        :aria-labelledby="isWithdrawalMap ? undefined : 'b-user-payment-methods-title'"
+      >
+        <div v-if="!isWithdrawalMap" class="payout-payment-method-group__heading">
           <h3 id="b-user-payment-methods-title">收款用户类型-B端用户</h3>
         </div>
         <div class="capability-grid capability-grid--value-added">
-          <article v-for="method in bUserPaymentMethods" :key="method.id" class="capability-card">
+          <article v-for="method in paginatedBUserPaymentMethods" :key="method.id" class="capability-card">
             <div class="card-topline">
               <div class="capability-identity">
                 <span class="brand-mark" :style="{ '--mark-color': method.accent }">
@@ -1206,14 +1423,47 @@ function toggleConfigOption(fieldId: string, optionId: string) {
             </div>
           </article>
         </div>
+        <nav
+          v-if="bUserPaymentMethodPageCount > 1"
+          class="card-pagination"
+          :aria-label="isWithdrawalMap ? '二级商户提现支付方式分页' : 'B端用户支付方式分页'"
+        >
+          <span>第 {{ bUserPaymentMethodPage }} / {{ bUserPaymentMethodPageCount }} 页 · 共 {{ bUserPaymentMethods.length }} 项</span>
+          <div>
+            <button
+              type="button"
+              aria-label="上一页"
+              :disabled="bUserPaymentMethodPage === 1"
+              @click="bUserPaymentMethodPage -= 1"
+            >‹</button>
+            <button
+              v-for="page in visiblePageNumbers(bUserPaymentMethodPage, bUserPaymentMethodPageCount)"
+              :key="page"
+              type="button"
+              :class="{ 'is-active': bUserPaymentMethodPage === page }"
+              :aria-current="bUserPaymentMethodPage === page ? 'page' : undefined"
+              @click="bUserPaymentMethodPage = page"
+            >{{ page }}</button>
+            <button
+              type="button"
+              aria-label="下一页"
+              :disabled="bUserPaymentMethodPage === bUserPaymentMethodPageCount"
+              @click="bUserPaymentMethodPage += 1"
+            >›</button>
+          </div>
+        </nav>
       </section>
 
-      <section class="payout-payment-method-group" aria-labelledby="c-user-payment-methods-title">
+      <section
+        v-if="!isWithdrawalMap"
+        class="payout-payment-method-group"
+        aria-labelledby="c-user-payment-methods-title"
+      >
         <div class="payout-payment-method-group__heading">
           <h3 id="c-user-payment-methods-title">收款用户类型-C端用户</h3>
         </div>
         <div v-if="cUserPaymentMethods.length" class="capability-grid capability-grid--value-added">
-          <article v-for="method in cUserPaymentMethods" :key="method.id" class="capability-card">
+          <article v-for="method in paginatedCUserPaymentMethods" :key="method.id" class="capability-card">
             <div class="card-topline">
               <div class="capability-identity">
                 <span class="brand-mark" :style="{ '--mark-color': method.accent }">
@@ -1228,6 +1478,35 @@ function toggleConfigOption(fieldId: string, optionId: string) {
             </div>
           </article>
         </div>
+        <nav
+          v-if="cUserPaymentMethodPageCount > 1"
+          class="card-pagination"
+          aria-label="C端用户支付方式分页"
+        >
+          <span>第 {{ cUserPaymentMethodPage }} / {{ cUserPaymentMethodPageCount }} 页 · 共 {{ cUserPaymentMethods.length }} 项</span>
+          <div>
+            <button
+              type="button"
+              aria-label="上一页"
+              :disabled="cUserPaymentMethodPage === 1"
+              @click="cUserPaymentMethodPage -= 1"
+            >‹</button>
+            <button
+              v-for="page in visiblePageNumbers(cUserPaymentMethodPage, cUserPaymentMethodPageCount)"
+              :key="page"
+              type="button"
+              :class="{ 'is-active': cUserPaymentMethodPage === page }"
+              :aria-current="cUserPaymentMethodPage === page ? 'page' : undefined"
+              @click="cUserPaymentMethodPage = page"
+            >{{ page }}</button>
+            <button
+              type="button"
+              aria-label="下一页"
+              :disabled="cUserPaymentMethodPage === cUserPaymentMethodPageCount"
+              @click="cUserPaymentMethodPage += 1"
+            >›</button>
+          </div>
+        </nav>
         <div v-else class="empty-state">暂无可展示的支付方式。</div>
       </section>
     </section>
@@ -1292,7 +1571,11 @@ function toggleConfigOption(fieldId: string, optionId: string) {
         </div>
       </section>
 
-      <section v-if="stage !== 'return'" class="capability-section" :aria-labelledby="`payout-stage-${stage}`">
+      <section
+        v-if="stage !== 'return' && !isWithdrawalMap"
+        class="capability-section"
+        :aria-labelledby="`payout-stage-${stage}`"
+      >
         <div class="section-heading">
           <h2 :id="`payout-stage-${stage}`">{{ currentStageTitle }}能力 <span>{{ stageCards.length }}</span></h2>
           <div class="legend" aria-label="支持状态图例">

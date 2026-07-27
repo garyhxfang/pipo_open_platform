@@ -38,7 +38,10 @@ import type {
   StoredCapabilityConfigPayload
 } from './configTypes'
 
-const emit = defineEmits<{ back: [] }>()
+const emit = defineEmits<{
+  back: []
+  switchBusiness: [business: 'collection' | 'payout']
+}>()
 
 const statusOptions: SupportStatus[] = ['standard', 'conditional', 'unsupported']
 const marketDependencyLabels: Record<MarketDependency, string> = {
@@ -75,6 +78,30 @@ const catalogPageSize = ref(12)
 const expandedAbilityGroups = ref<string[]>(
   initialConfig.capabilityTypes[0] ? [initialConfig.capabilityTypes[0].id] : []
 )
+type CollectionConfigStageId =
+  | 'acquiring'
+  | 'refund'
+  | 'chargeback'
+  | 'settlement'
+  | 'split'
+  | 'platformTransfer'
+  | 'withdrawal'
+  | 'reconciliation'
+
+const collectionConfigStageOptions: Array<{ id: CollectionConfigStageId; label: string }> = [
+  { id: 'acquiring', label: '收单支付' },
+  { id: 'refund', label: '退款' },
+  { id: 'chargeback', label: '拒付' },
+  { id: 'settlement', label: '结算' },
+  { id: 'split', label: '分账' },
+  { id: 'platformTransfer', label: '平台转账' },
+  { id: 'withdrawal', label: '提现' },
+  { id: 'reconciliation', label: '账单与对账' }
+]
+const collectionStageTypeIds = new Set(
+  collectionConfigStageOptions.filter((item) => item.id !== 'acquiring').map((item) => item.id)
+)
+const selectedCollectionConfigStage = ref<CollectionConfigStageId>('acquiring')
 
 const scenarioFilters = ref<Record<ScenarioDimensionId, string>>({
   merchantType: 'all',
@@ -93,17 +120,28 @@ const conflictNote = ref('')
 
 const abilityOptions = computed(() => config.value.capabilities)
 const abilityTypes = computed(() => config.value.capabilityTypes)
-const abilityGroups = computed(() => abilityTypes.value.map((item) => item.id))
+const stageAbilityTypes = computed(() =>
+  abilityTypes.value.filter((type) =>
+    selectedCollectionConfigStage.value === 'acquiring'
+      ? !collectionStageTypeIds.has(type.id as CollectionConfigStageId)
+      : type.id === selectedCollectionConfigStage.value
+  )
+)
+const stageAbilityTypeIds = computed(() => new Set(stageAbilityTypes.value.map((item) => item.id)))
+const stageAbilityOptions = computed(() =>
+  abilityOptions.value.filter((ability) => stageAbilityTypeIds.value.has(ability.groupId))
+)
+const abilityGroups = computed(() => stageAbilityTypes.value.map((item) => item.id))
 const filteredAbilityOptions = computed(() => {
   const keyword = capabilitySearch.value.trim().toLowerCase()
-  return abilityOptions.value.filter((ability) => {
+  return stageAbilityOptions.value.filter((ability) => {
     if (!keyword) return true
     const typeName = abilityTypes.value.find((item) => item.id === ability.groupId)?.name ?? ability.groupName
     return `${ability.name}${ability.id}${typeName}`.toLowerCase().includes(keyword)
   })
 })
 const groupedAbilityOptions = computed(() =>
-  abilityTypes.value
+  stageAbilityTypes.value
     .map((type) => {
       const allAbilities = abilityOptions.value.filter((ability) => ability.groupId === type.id)
       return {
@@ -255,6 +293,12 @@ function expandAllAbilityGroups() {
 
 function collapseAllAbilityGroups() {
   expandedAbilityGroups.value = []
+}
+
+function selectCollectionConfigStage(stageId: CollectionConfigStageId) {
+  selectedCollectionConfigStage.value = stageId
+  capabilitySearch.value = ''
+  expandedAbilityGroups.value = stageAbilityTypes.value[0] ? [stageAbilityTypes.value[0].id] : []
 }
 
 function updateOverallStatus(rule: ScenarioSupportRule, status: SupportStatus) {
@@ -511,9 +555,17 @@ onMounted(initializePersistence)
 <template>
   <main class="config-shell">
     <header class="config-header">
-      <div class="header-title">
-        <span aria-hidden="true">▦</span>
-        <strong>产品能力管理</strong>
+      <div class="product-config-header-main">
+        <div class="header-title">
+          <span aria-hidden="true">▦</span>
+          <strong>产品能力配置</strong>
+        </div>
+        <div class="product-config-business-tabs" role="tablist" aria-label="业务类型">
+          <button class="is-active" type="button" role="tab" aria-selected="true">收单</button>
+          <button type="button" role="tab" aria-selected="false" @click="emit('switchBusiness', 'payout')">
+            代发
+          </button>
+        </div>
       </div>
       <div class="header-actions">
         <span class="connection-chip" :class="{ 'is-cloud': persistenceMode === 'supabase' }">
@@ -543,13 +595,30 @@ onMounted(initializePersistence)
       <p v-if="persistenceError" class="notice notice--error">{{ persistenceError }}</p>
 
       <template v-if="configScreen === 'list'">
+        <nav class="collection-config-stage-filter" aria-label="收单能力阶段">
+          <span>收单阶段</span>
+          <div role="tablist" aria-label="收单能力阶段">
+            <button
+              v-for="stageOption in collectionConfigStageOptions"
+              :key="stageOption.id"
+              type="button"
+              role="tab"
+              :class="{ 'is-active': selectedCollectionConfigStage === stageOption.id }"
+              :aria-selected="selectedCollectionConfigStage === stageOption.id"
+              @click="selectCollectionConfigStage(stageOption.id)"
+            >
+              {{ stageOption.label }}
+            </button>
+          </div>
+        </nav>
+
         <section class="capability-list-heading">
           <div>
             <span class="section-kicker">能力配置</span>
             <h1>能力类型与能力</h1>
             <p>先查看能力类型的共享条件，再展开维护该类型下的具体能力。</p>
           </div>
-          <span class="count-chip">{{ abilityTypes.length }} 个类型 · {{ abilityOptions.length }} 项能力</span>
+          <span class="count-chip">{{ stageAbilityTypes.length }} 个类型 · {{ stageAbilityOptions.length }} 项能力</span>
         </section>
 
         <section class="capability-list-panel">
@@ -969,6 +1038,7 @@ onMounted(initializePersistence)
 .config-shell{--blue:#1267f1;--blue-soft:#eef5ff;--border:#d8e0ec;--border-soft:#e8edf5;--text:#172033;--muted:#68768d;--green:#27833e;--green-bg:#eaf7ed;--orange:#df820b;--orange-bg:#fff3df;--gray:#7b8797;--gray-bg:#eef2f6;min-height:100vh;padding-bottom:72px;background:#f5f7fb;color:var(--text)}
 button,select,input{font:inherit}button{cursor:pointer}.config-header,.header-title,.header-actions,.action-bar,.action-bar>div{display:flex;align-items:center}.config-header{position:sticky;top:0;z-index:20;justify-content:space-between;min-height:58px;border-bottom:1px solid var(--border-soft);padding:10px 32px;background:rgba(255,255,255,.98);box-shadow:0 5px 16px rgba(15,23,42,.05)}.header-title{gap:9px;font-size:17px}.header-title>span{display:grid;width:27px;height:27px;place-items:center;border-radius:7px;background:var(--blue-soft);color:var(--blue)}.header-actions{gap:9px}.connection-chip,.count-chip{border:1px solid var(--border);border-radius:999px;padding:4px 9px;background:#f7f9fc;color:var(--muted);font-size:11px;font-weight:750;white-space:nowrap}.connection-chip.is-cloud{border-color:#bcd0f5;background:var(--blue-soft);color:var(--blue)}
 .config-content{width:min(1480px,calc(100% - 48px));margin:0 auto;padding:18px 0}.auth-panel{display:flex;align-items:center;gap:10px;margin-bottom:12px;border:1px solid #bcd0f5;border-radius:8px;padding:12px 14px;background:#f8fbff}.auth-panel>div{display:grid;flex:1;gap:3px}.auth-panel strong{font-size:13px}.auth-panel span,.notice{color:var(--muted);font-size:12px}.auth-panel>input,.password-field{width:min(250px,38vw);height:32px;border:1px solid var(--border);border-radius:6px;padding:0 9px;background:#fff}.password-field{display:flex;align-items:center;width:min(210px,32vw);padding-right:4px}.password-field input{min-width:0;height:30px;flex:1;border:0;outline:none}.password-field button{border:0;background:transparent;color:var(--blue);font-size:11px}.notice{margin:0 0 10px;border-left:3px solid #83aef7;padding:7px 10px;background:#f8fbff}.notice--error{border-left-color:#d65a5a;background:#fff7f7;color:#a43f3f}
+.collection-config-stage-filter{display:flex;align-items:center;gap:18px;margin:0 2px 14px;border-bottom:1px solid var(--border);padding:0 2px}.collection-config-stage-filter>span{flex:0 0 auto;padding-bottom:10px;color:var(--muted);font-size:11px;font-weight:800}.collection-config-stage-filter>div{display:flex;min-width:0;gap:2px;overflow-x:auto}.collection-config-stage-filter button{flex:0 0 auto;min-height:36px;border:0;border-bottom:2px solid transparent;padding:0 13px;background:transparent;color:var(--muted);font-size:12px;font-weight:750}.collection-config-stage-filter button:hover{color:var(--blue)}.collection-config-stage-filter button.is-active{border-bottom-color:var(--blue);color:var(--blue)}
 .capability-list-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:14px;padding:4px 2px}.capability-list-heading h1,.capability-list-heading p{margin:0}.capability-list-heading h1{margin-top:3px;font-size:22px}.capability-list-heading p{margin-top:4px;color:var(--muted);font-size:12px}.capability-list-panel{overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.035)}.capability-list-toolbar{display:flex;align-items:end;gap:12px;border-bottom:1px solid var(--border-soft);padding:12px 14px;background:#f8faff}.capability-list-toolbar label{display:grid;min-width:190px;gap:5px}.capability-list-toolbar label>span{color:var(--muted);font-size:11px;font-weight:750}.capability-list-search{width:min(420px,48vw)}.capability-list-result{margin-left:auto;padding-bottom:7px;color:var(--muted);font-size:11px;white-space:nowrap}.capability-list-expand-actions{display:flex;align-items:center;padding-bottom:1px;white-space:nowrap}.capability-list-expand-actions .text-button{padding:0 7px;font-size:11px}.capability-list-expand-actions .text-button:focus-visible{border-radius:4px;outline:2px solid var(--blue);outline-offset:1px}.capability-list-scroll{overflow-x:auto;background:#fff}.capability-list-table{width:100%;min-width:860px;border-collapse:collapse}.capability-list-table th,.capability-list-table td{height:50px;border-bottom:1px solid var(--border-soft);padding:8px 12px;font-size:12px;text-align:left;vertical-align:middle}.capability-list-table th{height:38px;background:#f7f9fc;color:#59677d;font-size:11px;font-weight:800;white-space:nowrap}.capability-list-table th:nth-child(1){width:34%}.capability-list-table th:nth-child(2){width:27%}.capability-list-table th:nth-child(3){width:27%}.capability-list-table th:nth-child(4){width:12%}.capability-group-row td{height:48px!important;padding:0!important;background:#f3f6fa}.capability-group-row-content{display:grid;grid-template-columns:minmax(220px,.7fr) minmax(400px,1.3fr) auto;align-items:center;min-height:48px;padding-right:12px}.capability-group-trigger{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;min-height:48px;gap:8px;border:0;padding:0 12px;background:transparent;color:var(--text);text-align:left}.capability-group-trigger:hover{background:#edf3fb}.capability-group-trigger strong{font-size:12px}.capability-group-trigger>span:last-child{border-radius:999px;padding:2px 7px;background:#fff;color:var(--muted);font-size:10px;font-weight:750}.capability-type-summary{display:flex;min-width:0;gap:18px;color:var(--muted);font-size:10px}.capability-type-summary span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.capability-group-chevron{color:#768399;font-size:19px;line-height:1;transition:transform .16s ease}.capability-group-trigger[aria-expanded=true] .capability-group-chevron{transform:rotate(90deg);color:var(--blue)}.capability-item-row{background:#fff}.capability-item-row:hover{background:#fbfdff}.capability-item-row td:first-child{padding-left:40px}.capability-item-row td:first-child,.capability-item-row td:nth-child(3){align-content:center}.capability-item-row td:nth-child(3){display:grid;gap:3px}.capability-list-table td strong{font-size:12px}.capability-list-table td span,.capability-list-table td small{color:var(--muted);font-size:10px}.capability-list-table code{border-radius:4px;padding:3px 6px;background:#f3f6fa;color:#556276;font-size:10px}.dimension-summary{color:var(--text)!important}.configure-button,.configure-type-button{min-height:29px;border:1px solid #a9c4f5;border-radius:5px;padding:0 10px;background:#f8fbff;color:var(--blue);font-size:11px;font-weight:750;white-space:nowrap}.configure-button:hover,.configure-type-button:hover{border-color:var(--blue);background:var(--blue-soft)}.ability-list-back{flex:0 0 auto}
 .capability-type-table{width:100%;min-width:1040px;border-collapse:collapse;table-layout:fixed}.capability-type-table>thead th{height:38px;border-bottom:1px solid var(--border-soft);padding:8px 12px;background:#f7f9fc;color:#59677d;font-size:11px;font-weight:800;text-align:left;white-space:nowrap}.capability-type-table>thead th:nth-child(1){width:22%}.capability-type-table>thead th:nth-child(2){width:31%}.capability-type-table>thead th:nth-child(3){width:23%}.capability-type-table>thead th:nth-child(4){width:12%}.capability-type-table>thead th:nth-child(5){width:12%}.capability-type-row td{height:62px;border-bottom:1px solid var(--border-soft);padding:9px 12px;background:#fff;color:var(--text);font-size:12px;vertical-align:middle}.capability-type-row:hover td{background:#fbfdff}.capability-type-row .capability-group-trigger{grid-template-columns:20px minmax(0,1fr);width:100%;min-height:42px;padding:0}.capability-type-row .capability-group-trigger:hover{background:transparent}.capability-type-row .capability-group-trigger:focus-visible{border-radius:4px;outline:2px solid var(--blue);outline-offset:1px}.capability-type-row .capability-group-trigger>span:last-child{display:grid;gap:3px;border-radius:0;padding:0;background:transparent;color:var(--text);font-weight:400}.capability-type-row .capability-group-trigger strong{font-size:12px}.capability-type-row .capability-group-trigger small{color:var(--muted);font-size:9px;font-weight:500}.type-dimension-chips{display:flex;flex-wrap:wrap;gap:5px}.type-dimension-chips span{border:1px solid #d9e4f5;border-radius:4px;padding:3px 6px;background:#f7faff;color:#516078;font-size:10px;font-weight:700;white-space:nowrap}.type-empty-value{color:var(--muted);font-size:10px}.type-dependency-pill{display:inline-flex;border-radius:999px;padding:4px 8px;background:#eef5ff;color:#3768a8;font-size:10px;font-weight:750;white-space:nowrap}.type-dependency-pill.is-none{background:var(--gray-bg);color:var(--gray)}.type-ability-count{color:#526177;font-size:11px;font-weight:750}.type-capabilities-row>td{border-bottom:1px solid var(--border-soft);padding:0 12px 12px;background:#f7f9fc}.type-capabilities-panel{overflow:hidden;border:1px solid #dce4ef;border-radius:6px;background:#fff}.type-capabilities-panel>header{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;border-bottom:1px solid var(--border-soft);padding:8px 12px;background:#fbfcfe}.type-capabilities-panel>header>div{display:grid;gap:2px}.type-capabilities-panel>header strong{font-size:12px}.type-capabilities-panel>header div span,.type-capabilities-panel>header>span{color:var(--muted);font-size:10px}.capability-detail-table{width:100%;border-collapse:collapse;table-layout:fixed}.capability-detail-table th,.capability-detail-table td{height:43px;border-bottom:1px solid var(--border-soft);padding:7px 12px;font-size:11px;text-align:left;vertical-align:middle}.capability-detail-table th{height:32px;background:#fff;color:#778397;font-size:10px;font-weight:750}.capability-detail-table th:nth-child(1){width:26%}.capability-detail-table th:nth-child(2){width:28%}.capability-detail-table th:nth-child(3){width:17%}.capability-detail-table th:nth-child(4){width:19%}.capability-detail-table th:nth-child(5){width:10%}.capability-detail-table tbody tr:last-child td{border-bottom:0}.capability-detail-table tbody tr:hover{background:#fbfdff}.capability-detail-table td strong{font-size:11px}.capability-detail-table code{border-radius:4px;padding:3px 6px;background:#f3f6fa;color:#556276;font-size:9px}.configure-button,.configure-type-button{min-height:29px;border:1px solid #a9c4f5;border-radius:5px;padding:0 10px;background:#f8fbff;color:var(--blue);font-size:11px;font-weight:750;white-space:nowrap}.configure-button:hover,.configure-type-button:hover{border-color:var(--blue);background:var(--blue-soft)}.ability-list-back{flex:0 0 auto}
 .capability-type-table>thead th:nth-child(1){width:19%}.capability-type-table>thead th:nth-child(2){width:31%}.capability-type-table>thead th:nth-child(3){width:25%}.capability-type-table>thead th:nth-child(4){width:16%}.capability-type-table>thead th:nth-child(5){width:9%}.capability-type-row td{height:auto;min-height:62px}.capability-type-identity{display:grid;align-content:center;gap:2px}.capability-type-identity strong{font-size:12px}.capability-type-identity small{color:var(--muted);font-size:9px}.capability-type-identity>span{justify-self:start;margin-top:3px;border-radius:999px;padding:2px 6px;background:var(--gray-bg);color:var(--muted);font-size:9px;font-weight:700}.type-ability-tags{display:flex;align-items:center;flex-wrap:wrap;gap:5px}.type-ability-tags>button{max-width:150px;min-height:27px;overflow:hidden;border:1px solid #d7e1ef;border-radius:5px;padding:0 8px;background:#fff;color:#3f5068;font-size:10px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.type-ability-tags>button:hover{border-color:#9dbcf3;background:var(--blue-soft);color:var(--blue)}.type-ability-tags>button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}.type-ability-tags>button.type-ability-more{border-color:transparent;background:#eef4fd;color:#356dbd}.type-ability-tags>button.type-ability-more:hover{border-color:#a9c4f5;background:#e5efff}.type-ability-tags>button.type-ability-catalog-link{max-width:none;border-color:#a9c4f5;background:#f7faff;color:#1769e8}.type-ability-tags>button.type-ability-catalog-link:hover{border-color:#1769e8;background:#edf4ff}.configure-button,.configure-type-button{min-height:29px;border:1px solid #a9c4f5;border-radius:5px;padding:0 10px;background:#f8fbff;color:var(--blue);font-size:11px;font-weight:750;white-space:nowrap}.configure-button:hover,.configure-type-button:hover{border-color:var(--blue);background:var(--blue-soft)}.ability-list-back{flex:0 0 auto}
@@ -985,5 +1055,5 @@ button,select,input{font:inherit}button{cursor:pointer}.config-header,.header-ti
 .text-button,.secondary-button,.primary-button{min-height:32px;border-radius:6px;padding:0 12px;font-size:12px;font-weight:750}.text-button{border:0;background:transparent;color:var(--muted)}.secondary-button{border:1px solid var(--border);background:#fff;color:var(--text)}.primary-button{border:1px solid var(--blue);background:var(--blue);color:#fff}button:disabled{cursor:not-allowed;opacity:.5}.action-bar{position:fixed;right:0;bottom:0;left:0;z-index:21;justify-content:space-between;min-height:56px;border-top:1px solid var(--border-soft);padding:8px 32px;background:rgba(255,255,255,.98);box-shadow:0 -5px 18px rgba(15,23,42,.05)}.action-bar>span{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.action-bar>span i{width:8px;height:8px;border-radius:50%;background:#9aaf9e}.action-bar>span i.has-changes{background:var(--orange)}.action-bar>div{gap:9px}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)}
 @media(max-width:1100px){.metadata-grid{grid-template-columns:1fr 1fr}.metadata-summary{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--border-soft)}.rule-builder,.market-builder{grid-template-columns:repeat(3,1fr)}.wide-field{grid-column:1/3}.rule-item{grid-template-columns:1fr auto}.compact-domain-status{grid-row:2;grid-column:1/-1}.conflict-builder,.pair-builder{grid-template-columns:1fr 24px 1fr 1fr}.conflict-builder .wide-field,.pair-builder .wide-field{grid-column:1/4}.simple-list article{grid-template-columns:1fr 100px 110px auto}.simple-list article p{grid-row:2;grid-column:1/-1}}
 @media(max-width:720px){.config-header{align-items:flex-start;flex-direction:column;gap:8px;padding:10px 14px}.header-actions{width:100%;overflow-x:auto}.config-content{width:calc(100% - 24px);padding-top:12px}.auth-panel,.ability-selector{align-items:stretch;flex-direction:column}.auth-panel>input,.password-field,.ability-selector label{width:100%}.config-tabs{overflow-x:auto}.config-tabs button{flex:0 0 auto}.metadata-grid{grid-template-columns:1fr}.metadata-summary{grid-template-columns:1fr}.metadata-choice-block{border-right:0;border-bottom:1px solid var(--border-soft)}.rule-builder,.market-builder,.pair-builder,.conflict-builder{grid-template-columns:1fr}.wide-field,.conflict-builder .wide-field,.pair-builder .wide-field{grid-column:auto}.pair-arrow,.conflict-builder>span{display:none}.rule-item,.simple-list article{align-items:flex-start;grid-template-columns:1fr auto}.compact-domain-status{overflow-x:auto}.status-pill{grid-column:2}.simple-list article p{grid-row:auto;grid-column:1/-1;white-space:normal}.subject-support-toolbar{align-items:stretch;flex-direction:column}.subject-support-toolbar label,.subject-support-toolbar label:first-child{width:100%;min-width:0}.subject-support-toolbar>span{margin-left:0;padding-bottom:0}.action-bar{align-items:flex-start;flex-direction:column;gap:5px;padding:8px 12px}}
-@media(max-width:720px){.capability-list-heading{align-items:flex-start;flex-direction:column;gap:9px}.capability-list-toolbar{align-items:stretch;flex-direction:column}.capability-list-toolbar label,.capability-list-search{width:100%;min-width:0}.capability-list-result{margin-left:0;padding-bottom:0}.capability-list-expand-actions{padding-bottom:0}.capability-list-expand-actions .text-button{padding-left:0}.capability-group-trigger{grid-template-columns:18px minmax(0,1fr) auto;padding:0 11px}.capability-type-row .capability-group-trigger{grid-template-columns:18px minmax(0,1fr);padding:0}.type-member-list{grid-template-columns:1fr}.ability-list-back{width:100%}}
+@media(max-width:720px){.collection-config-stage-filter{align-items:flex-start;flex-direction:column;gap:0}.collection-config-stage-filter>span{padding:0 2px 4px}.collection-config-stage-filter>div{width:100%}.collection-config-stage-filter button{padding:0 10px}.capability-list-heading{align-items:flex-start;flex-direction:column;gap:9px}.capability-list-toolbar{align-items:stretch;flex-direction:column}.capability-list-toolbar label,.capability-list-search{width:100%;min-width:0}.capability-list-result{margin-left:0;padding-bottom:0}.capability-list-expand-actions{padding-bottom:0}.capability-list-expand-actions .text-button{padding-left:0}.capability-group-trigger{grid-template-columns:18px minmax(0,1fr) auto;padding:0 11px}.capability-type-row .capability-group-trigger{grid-template-columns:18px minmax(0,1fr);padding:0}.type-member-list{grid-template-columns:1fr}.ability-list-back{width:100%}}
 </style>
