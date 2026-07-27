@@ -1,0 +1,51 @@
+{
+  "slug": "IE75wpXjliqzA8kGVfIcDI6onbc",
+  "nodeToken": "IE75wpXjliqzA8kGVfIcDI6onbc",
+  "title": "绑定支付方式",
+  "source": "WZsidkKbmoevySx17oVlUswYg7d",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/IE75wpXjliqzA8kGVfIcDI6onbc",
+  "syncedAt": "2026-07-27T04:47:04.246Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 3,
+    "mediaFound": 8,
+    "mediaDownloaded": 8
+  },
+  "toc": [
+    {
+      "id": "source-绑定支付方式概述-1",
+      "title": "绑定支付方式概述",
+      "level": 1
+    },
+    {
+      "id": "source-独立绑定-2",
+      "title": "独立绑定",
+      "level": 1
+    },
+    {
+      "id": "source-支付并绑定-3",
+      "title": "支付并绑定",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-绑定支付方式概述-1",
+      "title": "绑定支付方式概述",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>绑定支付</strong>，是指用户授权 PIPO 保存其支付凭证（如银行卡、第三方钱包账户、直接借记账户等），在后续交易中免去支付方式要素的重复录入与授权流程，从而<strong>提升支付成功率与用户体验</strong>的能力。</p><p>针对不同的绑定触发时机与商户诉求，PIPO 提供<strong>独立绑定</strong>与<strong>支付并绑定</strong>两种绑定模式。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>绑定类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>触发入口</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>绑定时点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>独立绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户在收银台 或 支付方式管理页主动添加</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付前或无交易场景</p></td><td colspan=\"1\" rowspan=\"1\"><p>高频复购场景，要求前置绑定可提升后续转化率与成功率</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付并绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户在当次支付流程中勾选&quot;保存&quot;</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付中进行，支付成功后完成</p></td><td colspan=\"1\" rowspan=\"1\"><p>新客占比较多，存在复购但频次较低，更看重首次转化的场景</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-独立绑定-2",
+      "title": "独立绑定",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>独立绑定</strong>，是指用户在收银台或支付方式管理页主动添加支付方式，将支付凭证预先保存在 PIPO 的能力。</p><p><strong>适用场景</strong>：适用于<strong>高频复购业务，</strong>通过前置绑定支付方式，以换取后续每次支付更便捷的体验与更高的成功率。典型场景如电商复购。</p><p><strong>接入方式</strong>：商户需要单独配置开通对应支付方式的独立绑定能力，通过PIPO收银台集成的商户，独立绑定能力可随收银台自动获得，纯 API 集成的商户，需通过 PIPO 绑定支付方式接口接入。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户点击加卡按钮</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>进入卡信息表单填写后发起加卡</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>确认绑定后跳转授权页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>绑定后可使用已绑定支付方式支付</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/XG6VbQCp1oiZtixsoTalxIJJgob.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/DRmIboTWio4LmjxfM2FltVNVgCc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/RsEab4QnJoE7jlxAn4elZc6ngug.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/ZjNab2j1poOc4Pxw6W9lgQGXgB7.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-支付并绑定-3",
+      "title": "支付并绑定",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>支付并绑定</strong>，是指用户在当次支付流程中勾选「保存支付方式」，支付成功的同时完成支付凭证绑定的能力。</p><p><strong>适用场景</strong>：新客占比较多，存在复购但频次较低，更看重首次转化的场景。用户在首次支付时顺便完成绑定，无需额外的主动绑定动作。</p><p><strong>接入方式</strong>：商户需要单独配置开通对应支付方式的支付并绑定能力，并需要在下单接口中传入对应的绑定标识字段。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户选择CCDC点击Pay</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>进入卡信息表单填写后发起支付</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>确认支付后跳转授权页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功后完成绑定</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/A6qPb3vicoxm9DxMoJ6l5R3Sgsd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/DAmYb4fwzoufStxdDzDlq1yegqd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/Bg0db8S4ZoV0TLxdTinlYlGqgPg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/Ux68bOnf2o8T8Xx7fdJlHSHYgHb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    }
+  ]
+}

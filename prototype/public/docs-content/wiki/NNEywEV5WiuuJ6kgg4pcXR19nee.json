@@ -1,0 +1,106 @@
+{
+  "slug": "NNEywEV5WiuuJ6kgg4pcXR19nee",
+  "nodeToken": "NNEywEV5WiuuJ6kgg4pcXR19nee",
+  "title": "协议签约及其集成模式",
+  "source": "N8DcdNXN9od9TCx8sMllqsacgbc",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/NNEywEV5WiuuJ6kgg4pcXR19nee",
+  "syncedAt": "2026-07-27T04:47:11.846Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 8,
+    "mediaFound": 22,
+    "mediaDownloaded": 22
+  },
+  "toc": [
+    {
+      "id": "source-独立签约-1",
+      "title": "独立签约",
+      "level": 1
+    },
+    {
+      "id": "source-独立收银台集成-2",
+      "title": "独立收银台集成",
+      "level": 2
+    },
+    {
+      "id": "source-嵌入式收银台集成-3",
+      "title": "嵌入式收银台集成",
+      "level": 2
+    },
+    {
+      "id": "source-支付并签约-4",
+      "title": "支付并签约",
+      "level": 1
+    },
+    {
+      "id": "source-独立收银台集成-5",
+      "title": "独立收银台集成",
+      "level": 2
+    },
+    {
+      "id": "source-嵌入式收银台集成-6",
+      "title": "嵌入式收银台集成",
+      "level": 2
+    },
+    {
+      "id": "source-支持的支付方式-7",
+      "title": "支持的支付方式",
+      "level": 2
+    },
+    {
+      "id": "source-扣款流程及模式-8",
+      "title": "扣款流程及模式",
+      "level": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-独立签约-1",
+      "title": "独立签约",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>独立签约是指<strong>不附带首期支付</strong>的纯签约动作，用于建立商户与用户间的协议扣款关系，作为后续协议扣款的凭证。</p><p><strong>使用场景</strong>：签约时无需额外收取款项，后续根据业务规则再触发扣款。</p></aside>"
+    },
+    {
+      "id": "source-独立收银台集成-2",
+      "title": "独立收银台集成",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>独立收银台接入，是指在商户的页面流程中不展示支付方式选项，由商户向PIPO下单之后，引导用户跳转PIPO收银台页面，用户在PIPO收银台选择支付方式完成签约的接入方式。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>适用于商户需要低成本快速接入收单支付能力，不希望自行维护收银台逻辑，或需要提单逻辑与支付选择逻辑解耦的情形。</p><ol><li><strong>用户流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户在商户套餐选择页选择订阅套餐</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1846/1324\"><img src=\"/docs-media/product-whitepaper/PH5Nb9vtRoPEmexibGtlKco5gSc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>PIPO收银台页面：有试用期，只绑卡不支付首期款项</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/1376\"><img src=\"/docs-media/product-whitepaper/PCTNbEhIho7sphxIurglZybEgKf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>跳转渠道页面完成授权</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/RHGbbMF15oC4ccxP7url56xOgKe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>签约成功</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/A1pmbyntFoapu5xvSLdlYNtNgWe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-UXxAwzWZThycmJbrVY4ltumdgtt.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-嵌入式收银台集成-3",
+      "title": "嵌入式收银台集成",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>嵌入式收银台接入，是指商户的页面上集成PIPO的收银台组件，由用户先在商户的页面上选择支付方式，再由商户基于用户选中的支付方式向 PIPO 请求签约的接入模式。</p><p>当前嵌入式收银台集成<strong>仅支持TT端内业务</strong></p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>进入签约页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>拉起PIPO收银台组件</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户绑定新PI</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>跳转3DS或渠道验证页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>成功后返回商户签约页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户确认后跳转商户签约结果页</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/X7OybgYTjoQDaHxXa96l3qmkgCe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/RwdhbMIQco5DUXxQs97lniRRguh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/PJb7bIgULoxZBTxAlNXlrPyRgEb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/H3PibWrdzoQPRwxqW3GlRnQggQe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/QhS6bDnScoVN66xTCrOlNKbLgme.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/IueSbmmgyoPF3hx0JPRlJhbdgYc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-K0AewP4dMhEwZNb4nc8lJ5jGgZX.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-支付并签约-4",
+      "title": "支付并签约",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>支付并签约是指在支付过程中一并<strong>完成签约动作</strong>，支付成功后，PIPO同时返回签约凭证，用户后续扣款</p><p><strong>适用场景</strong>：用户需要同时确认签约并支付首期款项，后续根据业务规则触发后续款项的扣款扣款。</p></aside>"
+    },
+    {
+      "id": "source-独立收银台集成-5",
+      "title": "独立收银台集成",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户在商户套餐选择页选择购买的商品</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1846/1324\"><img src=\"/docs-media/product-whitepaper/KxFObiQvpoEKO1xkciVlrAq7gmd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>PIPO收银台页面：支付首期款项并签约</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1280/984\"><img src=\"/docs-media/product-whitepaper/DCgmbaceXoRCGrxJeiulXvltgOe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>跳转渠道页面完成授权</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/GeyVbkhzEoQUNhxjDIvlfGMGgzJ.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>支付并签约成功</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/CbZabwWPyo3HvFxbwxXlZiZlgzE.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-Id3UwaMtwhamrWbb8QblHxzPgDg.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-嵌入式收银台集成-6",
+      "title": "嵌入式收银台集成",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>进入业务提单页</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>跳转渠道页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>完成支付并签约</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/Hp8kb80B9oQsQ7xFsiAl1OyIg5c.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/AIBGbJYZmoqyt5xsjNClLkZOgyh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/Om6mbc6QDorW58xNQLmlNw1dg9c.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-NDcewMcVEhzqHsbYxTBlDrFlgze.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-支持的支付方式-7",
+      "title": "支持的支付方式",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>订阅场景对支付方式有更高要求：需要支持<strong>用户授权后的服务端发起续订扣款</strong>。下表汇总了 PIPO 当前各类支付方式在订阅场景的<strong>支持情况</strong>与<strong>绑定支付支持情况</strong>。</p><p>图例：✅ 已支持 ｜ ❌ 不支持 ｜ ➖ 暂未接入或暂未支持 ｜ N/A 该场景下不适用。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>分类</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅支持情况</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅场景下绑定支付支持情况</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"8\"><p>第三方 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行卡</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>穿透式钱包（ApplePay / GooglePay）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方电子钱包（PayPal 等）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 均支持独立绑定 / 部分支持支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方先买后付（BNPL）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分BNPL支持，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行直接借记（Direct Debit）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖  暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>本地实时支付 / 扫码支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分国家支持(如PIX)，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行转账</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>线下柜台现金支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"5\"><p>自营 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>TTS Balance</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPL</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Seller Wallet</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>GMVpay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-扣款流程及模式-8",
+      "title": "扣款流程及模式",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>签约过后，商户可通过调用PIPO接口，传入签约凭证agreement_id发起协议扣款，PIPO当前支持以下几种扣款模式</p></aside><p>协议扣款支持三种扣款模式，商户可在协议签约时根据业务场景选择：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>扣款模式</p></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>仅协议主 PI 扣款</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>仅使用协议下绑定的主 PI 发起扣款，失败即视为扣款失败</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>主 PI + 用户 PI 轮询</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>主 PI 失败后，依次尝试用户名下其他可用 PI，任一成功即视为扣款成功</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>指定 PI 扣款</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户在发起扣款时直接指定 PI，不走协议主 PI</p></td></tr></tbody></table></div><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-AttPwi4wJhBhfKb3p5Ol7mxKgBS.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    }
+  ]
+}

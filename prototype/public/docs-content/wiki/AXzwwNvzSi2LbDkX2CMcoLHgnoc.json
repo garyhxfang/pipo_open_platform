@@ -1,0 +1,51 @@
+{
+  "slug": "AXzwwNvzSi2LbDkX2CMcoLHgnoc",
+  "nodeToken": "AXzwwNvzSi2LbDkX2CMcoLHgnoc",
+  "title": "集成模式与收银台",
+  "source": "CFJCdDtKDo5hKux59XKlA93hg16",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/AXzwwNvzSi2LbDkX2CMcoLHgnoc",
+  "syncedAt": "2026-07-27T04:47:00.718Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 3,
+    "mediaFound": 12,
+    "mediaDownloaded": 12
+  },
+  "toc": [
+    {
+      "id": "source-独立收银台集成-1",
+      "title": "独立收银台集成",
+      "level": 1
+    },
+    {
+      "id": "source-嵌入式收银台集成-2",
+      "title": "嵌入式收银台集成",
+      "level": 1
+    },
+    {
+      "id": "source-纯api集成-3",
+      "title": "纯API集成",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-独立收银台集成-1",
+      "title": "独立收银台集成",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>独立收银台接入，是指在商户的页面流程中不展示支付方式选项，由商户向PIPO下单之后，引导用户跳转PIPO收银台页面，用户在PIPO收银台选择支付方式完成支付的接入方式。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>适用于商户需要低成本快速接入收单支付能力，不希望自行维护收银台逻辑，或需要提单逻辑与支付选择逻辑解耦的情形。</p><ol><li><strong>用户流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>商户提单页</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户进入独立收银台</strong> <strong>选择支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>确认支付后跳转授权页面</strong> (Optional)</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功跳转商户页面</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/CXU1bpq04okVXuxyetAl2E7igaf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/HsxgbIIzuoJ74QxtN8BlIvWYgCb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/ZNbHb4CGWo9OZexDFXqlXgECgYf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:750/1624\"><img src=\"/docs-media/product-whitepaper/KDnAbTkbdosCcCxUyAqllRYJgWd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-LQC2whUlNh5uukbl4CHlEDgegvh.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易下单</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户请求PIPO下单，PIPO创建交易单后，返回收银台链接。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>跳转收银台页面</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户将用户重定向至收银台页面，用户在收银台上完成完整的支付选择及支付行为。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>收银台跳转商户结果页</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功，或者在收银台放弃支付时，PIPO会让用户跳转至商户的页面。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功，或超时关单时，PIPO会回调商户对应的事件及交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询交易状态</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户跳转回商户结果页时，若还未收单回调，商户可通过查询交易状态接口，以获取最新的交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易关单</p></td><td colspan=\"1\" rowspan=\"1\"><p>当交易处于非终态的情形下，商户可根据自己的业务规则，主动调用PIPO关闭交易单</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-嵌入式收银台集成-2",
+      "title": "嵌入式收银台集成",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>嵌入式收银台接入，是指商户的页面上集成PIPO的收银台SDK或Iframe，由用户先在商户的页面上选择支付方式，再由商户基于用户选中的支付方式向 PIPO 下单的接入模式。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>商户的提单流程与用户动线设计上，适合将收银台渲染和支付选择放在提单页面一起完成 ，以减少页面跳转，提升用户转化。</p><p>且商户愿意投入一定的开发资源集成PIPO收银台SDK，但不希望自行从0到1搭建并维护复杂的收银台逻辑以及处理不同支付方式的差异化业务逻辑。</p><ol><li><strong>用户流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>商户提单页</strong> <strong>（嵌入PIPO收银台SDK）</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户通过收银台选择或切换支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>确认支付后跳转3DS页面</strong> (Optional)</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/ERbOblXUWoFGg4xpT7uljFWEg2c.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><div class=\"synced-grid\" style=\"--synced-grid-columns:2\"><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/RZcBbEGXNoQDg0xe0mrlYwgAg6b.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/BI2obfcIXokmo7xLQjhlFXdtgHb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div></div></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/YrukbLV9qoJDQcxbqqilikyBgHJ.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/CI9fbJGCUoqfXsxCyTmlNwK8g5c.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-ReAIw0HdMh5rn3bVwlXleZxmguc.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付咨询</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户调用 PIPO 支付咨询接口，获取当前交易可用的支付方式及资产信息，用于在商户页面上渲染嵌入式收银台组件。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>嵌入式收银台渲染及支付方式选择</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户在自有页面中初始化 PIPO 收银台 SDK，将支付咨询返回的可用支付方式渲染给用户，由用户在商户页面上完成支付方式的选择。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>下单并支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户选择支付方式后，商户携带用户选中的支付方式及交易信息向 PIPO 下单并发起支付。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付推进响应处理</p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO <strong>同步</strong>返回支付推进结果，有以下几种情形： 1.PIPO直接返回支付成功或失败 2.需要用户进行额外验证（如 3DS 认证、渠道页面跳转等），商户将用户重定向至对应页面完成验证 3.需要进行风控挑战，需要由商户拉起验证中心SDK，完成后二次推进支付。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功/失败，或超时关单时，PIPO会回调商户对应的事件及交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询交易状态</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付流程结束后，若商户还未收到回调，可通过查询交易状态接口，获取最新的交易状态。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易关单</p></td><td colspan=\"1\" rowspan=\"1\"><p>当交易处于非终态的情形下，商户可根据自己的业务规则，主动调用PIPO关闭交易单</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-纯api集成-3",
+      "title": "纯API集成",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>纯API接入，是指商户完全自建收银台页面，不使用PIPO提供的收银台能力，直接通过API接入线上支付产品的集成模式。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>商户对收银台前端体验有高度的定制化需求，PIPO提供的收银台方案无法满足，且商户能够投入较高的研发成本自行搭建收银台逻辑以及处理不同支付方式的差异化逻辑。</p><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-W4skwTZAlh0BFVbuvi6l0RO6g9s.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付咨询</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户调用 PIPO 支付咨询接口，获取当前交易可用的支付方式、资产信息及各支付方式所需的要素字段，用于商户自行渲染收银台并构建支付表单。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>下单并支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户在自建收银台上完成用户的支付方式选择和要素采集后，携带完整的支付方式信息及交易信息，通过 API 向 PIPO 下单并发起支付。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付推进响应处理</p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO 通过 API 同步返回支付推进结果，商户需自行处理各类响应：</p><ol><li>若支付直接成功或失败，更新页面状态；</li><li>若需用户进行额外验证（如 3DS 认证、渠道页面跳转），由商户自行将用户重定向至对应页面；</li><li>若触发风控挑战，由商户自行拉起验证流程并二次推进支付。</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功 / 失败，或超时关单时，PIPO 会回调商户对应的事件及交易状态。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询交易状态</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付流程结束后，若商户还未收到回调，可通过查询交易状态接口，获取最新的交易状态。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易关单</p></td><td colspan=\"1\" rowspan=\"1\"><p>当交易处于非终态的情形下，商户可根据自己的业务规则，主动调用 PIPO 关闭交易单。</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

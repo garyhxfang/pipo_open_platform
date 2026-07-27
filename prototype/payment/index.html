@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PIPO 收单产品主页，介绍收单产品、支付方式、退款争议和资金清结算能力。"
+    />
+    <title>收单产品 · PIPO 开放平台</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/payment/payment.css" />
+  </head>
+  <body class="payment-page">
+    <header class="site-header" data-header>
+      <a class="brand" href="/" aria-label="返回 PIPO 开放平台首页">
+        <span class="brand-mark">PIPO</span>
+        <span class="brand-name">开放平台</span>
+      </a>
+
+      <button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+
+      <nav class="main-nav" aria-label="主导航">
+        <a href="/">首页</a>
+
+        <div class="nav-item">
+          <a class="nav-item-label active" href="/#capabilities">产品</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>PRODUCTS</span>
+                <strong>全球支付产品</strong>
+                <p>按资金流向选择收单或代发能力。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment/">
+                  <span><strong>收单产品</strong><small>Payment</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/#payout-products">
+                  <span><strong>代发产品</strong><small>Payout</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/#solutions">解决方案</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>SOLUTIONS</span>
+                <strong>按业务目标选择</strong>
+                <p>从收款或付款目标进入对应解决方案。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment/">
+                  <span><strong>全球收款方案</strong><small>接受不同市场的消费者付款</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/#payout-products">
+                  <span><strong>全球代发方案</strong><small>向个人与企业发起付款</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/payment-methods/">支付方式与市场</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>COVERAGE</span>
+                <strong>支付方式与市场</strong>
+                <p>确认目标市场的支付方式、币种与接入条件。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment-methods/">
+                  <span><strong>支付方式</strong><small>Card、Wallet 与 Bank Transfer</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/payment-methods/">
+                  <span><strong>市场覆盖</strong><small>按国家或地区查看可用能力</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/integration-guide/">接入指引</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>INTEGRATION GUIDE</span>
+                <strong>从业务需求开始</strong>
+                <p>获得产品选择与接入路径建议。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/integration-guide/">
+                  <span><strong>产品选型建议</strong><small>通过动态选项获得推荐</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/integration-guide/#path">
+                  <span><strong>接入路径</strong><small>了解从评估到上线的步骤</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="#docs">文档中心</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>DOCUMENTATION</span>
+                <strong>查找接入文档</strong>
+                <p>按产品查看集成说明与 API 参考。</p>
+              </div>
+              <div class="nav-panel-links nav-panel-links-three">
+                <a class="nav-panel-link" href="#docs">
+                  <span><strong>收单文档</strong><small>Payment 集成文档</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/#docs">
+                  <span><strong>代发文档</strong><small>Payout 集成文档</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="#docs">
+                  <span><strong>API 参考</strong><small>接口、参数与错误码</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="internal-label">
+        <span class="status-dot"></span>
+        集团内部
+      </div>
+    </header>
+
+    <main>
+      <section class="payment-hero" id="top">
+        <div class="payment-hero-inner">
+          <div class="payment-hero-copy">
+            <p class="eyebrow"><span></span>PAYMENT</p>
+            <h1>面向全球业务的<br />收单产品</h1>
+            <p>
+              从用户支付、支付方式接入，到交易后的退款、争议处理与资金清结算，
+              PIPO 提供统一的全球收单能力。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#products">查看产品能力 <span>↓</span></a>
+              <a class="text-link" href="#docs">查看接入文档 <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="capability-stack" aria-label="收单产品能力构成">
+            <div class="stack-card stack-card-one">
+              <span>01</span>
+              <strong>Payment Products</strong>
+              <small>在线支付 · 协议代扣 · 订阅</small>
+            </div>
+            <div class="stack-card stack-card-two">
+              <span>02</span>
+              <strong>Payment Methods</strong>
+              <small>全球主流与 PIPO 自营支付方式</small>
+            </div>
+            <div class="stack-card stack-card-three">
+              <span>03</span>
+              <strong>Post-transaction</strong>
+              <small>退款 · 争议与拒付处理</small>
+            </div>
+            <div class="stack-card stack-card-four">
+              <span>04</span>
+              <strong>Settlement</strong>
+              <small>结算 · 分账 · 余额支付与转账</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="section-nav" aria-label="收单产品页面目录">
+        <div>
+          <a href="#products"><span>01</span>收单支付产品</a>
+          <a href="#methods"><span>02</span>支付方式</a>
+          <a href="#post-transaction"><span>03</span>退款与争议</a>
+          <a href="#settlement"><span>04</span>资金清结算</a>
+        </div>
+      </nav>
+
+      <section class="payment-section product-section" id="products">
+        <div class="payment-section-heading">
+          <p class="section-kicker">01 / PAYMENT PRODUCTS</p>
+          <h2>根据扣款规则，选择适合的收单产品</h2>
+          <p>关键差异在于用户是否逐笔确认支付，以及后续扣款规则由谁管理。</p>
+        </div>
+
+        <div class="payment-product-grid">
+          <article class="payment-product-card">
+            <div class="product-card-top"><span>01</span><em>ONE-TIME</em></div>
+            <h3>在线支付</h3>
+            <p>用户在网页端或 App 内主动发起，并在每笔交易中选择支付方式完成付款。</p>
+            <dl>
+              <div><dt>支付发起</dt><dd>用户主动发起</dd></div>
+              <div><dt>适合场景</dt><dd>单次收款、逐笔确认支付</dd></div>
+            </dl>
+            <a href="/docs/?node=KjxsweJwZiwaj6kYlSPcXvHwnlh">查看在线支付文档 <span>→</span></a>
+          </article>
+
+          <article class="payment-product-card">
+            <div class="product-card-top"><span>02</span><em>MANDATE</em></div>
+            <h3>协议代扣</h3>
+            <p>用户完成授权后，商户按业务规则决定扣款时间、金额与触发条件。</p>
+            <dl>
+              <div><dt>支付发起</dt><dd>商户按约定请求扣款</dd></div>
+              <div><dt>适合场景</dt><dd>授权后的灵活扣款</dd></div>
+            </dl>
+            <a href="#docs">查看协议代扣文档 <span>→</span></a>
+          </article>
+
+          <article class="payment-product-card">
+            <div class="product-card-top"><span>03</span><em>RECURRING</em></div>
+            <h3>订阅</h3>
+            <p>PIPO 根据预设套餐与续费规则，按约定周期自动向用户持续收费。</p>
+            <dl>
+              <div><dt>支付发起</dt><dd>PIPO 按订阅计划自动发起</dd></div>
+              <div><dt>适合场景</dt><dd>固定套餐、周期权益与续费</dd></div>
+            </dl>
+            <a href="#docs">查看订阅产品文档 <span>→</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="payment-section methods-section" id="methods">
+        <div class="payment-section-heading payment-section-heading-light">
+          <p class="section-kicker">02 / PAYMENT METHODS</p>
+          <h2>连接全球市场的主流支付方式</h2>
+          <p>根据目标市场和业务形态，组合接入主流支付方式与 PIPO 自营能力。</p>
+        </div>
+
+        <div class="method-groups">
+          <div class="method-group">
+            <div class="method-group-title">
+              <span>GLOBAL METHODS</span>
+              <h3>主流支付方式</h3>
+            </div>
+            <div class="method-chip-grid">
+              <span>银行卡</span>
+              <span>第三方电子钱包</span>
+              <span>Apple Pay / Google Pay</span>
+              <span>网银 / 手机银行</span>
+              <span>银行转账 / Direct Debit</span>
+              <span>本地实时支付 / 扫码</span>
+              <span>先买后付</span>
+              <span>线下柜台现金</span>
+            </div>
+          </div>
+
+          <div class="method-group method-group-owned">
+            <div class="method-group-title">
+              <span>PIPO-OWNED</span>
+              <h3>PIPO 自营支付方式</h3>
+            </div>
+            <div class="owned-methods">
+              <div><strong>TTS Balance</strong><small>闭环余额与组合支付</small></div>
+              <div><strong>TTPay</strong><small>自营持牌钱包</small></div>
+              <div><strong>TTPL</strong><small>自营先买后付</small></div>
+              <div><strong>Seller Wallet</strong><small>面向商户的钱包</small></div>
+              <div><strong>GMVpay</strong><small>使用可用结算余额支付</small></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="payment-section post-section" id="post-transaction">
+        <div class="payment-section-heading">
+          <p class="section-kicker">03 / POST-TRANSACTION</p>
+          <h2>覆盖交易后的退款与争议处理</h2>
+          <p>从商户主动退款，到支付机构发起的争议，提供清晰的处理能力。</p>
+        </div>
+
+        <div class="post-grid">
+          <article class="post-card">
+            <div class="post-card-index">REFUND</div>
+            <h3>退款</h3>
+            <p>支持在交易成功后，按业务需要向用户退还全部或部分交易款项。</p>
+            <div class="post-facts">
+              <div><span>发起方式</span><strong>Dashboard · API</strong></div>
+              <div><span>退款方式</span><strong>原路退 · 余额 · 指定账户</strong></div>
+            </div>
+            <a href="#docs">查看退款能力 <span>→</span></a>
+          </article>
+
+          <article class="post-card post-card-dispute">
+            <div class="post-card-index">DISPUTE</div>
+            <h3>拒付与争议处理</h3>
+            <p>对银行卡及部分钱包交易的争议，提供从通知到抗辩的完整管理能力。</p>
+            <ul>
+              <li>接收争议与拒付通知</li>
+              <li>跟踪处理状态与结果</li>
+              <li>提交抗辩材料</li>
+            </ul>
+            <a href="#docs">查看争议处理能力 <span>→</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="payment-section settlement-section" id="settlement">
+        <div class="settlement-inner">
+          <div class="payment-section-heading payment-section-heading-light">
+            <p class="section-kicker">04 / SETTLEMENT</p>
+            <h2>交易成功后的资金清结算</h2>
+            <p>在基础商户结算之外，为平台型业务提供分账、余额支付与平台转账能力。</p>
+          </div>
+
+          <div class="settlement-list">
+            <article>
+              <span>01</span>
+              <div><h3>商户结算</h3><p>按协议周期将交易资金结算至商户可用余额，并支持提现至指定账户。</p></div>
+              <small>周期 · 实时 · 指令</small>
+            </article>
+            <article>
+              <span>02</span>
+              <div><h3>平台分账</h3><p>一笔交易涉及多个资金归属方时，按规则将款项分配至不同参与方。</p></div>
+              <small>多参与方</small>
+            </article>
+            <article>
+              <span>03</span>
+              <div><h3>商户余额支付</h3><p>支持平台子商户使用余额账户支付广告费、仓储费等平台费用。</p></div>
+              <small>余额支付</small>
+            </article>
+            <article>
+              <span>04</span>
+              <div><h3>平台转账</h3><p>支持平台使用账户余额，向子商户、达人或其他参与方转账。</p></div>
+              <small>平台付款</small>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="payment-cta" id="docs">
+        <div>
+          <p class="section-kicker">DOCUMENTATION</p>
+          <h2>准备开始接入收单产品？</h2>
+          <p>根据选择的产品和目标市场，查看对应的集成文档与 API 参考。</p>
+        </div>
+        <div>
+          <a class="button button-primary" href="#">查看收单文档 <span>↗</span></a>
+          <a class="text-link" href="/integration-guide/">获取接入建议 <span>→</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-brand">PIPO <span>开放平台</span></div>
+      <p>面向集团内部业务的全球支付能力与接入信息平台。</p>
+      <div class="footer-links">
+        <a href="#products">收单产品</a>
+        <a href="#methods">支付方式</a>
+        <a href="#post-transaction">退款与争议</a>
+        <a href="#settlement">资金清结算</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/payment/payment.js"></script>
+  </body>
+</html>

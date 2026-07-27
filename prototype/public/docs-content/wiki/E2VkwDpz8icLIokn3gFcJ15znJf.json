@@ -1,0 +1,29 @@
+{
+  "slug": "E2VkwDpz8icLIokn3gFcJ15znJf",
+  "nodeToken": "E2VkwDpz8icLIokn3gFcJ15znJf",
+  "title": "组合支付",
+  "source": "EdIidM3VaoE20kxgS4nl4pI8gPj",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/E2VkwDpz8icLIokn3gFcJ15znJf",
+  "syncedAt": "2026-07-27T04:47:05.527Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 6,
+    "mediaDownloaded": 6
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>组合支付</strong>，是指在同一笔交易中，由<strong>两种支付方式共同完成支付</strong>的能力。其中：</p><ul><li><strong>主支付方式</strong>：承担<strong>第一笔支付</strong>，通常为余额/额度类支付方式（如 TTS Balance、TTPay、TTPL），系统会先对其发起冻结，等副支付方式支付成功后，再进行主支付方式的扣款；</li><li><strong>副支付方式</strong>：承担<strong>剩余金额</strong>，可以是 PIPO 已接入的任意支付方式（如银行卡、第三方电子钱包等）。</li></ul><p>组合支付使用户可以灵活动用多种资产完成支付，常用于主支付方式余额不足以覆盖全单、或商户希望默认优先消耗闭环资产的场景。</p></aside><ol><li><strong>用户流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>商户提单页展示可用支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户通过收银台启动组合支付并选择另一个支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>风控挑战</strong>(Optional)</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/Lne8blj2eoXifZxSrbxlsKCNgYc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><div class=\"synced-grid\" style=\"--synced-grid-columns:3\"><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/EP7XbR2Cboz0RHxKt87lHuUugGh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/MKQ8btbGFos4zfxRW0Yld14tgzg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/X8Fkbrgf6oVuQ9xvXhMlNMOVgXg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div></div></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/ZeE0b3qPkoarBmxSDFElFGYegRc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/YpsjbQCUYopSZ3xIXHBlIvKJgOe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>业务流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>组合支付可用性判断</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO 收银台根据当前交易的支付方式可用性，自动判断并向用户展示可用的组合支付选项，并根据钱包，BNPL剩余额度自动决策金额分配。</p><blockquote class=\"synced-quote\"><p>当前仅支持：</p><ul><li>TTS Balance(闭环钱包余额) 与其他支付方式组合</li><li>TTPay 与其他支付方式组合</li><li>TTPL 与其他支付方式组合</li></ul></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>下单支付流程</strong></p></td><td colspan=\"1\" rowspan=\"1\"><ol><li>用户选择组合支付后，业务根据收银台的选择结果，传入多个支付方式，进行下单。</li><li>支付推进过程中，PIPO 先冻结第一种支付方式（如钱包余额、BNPL 额度）的对应金额，再引导用户通过第二种支付方式完成剩余金额的支付。两笔支付均成功后，交易完成；若第二笔支付失败，第一种支付方式的冻结金额将自动释放。</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>接入指引</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p><strong>配置项：</strong></p><ul><li>商户需要<strong>配置</strong>允许哪些签约支付方式<strong>作为组合支付的主支付方式。</strong></li></ul><p><strong>系统集成：</strong></p><ul><li><strong>独立收银台集成</strong>：商户不需要进行额外处理</li><li><strong>嵌入式收银台集成/API集成</strong>：商户下单时，需要传入多个支付方式信息</li></ul></td></tr></tbody></table></div>"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "G2mnwdFJLicgKukk9nxcsOVhnre",
+  "nodeToken": "G2mnwdFJLicgKukk9nxcsOVhnre",
+  "title": "协议管理能力",
+  "source": "CWxzdEpkXomVCRxSXH8lYPZwgSg",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/G2mnwdFJLicgKukk9nxcsOVhnre",
+  "syncedAt": "2026-07-27T04:47:14.814Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>PIPO还进一步提供了协议管理能力，便于商户管理协议的扣款方式及生命周期。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>能力</p></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>变更主 PI</p></td><td colspan=\"1\" rowspan=\"1\"><p>协议生效后由用户或商户调整主 PI（可由 PIPO 收银台承载用户选择 PI 流程）</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>协议取消</p></td><td colspan=\"1\" rowspan=\"1\"><p>取消协议，纯 server to server 流程，取消后协议进入终态，不可再用于扣款</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>主PI失效通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>协议主PI不可用时，PIPO会回调业务，业务可向用户发送对应的通知引导变更PI。</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

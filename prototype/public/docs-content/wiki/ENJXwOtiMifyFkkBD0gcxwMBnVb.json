@@ -1,0 +1,62 @@
+{
+  "slug": "ENJXwOtiMifyFkkBD0gcxwMBnVb",
+  "nodeToken": "ENJXwOtiMifyFkkBD0gcxwMBnVb",
+  "title": "订阅产品",
+  "source": "Hv94de50poQk7Fx02fylbu4tgvc",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/ENJXwOtiMifyFkkBD0gcxwMBnVb",
+  "syncedAt": "2026-07-27T04:47:16.203Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 4,
+    "mediaFound": 5,
+    "mediaDownloaded": 5
+  },
+  "toc": [
+    {
+      "id": "source-产品定位-1",
+      "title": "产品定位",
+      "level": 1
+    },
+    {
+      "id": "source-典型支付体验-2",
+      "title": "典型支付体验",
+      "level": 1
+    },
+    {
+      "id": "source-产品流程-3",
+      "title": "产品流程",
+      "level": 1
+    },
+    {
+      "id": "source-产品能力总览-4",
+      "title": "产品能力总览",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-产品定位-1",
+      "title": "产品定位",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅是PIPO面向商品及服务周期性订购的收单支付产品。商户预先配置订阅套餐，用户签订订阅计划并完成首期支付后，PIPO 按计划自动发起后续扣款，并管理权益生效时间。</p><p>订阅产品在收单支付能力的基础上，额外为商户提供了订阅套餐管理，订阅计划生命周期管理等能力，帮助各业务线更低成本地实现商业化闭环。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>适用于商户售卖具有明确套餐、权益周期和续费规则的商品或服务，并需要自动完成周期性收费的场景。最典型的场景为会员及其他权益的周期性订购。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>典型案例</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>Trae会员订阅，Coze会员订阅，Gauth会员订阅等</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-典型支付体验-2",
+      "title": "典型支付体验",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>本节以 <strong>Trae 会员订阅</strong>为例，串联订阅产品下用户从<strong>进入商户套餐页</strong>到<strong>首期支付完成</strong>的完整流程，覆盖商户付费墙、PIPO 收银台、渠道授权与订阅生效四个关键节点。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>Step 1｜用户在商户套餐选择页选择订阅套餐</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:2880/1572\"><img src=\"/docs-media/product-whitepaper/XSaFbBJuRo6RD5xivZolmDzrgHd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Step 2｜在 PIPO 收银台选择支付方式完成首期支付</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1902/1336\"><img src=\"/docs-media/product-whitepaper/Fwg2bqWU9oU3N1xStumlMhVJgVf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Step 3｜跳转渠道页面完成授权</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1942/1310\"><img src=\"/docs-media/product-whitepaper/TwIjbZvKYoAQKZxmafOluyngg3g.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Step 4｜订阅计划生效，PIPO 按计划自动续订</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:3200/2134\"><img src=\"/docs-media/product-whitepaper/IBWhb3SqWojEqNxqMhtlsndSgHg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品流程-3",
+      "title": "产品流程",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>本节描述订阅产品端到端业务流程，覆盖<strong>商户配置套餐 → 用户订阅首订 → 自动续订</strong>三个核心阶段。</p></aside><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-GhPPwksZhhoD3WbtgyRl76BtgDd.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>说明</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>订阅套餐管理</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户在 PIPO 侧创建订阅套餐，定义价格、周期间隔等套餐属性，作为后续订阅计划的模板。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>订阅首订</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>用户在 PIPO 收银台选择支付方式、完成签约授权与首期支付；PIPO 创建订阅计划，将用户与 SKU 绑定并发放首期权益</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>订阅续订</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>按 SKU 周期规则自动调度续订扣款；扣款失败时按宽限期规则重试，直至订阅过期或被取消。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品能力总览-4",
+      "title": "产品能力总览",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅产品围绕<strong>套餐定义、首次签约、自动续订、升降级、计划调整</strong>五大领域，向商户提供端到端的订阅生命周期管理能力。下表为能力索引，详细说明请参见第二章对应小节。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>说明</p></th><th colspan=\"1\" rowspan=\"1\"><p>详见</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅套餐管理</p></td><td colspan=\"1\" rowspan=\"1\"><p>正价期 / 试用期与优惠期 / 宽限期</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlgQBNSu1jhaXqmza93pzp2Eb\" target=\"_blank\" rel=\"noreferrer\">2.1订阅套餐管理</a></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅首订</p></td><td colspan=\"1\" rowspan=\"1\"><p>首期支付与绑卡 / 试用期仅绑卡不支付 / 订阅支持支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlgnkBsofPrTsP7rcgX0zQQIb\" target=\"_blank\" rel=\"noreferrer\">2.2订阅首次购买</a></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅续订</p></td><td colspan=\"1\" rowspan=\"1\"><p>自动续订执行 / 到期未续订处理</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlg2wLNnz9dfUQApm1tH1egwc\" target=\"_blank\" rel=\"noreferrer\">2.3订阅续订</a></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅升降级</p></td><td colspan=\"1\" rowspan=\"1\"><p>订阅升级 / 订阅降级的各类权益处理方式</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlgD3vYcNwIcrQKaCXYrdS6Qc\" target=\"_blank\" rel=\"noreferrer\">2.4订阅升降级</a></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅计划调整</p></td><td colspan=\"1\" rowspan=\"1\"><p>取消 / 恢复 / 终止 / 修改过期时间</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlgpKVYSti0y6IWLL5e5BOnjU\" target=\"_blank\" rel=\"noreferrer\">2.5订阅计划调整</a></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>增值服务</p></td><td colspan=\"1\" rowspan=\"1\"><p>换汇 / 计税</p></td><td colspan=\"1\" rowspan=\"1\"><p><a href=\"https%3A%2F%2Fbytedance.sg.larkoffice.com%2Fdocx%2FHv94de50poQk7Fx02fylbu4tgvc%23doxlg4T4MSLUem3ONe4Nffet53e\" target=\"_blank\" rel=\"noreferrer\">2.6增值服务</a></p></td></tr></tbody></table></div>"
+    }
+  ]
+}

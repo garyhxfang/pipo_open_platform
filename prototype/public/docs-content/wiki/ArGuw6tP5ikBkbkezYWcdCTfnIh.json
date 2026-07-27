@@ -1,0 +1,62 @@
+{
+  "slug": "ArGuw6tP5ikBkbkezYWcdCTfnIh",
+  "nodeToken": "ArGuw6tP5ikBkbkezYWcdCTfnIh",
+  "title": "订阅套餐管理",
+  "source": "LNWkdlLBEoNxfJxokYOljPpmg9b",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/ArGuw6tP5ikBkbkezYWcdCTfnIh",
+  "syncedAt": "2026-07-27T04:47:17.892Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 4,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    },
+    {
+      "id": "source-正价期-2",
+      "title": "正价期",
+      "level": 1
+    },
+    {
+      "id": "source-试用期与优惠期-3",
+      "title": "试用期与优惠期",
+      "level": 1
+    },
+    {
+      "id": "source-宽限期-4",
+      "title": "宽限期",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>订阅套餐</strong>是商户对外售卖订阅的最小定义单元,包含<strong>价格、周期间隔、总周期数、试用与优惠规则、宽限期</strong>等核心属性。商户在 PIPO 侧创建订阅套餐(SKU)后,每个用户的订阅计划将基于套餐模板自动生成。</p></aside>"
+    },
+    {
+      "id": "source-正价期-2",
+      "title": "正价期",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>正价期是订阅套餐的核心时段，定义订阅在常规收费阶段的价格与周期规则。</p></aside><figure class=\"synced-media\" style=\"aspect-ratio:1280/698\"><img src=\"/docs-media/product-whitepaper/X8N8bkBEoozCjmx5BzHl6whugkh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>属性</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>商品价格</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>订阅每期扣款的价格，当前仅支持固定价格。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>周期间隔</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>定义订阅的权益生效及扣款周期 —— 扣款成功后权益生效时长，以及下次续订的间隔。 当前支持天 / 周 / 月 / 年</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>总周期数</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>订阅套餐内最多有多少个“周期间隔”。 达到最长周期之后，订阅不再触发续费。 如不配置总周期数，则订阅会一直进行持续续费</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p>案例：商户可以设置一个按月订购，每月金额为10USD的会员订阅套餐。</p></blockquote>"
+    },
+    {
+      "id": "source-试用期与优惠期-3",
+      "title": "试用期与优惠期",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>为促进首次签约转化,商户可在套餐中叠加<strong>试用期</strong>(免费体验)与<strong>优惠期</strong>(低价体验)。两者可同时存在,顺序为<strong>先试用 → 后优惠 → 进入正价期。</strong></p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>类别</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>属性</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>试用期</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>试用期时长</p></td><td colspan=\"1\" rowspan=\"1\"><p>试用期仅支持配置1期，通常以天为单位配置（如3天），但也支持周，月，年等单位。</p></td></tr><tr><td colspan=\"1\" rowspan=\"3\"><p><strong>优惠期</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>优惠期商品价格</p></td><td colspan=\"1\" rowspan=\"1\"><p>优惠期每期价格，通常低于正价期金额。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>优惠期周期间隔</p></td><td colspan=\"1\" rowspan=\"1\"><p>定义优惠期的权益生效及扣款周期，即优惠期扣款成功后，权益在多长时间内生效，以及下次在多久之后需要续订。 当前支持天，周，月，年等单位</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>优惠期总周期数</p></td><td colspan=\"1\" rowspan=\"1\"><p>优惠期内最多有多少个“周期间隔”。 达到最长周期之后，订阅会触发正价期的续订。</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p>案例：商户可以设置一个7天试用，试用后首月8USD，次月开始10USD的订阅套餐</p></blockquote>"
+    },
+    {
+      "id": "source-宽限期-4",
+      "title": "宽限期",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>宽限期</strong>用于应对到期日续订扣款失败场景。在宽限期内 PIPO 仍为用户保留权益、并持续重试扣款,提升订阅留存率;若宽限期内扣款成功,视为正常续订成功。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>宽限期天数</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>套餐级配置,单位为「天」;商户可在创建套餐时按需开启或关闭</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>权益生效</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>宽限期内用户权益仍持续生效,商户无需主动回收。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>扣款重试</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>宽限期内 PIPO 会进行扣款重试直至到期。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>到期处理</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>宽限期内扣款成功 → 订阅恢复；到期仍未成功 → 订阅过期，回收权益</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p><strong>案例</strong>:商户可设置 3 天宽限期。用户于 7 月 20 日到期日扣款失败后,PIPO 在 21、22、23 日进行重试扣款;若 22 日扣款成功,订阅状态恢复并以 8 月 20 日为下一扣款日。</p></blockquote>"
+    }
+  ]
+}

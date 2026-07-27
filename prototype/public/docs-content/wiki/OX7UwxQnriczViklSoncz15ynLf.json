@@ -1,0 +1,51 @@
+{
+  "slug": "OX7UwxQnriczViklSoncz15ynLf",
+  "nodeToken": "OX7UwxQnriczViklSoncz15ynLf",
+  "title": "订阅续订",
+  "source": "JiV1dRsOmoVzO3xqDZml30qvgzd",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/OX7UwxQnriczViklSoncz15ynLf",
+  "syncedAt": "2026-07-27T04:47:20.464Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 3,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    },
+    {
+      "id": "source-自动续订执行-2",
+      "title": "自动续订执行",
+      "level": 1
+    },
+    {
+      "id": "source-到期后未续订处理-3",
+      "title": "到期后未续订处理",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>订阅续订</strong>是指订阅计划在每个周期到期前，由 PIPO 依据<strong>订阅套餐</strong>配置的扣款周期规则<strong>自动发起扣款</strong>，使订阅在用户无需主动确认支付的情况下进入下一周期的过程。PIPO 通过<strong>多次扣款重试</strong>与<strong>宽限期机制</strong>两个能力，最大化提升续订成功率，帮助商户提升订阅留存。</p></aside>"
+    },
+    {
+      "id": "source-自动续订执行-2",
+      "title": "自动续订执行",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>自动续订执行有两个关键要素，续订的扣款时间点，及扣款使用的支付方式。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>要素</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>续订扣款时间</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO 在每个订阅周期到期前自动发起扣款，当前逻辑为尝试两次：</p><ol><li>第一次：到期前 24 小时</li><li>第二次：第一次失败后，于到期前 12 小时再次尝试</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>续订扣款模式</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户可在创建订阅时为该订阅选择以下扣款模式之一：</p><ol><li><strong>仅主 PI 扣款</strong>：仅使用订阅绑定的默认支付方式（主 PI）发起扣款，失败即视为续订失败</li><li><strong>主 PI + 备用 PI 轮询</strong>：主 PI 扣款失败后，依次尝试用户名下的其他可用支付方式（备用 PI），任一成功即视为续订成功</li></ol></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-到期后未续订处理-3",
+      "title": "到期后未续订处理",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>到期后仍未续订成功，订阅会根据是否有宽限期进行状态流转，下图标红的三个状态，active, in_grace_period, expired，展示了订阅到期后未续订相关的状态机流转逻辑。</p></aside><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-TKkaw4ksbhnOmvbxjBnlMLrygpf.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>宽限期配置</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>无宽限期</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>直接流转到订阅过期状态(expired)，订阅过期为最终的终态，无法恢复</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>有宽限期</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>流转到宽限期，在宽限期内，会继续进行续订扣款重试（当前规则为每24小时尝试扣款一次），若宽限期到期后仍未续订成功，则订阅将流转到过期状态(expired)</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

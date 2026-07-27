@@ -1,0 +1,40 @@
+{
+  "slug": "I9qLwqkrAiE4LwkfqPkcL1a2nWh",
+  "nodeToken": "I9qLwqkrAiE4LwkfqPkcL1a2nWh",
+  "title": "收单模式及合单支付",
+  "source": "CuSqdJUvmo3w8LxIGFnleVvYgre",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/I9qLwqkrAiE4LwkfqPkcL1a2nWh",
+  "syncedAt": "2026-07-27T04:46:59.167Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 5,
+    "mediaDownloaded": 5
+  },
+  "toc": [
+    {
+      "id": "source-收单模式-1",
+      "title": "收单模式",
+      "level": 1
+    },
+    {
+      "id": "source-合单支付-2",
+      "title": "合单支付",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-收单模式-1",
+      "title": "收单模式",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>收单模式定义了交易完成后，资金如何从支付渠道清分至商户。</p><p>商户在签约收单产品时，就需要明确收单模式，不需要在交易接口中额外指定。</p><p>不同收单模式下，PIPO 在资金链路中承担的角色不同。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>定义</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>即时到账</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>交易完成后，资金由 PIPO 清分至商户的待结算账户，再根据结算周期完成结算。</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户直接收款、无需平台介入资金分配的标准交易场景。商户与 PIPO 直接签约，交易完成即可按约定周期获得结算款。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>担保交易</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>交易完成后，资金先清分至商户的待分账账户，待商户履约后（如商品妥投、券核销等），再由平台商户触发分账，将资金释放给子商户。</p></td><td colspan=\"1\" rowspan=\"1\"><p>平台商户模式，平台需要在子商户完成履约后才释放资金，以保障交易双方权益。典型场景如电商平台的商品妥投后分账、团购 / 优惠券核销后分账等。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>网关转接</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO 仅承担交易处理和路由的角色，资金由支付渠道直接结算给商户，不经过 PIPO 账户体系。</p></td><td colspan=\"1\" rowspan=\"1\"><p>非平台类商户，且PIPO在商户运营主体当地无收单牌照，PIPO 提供交易处理和收银台能力，资金清结算由渠道侧完成。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-合单支付-2",
+      "title": "合单支付",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>合单支付，是指在平台商户模式下，业务可以将多个子商户的订单合并向PIPO下单并完成支付，并由PIPO在后续清结算的流程中清分给不同子商户的能力。</p></aside><ol><li><strong>用户流程</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>购物者车内选择多个店铺商品</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>提单页内显示多个店铺商品</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户选择支付方式进行支付</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/S07TbIMIsoi0llxFC9Vl2CSigch.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/KvJ4bwmq8o2Jfux0k6PlHKOeg5e.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><div class=\"synced-grid\" style=\"--synced-grid-columns:2\"><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/ADm5bJGHmoFbFTxRvaslBAqVgGg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><figure class=\"synced-media\" style=\"aspect-ratio:1170/2532\"><img src=\"/docs-media/product-whitepaper/FggQbkb8ko0zlaxvyo3lMetagRc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div></div></td></tr></tbody></table></div><ol><li><strong>合单支付流程说明</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-XEDawJ9tXh6zG3bNQQBlIHMTgKe.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>流程</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Step 1：商户合并下单</p></td><td colspan=\"1\" rowspan=\"1\"><p>平台商户将来自多个子商户（店铺）的订单合并为一笔交易向 PIPO 下单。PIPO 创建一笔交易主单，并为每个子商户订单创建对应的交易子单，以记录各子商户维度的交易金额等信息。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Step 2：用户整单支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户基于交易主单的整体金额，选择支付方式一次性完成支付，无需按子商户分别结账。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Step 3：按子商户维度清分</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付成功后，PIPO 按照交易子单维度，将款项分别入账至各子商户的待分账账户，等待后续分账。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Step 4：商户履约后触发分账</p></td><td colspan=\"1\" rowspan=\"1\"><p>子商户完成履约后（如商品妥投、服务完成等），由平台商户触发分账指令，PIPO 将各子商户待分账户中的资金释放并完成结算。</p></td></tr></tbody></table></div><ol><li><strong>适用范围</strong></li></ol><ul><li>该功能仅针对签订担保交易收单产品协议的平台型商户适用。</li><li>合单支付的商户需要入驻为平台商户下的子商户。</li></ul>"
+    }
+  ]
+}

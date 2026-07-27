@@ -3,6 +3,8 @@ node_modules
 docs/.vitepress/cache
 docs/.vitepress/dist
 capability-map/dist
+prototype/dist
+prototype/dist.zip
 capability-map/.env
 capability-map/.env.local
 .env

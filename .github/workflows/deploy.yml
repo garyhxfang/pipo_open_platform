@@ -1,4 +1,4 @@
-name: Deploy Docs and Capability Map to GitHub Pages
+name: Deploy Docs, Capability Map, and Open Platform to GitHub Pages
 
 on:
   push:

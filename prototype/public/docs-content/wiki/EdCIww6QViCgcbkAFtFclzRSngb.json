@@ -1,0 +1,62 @@
+{
+  "slug": "EdCIww6QViCgcbkAFtFclzRSngb",
+  "nodeToken": "EdCIww6QViCgcbkAFtFclzRSngb",
+  "title": "订阅首次购买",
+  "source": "SuQvdiRMXo9nYgxKs0bln8KOgve",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/EdCIww6QViCgcbkAFtFclzRSngb",
+  "syncedAt": "2026-07-27T04:47:19.330Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 4,
+    "mediaFound": 6,
+    "mediaDownloaded": 6
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    },
+    {
+      "id": "source-首订关键流程节点-2",
+      "title": "首订关键流程节点",
+      "level": 1
+    },
+    {
+      "id": "source-订阅收银台体验及集成-3",
+      "title": "订阅收银台体验及集成",
+      "level": 1
+    },
+    {
+      "id": "source-支持的支付方式-4",
+      "title": "支持的支付方式",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅首次购买（简称首订）是用户签约某个订阅套餐的入口环节，核心动作包括支付方式绑定与首期款项支付（或 0 元授权），是订阅计划完成创建与生效的关键节点。首订成功后，PIPO 将依据订阅套餐配置自动推进后续的试用、优惠及正价期续订。</p></aside>"
+    },
+    {
+      "id": "source-首订关键流程节点-2",
+      "title": "首订关键流程节点",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>有无试用期，会影响首订流程中，是否需要完成首期款项的支付。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>套餐类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>激活订阅前流程节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>激活订阅后流程节点</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>无试用期</p></td><td colspan=\"1\" rowspan=\"1\"><p>绑定支付方式，完成首期支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>回调商户发放权益，订阅进入正价期或优惠期阶段</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>有试用期</p></td><td colspan=\"1\" rowspan=\"1\"><p>绑定支付方式（需要完成0元授权）</p></td><td colspan=\"1\" rowspan=\"1\"><p>回调商户发放权益，订阅进入试用期阶段</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-订阅收银台体验及集成-3",
+      "title": "订阅收银台体验及集成",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅首订当前<strong>主推 Web 端独立收银台集成模式，</strong>即用户在商户页面选择套餐后跳转 PIPO 收银台，在 PIPO 收银台完成订阅计划的确认，支付方式绑定与首期支付，订阅计划随之激活。</p></aside><ol><li><strong>用户体验</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户在商户套餐选择页选择订阅套餐</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:2196/1372\"><img src=\"/docs-media/product-whitepaper/S8r3b1mrUony9gxkj9dlwv73ghd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>PIPO收银台页面：无试用期，需要支付首期款项</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/1108\"><img src=\"/docs-media/product-whitepaper/KO2mb6GAtofR50xOzIplL2spgTf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>PIPO收银台页面：有试用期，只绑卡不支付首期款项</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/1376\"><img src=\"/docs-media/product-whitepaper/F7CSbM3Iyo1v69xogwplgd3TgJG.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>跳转渠道页面完成授权</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/DzVvblHYDovIkMxrcTPlIf5ggdc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>订阅成功</strong></p><figure class=\"synced-media\" style=\"aspect-ratio:1440/768\"><img src=\"/docs-media/product-whitepaper/VnaPbWJMcofpOgxb2mIlO6l7g3f.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-LjOMw2bCMhsxD3bZtQolhYokgug.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易下单</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户请求PIPO下单，PIPO创建交易单后，返回收银台链接。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>跳转收银台页面</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户将用户重定向至收银台页面，用户在收银台上完成完整的支付选择及支付行为。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>收银台跳转商户结果页</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功，或者在收银台放弃支付时，PIPO会让用户跳转至商户的页面。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户支付成功，或超时关单时，PIPO会回调商户对应的事件及交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询交易状态</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户跳转回商户结果页时，若还未收单回调，商户可通过查询交易状态接口，以获取最新的交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>交易关单</p></td><td colspan=\"1\" rowspan=\"1\"><p>当交易处于非终态的情形下，商户可根据自己的业务规则，主动调用PIPO关闭交易单</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-支持的支付方式-4",
+      "title": "支持的支付方式",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅场景对支付方式有更高要求：需要支持<strong>用户授权后的服务端发起续订扣款</strong>。下表汇总了 PIPO 当前各类支付方式在订阅场景的<strong>支持情况</strong>与<strong>绑定支付支持情况</strong>。</p><p>图例：✅ 已支持 ｜ ❌ 不支持 ｜ ➖ 暂未接入或暂未支持 ｜ N/A 该场景下不适用。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>分类</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅支持情况</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅场景下绑定支付支持情况</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"8\"><p>第三方 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行卡</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>穿透式钱包（ApplePay / GooglePay）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方电子钱包（PayPal 等）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 均支持独立绑定 / 部分支持支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方先买后付（BNPL）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分BNPL支持，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行直接借记（Direct Debit）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖  暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>本地实时支付 / 扫码支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分国家支持(如PIX)，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行转账</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>线下柜台现金支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"5\"><p>自营 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>TTS Balance</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPL</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Seller Wallet</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>GMVpay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

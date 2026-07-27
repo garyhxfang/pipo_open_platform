@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="按国家或地区与支付方式类型，查看 PIPO 支付方式和市场覆盖。"
+    />
+    <title>支付方式与市场 · PIPO 开放平台</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/payment-methods/payment-methods.css" />
+  </head>
+  <body class="methods-page">
+    <header class="site-header methods-header" data-header>
+      <a class="brand" href="/" aria-label="返回 PIPO 开放平台首页">
+        <span class="brand-mark">PIPO</span>
+        <span class="brand-name">开放平台</span>
+      </a>
+
+      <button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+
+      <nav class="main-nav" aria-label="主导航">
+        <a href="/">首页</a>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/#capabilities">产品</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>PRODUCTS</span>
+                <strong>全球支付产品</strong>
+                <p>按资金流向选择收单或代发能力。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment/">
+                  <span><strong>收单产品</strong><small>Payment</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/#payout-products">
+                  <span><strong>代发产品</strong><small>Payout</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/#solutions">解决方案</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>SOLUTIONS</span>
+                <strong>按业务目标选择</strong>
+                <p>从收款或付款目标进入对应解决方案。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment/">
+                  <span><strong>全球收款方案</strong><small>接受不同市场的消费者付款</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/#payout-products">
+                  <span><strong>全球代发方案</strong><small>向个人与企业发起付款</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label active" href="/payment-methods/">支付方式与市场</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>COVERAGE</span>
+                <strong>支付方式与市场</strong>
+                <p>确认目标市场的支付方式、币种与接入条件。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/payment-methods/#catalog">
+                  <span><strong>支付方式</strong><small>按类型查看可用方式</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/payment-methods/#catalog">
+                  <span><strong>市场覆盖</strong><small>按国家或地区筛选</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/integration-guide/">接入指引</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>INTEGRATION GUIDE</span>
+                <strong>从业务需求开始</strong>
+                <p>获得产品选择与接入路径建议。</p>
+              </div>
+              <div class="nav-panel-links">
+                <a class="nav-panel-link" href="/integration-guide/">
+                  <span><strong>产品选型建议</strong><small>通过动态选项获得推荐</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/integration-guide/#path">
+                  <span><strong>接入路径</strong><small>了解从评估到上线的步骤</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a class="nav-item-label" href="/docs/">文档中心</a>
+          <div class="nav-panel">
+            <div class="nav-panel-inner">
+              <div class="nav-panel-intro">
+                <span>DOCUMENTATION</span>
+                <strong>查找接入文档</strong>
+                <p>按产品查看集成说明与 API 参考。</p>
+              </div>
+              <div class="nav-panel-links nav-panel-links-three">
+                <a class="nav-panel-link" href="/docs/">
+                  <span><strong>收单文档</strong><small>Payment 集成文档</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/docs/">
+                  <span><strong>代发文档</strong><small>Payout 集成文档</small></span><i>→</i>
+                </a>
+                <a class="nav-panel-link" href="/docs/">
+                  <span><strong>API 参考</strong><small>接口、参数与错误码</small></span><i>→</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="internal-label">
+        <span class="status-dot"></span>
+        集团内部
+      </div>
+    </header>
+
+    <main>
+      <section class="methods-hero">
+        <div class="methods-hero-inner">
+          <div class="methods-hero-copy">
+            <p class="eyebrow"><span></span>PAYMENT METHODS &amp; MARKETS</p>
+            <h1>提供本地支付体验<br />连接全球用户</h1>
+            <p>
+              覆盖不同国家和地区的支付选择，让用户以更熟悉的方式完成付款。
+            </p>
+            <div class="hero-actions methods-hero-actions">
+              <a class="button button-primary" href="#catalog">
+                探索支付方式
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+          </div>
+          <div class="methods-hero-visual" aria-hidden="true">
+            <span class="visual-surface visual-surface--wide"></span>
+            <span class="visual-surface visual-surface--compact"></span>
+            <span class="visual-orbit visual-orbit--outer"></span>
+            <span class="visual-orbit visual-orbit--inner"></span>
+            <span class="visual-route visual-route--one"></span>
+            <span class="visual-route visual-route--two"></span>
+            <span class="visual-method visual-method--visa">VISA</span>
+            <span class="visual-method visual-method--apple">Apple Pay</span>
+            <span class="visual-method visual-method--pix">PIX</span>
+            <span class="visual-method visual-method--paynow">PayNow</span>
+            <span class="visual-method visual-method--ideal">iDEAL</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="methods-catalog" id="catalog">
+        <div class="catalog-inner">
+          <div class="catalog-intro">
+            <h2>探索支付方式</h2>
+            <p>选择目标市场与支付方式类型，结果会实时更新。</p>
+          </div>
+
+          <div class="filter-shell" aria-label="支付方式筛选">
+            <label class="search-field">
+              <span>搜索</span>
+              <input
+                type="search"
+                placeholder="输入支付方式名称"
+                autocomplete="off"
+                data-search-input
+              />
+              <i aria-hidden="true">⌕</i>
+            </label>
+
+            <div class="region-picker" data-region-picker>
+              <span>国家或地区</span>
+              <button
+                class="region-trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                data-region-trigger
+              >
+                <strong data-region-label>全部市场</strong>
+                <i aria-hidden="true"></i>
+              </button>
+              <select data-country-select aria-hidden="true" tabindex="-1">
+                <option value="all">全部市场</option>
+              </select>
+              <div
+                class="region-menu"
+                role="listbox"
+                aria-label="按地区选择国家或地区"
+                data-region-menu
+                hidden
+              ></div>
+            </div>
+
+            <label class="select-field">
+              <span>支付方式类型</span>
+              <select data-type-select>
+                <option value="all">全部类型</option>
+              </select>
+            </label>
+
+            <button class="reset-filter" type="button" data-reset-filter disabled>
+              清除筛选
+            </button>
+          </div>
+
+          <div class="active-filter-row">
+            <p aria-live="polite" data-result-summary>正在读取支付方式</p>
+          </div>
+
+          <div class="method-grid" data-method-grid></div>
+
+          <div class="empty-results" data-empty-results hidden>
+            <strong>没有找到匹配的支付方式</strong>
+            <p>尝试选择其他市场、类型，或清除搜索关键词。</p>
+            <button type="button" data-empty-reset>查看全部支付方式</button>
+          </div>
+
+          <p class="coverage-note">
+            页面数据用于展示产品结构，实际可用范围以商户签约、市场准入与产品配置为准。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="methods-footer">
+      <div class="footer-brand">PIPO <span>开放平台</span></div>
+      <p>面向集团内部业务的全球支付能力与接入信息平台。</p>
+      <div class="footer-links">
+        <a href="/#capabilities">产品</a>
+        <a href="/payment-methods/">支付方式与市场</a>
+        <a href="/integration-guide/">接入指引</a>
+        <a href="/docs/">文档中心</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/payment-methods/payment-methods.js"></script>
+  </body>
+</html>

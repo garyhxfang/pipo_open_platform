@@ -1,0 +1,40 @@
+{
+  "slug": "MV77wWWImiTtUwkdzn5cUwHunzh",
+  "nodeToken": "MV77wWWImiTtUwkdzn5cUwHunzh",
+  "title": "协议扣款能力",
+  "source": "ImbGdJigZoXVO9xkqEAlwRaXg9e",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/MV77wWWImiTtUwkdzn5cUwHunzh",
+  "syncedAt": "2026-07-27T04:47:13.282Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-支持的支付方式-1",
+      "title": "支持的支付方式",
+      "level": 1
+    },
+    {
+      "id": "source-扣款流程及模式-2",
+      "title": "扣款流程及模式",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-支持的支付方式-1",
+      "title": "支持的支付方式",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>订阅场景对支付方式有更高要求：需要支持<strong>用户授权后的服务端发起续订扣款</strong>。下表汇总了 PIPO 当前各类支付方式在订阅场景的<strong>支持情况</strong>与<strong>绑定支付支持情况</strong>。</p><p>图例：✅ 已支持 ｜ ❌ 不支持 ｜ ➖ 暂未接入或暂未支持 ｜ N/A 该场景下不适用。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>分类</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅支持情况</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>订阅场景下绑定支付支持情况</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"8\"><p>第三方 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行卡</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>穿透式钱包（ApplePay / GooglePay）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方电子钱包（PayPal 等）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 均支持独立绑定 / 部分支持支付并绑定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方先买后付（BNPL）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分BNPL支持，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行直接借记（Direct Debit）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖  暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>本地实时支付 / 扫码支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分国家支持(如PIX)，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行转账</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>线下柜台现金支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"5\"><p>自营 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>TTS Balance</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPL</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Seller Wallet</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>GMVpay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-扣款流程及模式-2",
+      "title": "扣款流程及模式",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>签约过后，商户可通过调用PIPO接口，传入签约凭证agreement_id发起协议扣款，PIPO当前支持以下几种扣款模式</p></aside><p>协议扣款支持三种扣款模式，商户可在协议签约时根据业务场景选择：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>扣款模式</p></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>仅协议主 PI 扣款</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>仅使用协议下绑定的主 PI 发起扣款，失败即视为扣款失败</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>主 PI + 用户 PI 轮询</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>主 PI 失败后，依次尝试用户名下其他可用 PI，任一成功即视为扣款成功</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>指定 PI 扣款</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户在发起扣款时直接指定 PI，不走协议主 PI</p></td></tr></tbody></table></div><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-JnRCwiCkJhELn1bsF8ylFi8lg3K.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    }
+  ]
+}

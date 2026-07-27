@@ -1,0 +1,219 @@
+{
+  "slug": "ZLJuwK00wi3zMVkQkzZcolzonCg",
+  "nodeToken": "ZLJuwK00wi3zMVkQkzZcolzonCg",
+  "title": "拒付产品",
+  "source": "OrXMdZimcoLtT9xLmlQlBPlagSe",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/ZLJuwK00wi3zMVkQkzZcolzonCg",
+  "syncedAt": "2026-07-27T04:47:39.504Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 21,
+    "mediaFound": 22,
+    "mediaDownloaded": 22
+  },
+  "toc": [
+    {
+      "id": "source-version-record-版本记录-1",
+      "title": "Version Record // 版本记录",
+      "level": 1
+    },
+    {
+      "id": "source-产品定位-2",
+      "title": "产品定位",
+      "level": 2
+    },
+    {
+      "id": "source-典型拒付体验-3",
+      "title": "典型拒付体验",
+      "level": 2
+    },
+    {
+      "id": "source-产品流程-4",
+      "title": "产品流程",
+      "level": 2
+    },
+    {
+      "id": "source-产品能力总览-5",
+      "title": "产品能力总览",
+      "level": 2
+    },
+    {
+      "id": "source-enoc-6",
+      "title": "ENOC",
+      "level": 2
+    },
+    {
+      "id": "source-cb-7",
+      "title": "CB",
+      "level": 2
+    },
+    {
+      "id": "source-cbr-12",
+      "title": "CBR",
+      "level": 2
+    },
+    {
+      "id": "source-rfi-final-lost借用-13",
+      "title": "RFI（Final-lost借用）",
+      "level": 2
+    },
+    {
+      "id": "source-won-amended-to-lost-14",
+      "title": "WON_AMENDED_TO_LOST",
+      "level": 2
+    },
+    {
+      "id": "source-lost-amended-to-won-15",
+      "title": "LOST_AMENDED_TO_WON",
+      "level": 2
+    },
+    {
+      "id": "source-clawback-16",
+      "title": "CLAWBACK",
+      "level": 2
+    },
+    {
+      "id": "source-clawback-return-17",
+      "title": "CLAWBACK RETURN",
+      "level": 2
+    },
+    {
+      "id": "source-拒付接口清单-20",
+      "title": "拒付接口清单",
+      "level": 2
+    },
+    {
+      "id": "source-appendix-21",
+      "title": "Appendix",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-version-record-版本记录-1",
+      "title": "Version Record // 版本记录",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>Date 日期</p></th><th colspan=\"1\" rowspan=\"1\"><p>Created by 创建</p></th><th colspan=\"1\" rowspan=\"1\"><p>Changes on 修改记录</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>2026-5-20</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><p>Draft version</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品定位-2",
+      "title": "产品定位",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>拒付产品负责商户和渠道间的拒付信息处理，保障拒付信息传递的准确性和资金账户动账的准确性，协助商户对争议 case 发起抗辩，最大程度帮助商户挽回资损。</p><p>从业务价值来看，拒付产品的核心目标是：在合规前提下，用更低的资金损失率、拒付成本和运营人力，支撑业务的全球化扩张和支付规模增长。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>适用于用户使用CCDC、Paypal、Venmo、Klarna等支付方式进行支付，用户可以直接向发卡行/钱包机构提交拒付。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>典型案例</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>TTS 电商购物、TTLS 本地生活商品券购买、TTLive 金币充值、商业化广告余额主动、Trae会员订阅，Coze会员订阅，Gauth会员订阅、TiktokPay 充值，BNPL 还款等。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-典型拒付体验-3",
+      "title": "典型拒付体验",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>拒付链路涉及三方视角：<strong>持卡人 → 发卡行/钱包机构 → 商户/PIPO</strong>。理解各方在典型拒付中的操作路径，有助于业务判断哪些环节可以前移治理、降低拒付率与资金损失率。</p></aside><ol><li><strong>用户向发卡行提交拒付</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>争议入口</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>选择争议原因</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>选择订单</strong></p></th><th colspan=\"2\" rowspan=\"1\"><p><strong>发起前提醒</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>上传证据</strong></p></th><th colspan=\"2\" rowspan=\"1\"><p><strong>提交争议</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:362/780\"><img src=\"/docs-media/product-whitepaper/ZmKeb5uiToI5QWx3YYKl2x7GgQd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:363/781\"><img src=\"/docs-media/product-whitepaper/PuiMbiQAGoNb5Rxex6LlBUM5grc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:363/781\"><img src=\"/docs-media/product-whitepaper/TT6LbFbx8od0ZpxmUSPlJ4pVgYc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:363/782\"><img src=\"/docs-media/product-whitepaper/IOTCb2dd2onBLpx67N4lyXengre.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:362/814\"><img src=\"/docs-media/product-whitepaper/SS9wbk4tgod1FnxZ9e8lUYnigBc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:364/782\"><img src=\"/docs-media/product-whitepaper/OhOUbBX69okvwUxd9E7lWfsdgdc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:363/782\"><img src=\"/docs-media/product-whitepaper/ALkFbeVD9o2rOpxl32Zlw3TBgfc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:371/799\"><img src=\"/docs-media/product-whitepaper/Rx1LbKQb1oLxicxoAfJlHqmbgKb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div><ol><li><strong>商家抗辩</strong></li></ol><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"2\" rowspan=\"1\"><p><strong>查看Chargebacks列表</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>选择抗辩 or 接受拒付</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1107/730\"><img src=\"/docs-media/product-whitepaper/XRvMb2zNwod762xSFR5luo9bgVe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1108/869\"><img src=\"/docs-media/product-whitepaper/ET7vbOw8JoI2wQx7dtjl8Wg0gUd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:458/206\"><img src=\"/docs-media/product-whitepaper/A7zobt2msoXzAHxt24KloJIOgSf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure><figure class=\"synced-media\" style=\"aspect-ratio:332/150\"><img src=\"/docs-media/product-whitepaper/HdQRb1MJRobfFqxVyjolxanKgUb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"2\" rowspan=\"1\"><p><strong>发起抗辩 - 上传证据</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p><strong>完成提交</strong></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1107/692\"><img src=\"/docs-media/product-whitepaper/S7MkbxbGXo95cyxKME1luKn8gth.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1107/695\"><img src=\"/docs-media/product-whitepaper/H3G8br91aoCP9cx6CzplRBEJg3f.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1108/870\"><img src=\"/docs-media/product-whitepaper/QJZubX9YzoCZGQxbaAmlFINugle.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品流程-4",
+      "title": "产品流程",
+      "level": 2,
+      "html": "<p>拒付产品的主链路从左到右可分为六个阶段：<strong>风险暴露与咨询 → 预警/预拒付 → 正式拒付 → 抗辩准备与提交 → 预仲裁/仲裁 → 结果沉淀</strong>。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-QAiUwb4IVhNuHYbWOCSlGvcDgNf.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>阶段</p></th><th colspan=\"1\" rowspan=\"1\"><p>目标</p></th><th colspan=\"1\" rowspan=\"1\"><p>关键产品动作</p></th><th colspan=\"1\" rowspan=\"1\"><p>输出结果</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>风险暴露与咨询</p></td><td colspan=\"1\" rowspan=\"1\"><p>尽早识别潜在争议</p></td><td colspan=\"1\" rowspan=\"1\"><p>承接持卡人咨询、识别不识别交易、服务争议、物流异常等前置信号</p></td><td colspan=\"1\" rowspan=\"1\"><p>生成预警上下文与订单关联关系</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>预警 / 预拒付</p></td><td colspan=\"1\" rowspan=\"1\"><p>在正式拒付前止损</p></td><td colspan=\"1\" rowspan=\"1\"><p>接入 Ethoca / Verifi Alerts、RDR、Inquiry / RFI，并结合金额和商户策略触发主动退款</p></td><td colspan=\"1\" rowspan=\"1\"><p>部分争议被拦截，不进入正式拒付率</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>正式拒付</p></td><td colspan=\"1\" rowspan=\"1\"><p>稳定受理，不漏单</p></td><td colspan=\"1\" rowspan=\"1\"><p>统一接收卡组 / 渠道通知，标准化 Reason Code、金额、截止日、商户主体和责任判定</p></td><td colspan=\"1\" rowspan=\"1\"><p>案件建档，进入争议工作流</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>抗辩准备与提交</p></td><td colspan=\"1\" rowspan=\"1\"><p>在时效内提交高质量证据</p></td><td colspan=\"1\" rowspan=\"1\"><p>根据原因码自动推荐证据清单，校验材料完整度，生成 Representment 包并提交</p></td><td colspan=\"1\" rowspan=\"1\"><p>进入等待审核或补件状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>预仲裁 / 仲裁</p></td><td colspan=\"1\" rowspan=\"1\"><p>控制高成本升级</p></td><td colspan=\"1\" rowspan=\"1\"><p>基于金额、概率、商户价值和费用模型决定是否继续升级</p></td><td colspan=\"1\" rowspan=\"1\"><p>形成最终胜负结果</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>结果沉淀</p></td><td colspan=\"1\" rowspan=\"1\"><p>让经验回流</p></td><td colspan=\"1\" rowspan=\"1\"><p>把胜诉/败诉样本回流到风控规则、证据模板、商户运营和平台配置中</p></td><td colspan=\"1\" rowspan=\"1\"><p>形成持续优化闭环</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品能力总览-5",
+      "title": "产品能力总览",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>围绕完整的拒付生命周期，产品能力可以归为三大类：<strong>前置止损能力、拒付受理与资金处理能力、追偿与结果管理能力</strong>。下表给出能力索引，帮助业务在方案设计时快速定位关注点；各能力的详细说明参见第三章对应小节。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>能力类别</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>产品能力说明</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>详见</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>前置止损能力</p></td><td colspan=\"1\" rowspan=\"1\"><p>接收 ENOC 等 early chargeback 预警，支持在正式拒付前主动退款，降低拒付率与渠道惩罚风险。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.1 ENOC</p></td></tr><tr><td colspan=\"1\" rowspan=\"4\"><p>拒付受理与资金处理能力</p></td><td colspan=\"1\" rowspan=\"1\"><p>CB：承接正式拒付消息，按责任划分在商户或 PIPO 侧完成资金扣减，并透出 reason code 与责任主体。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.2 CB</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CBR：抗辩胜诉后的资金返还与标签解除，支持返还商户账户或 PIPO 风控包赔户，并解除退款管控。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.3 CBR</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>RFI（Final-lost 借用）：记录抗辩败诉的最终结果，用于资金核对与后续经营分析。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.4 RFI</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>WON_AMENDED_TO_LOST / LOST_AMENDED_TO_WON：拒付改判场景下，对应的资金补扣或返还能力。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.5 WON_AMENDED_TO_LOST / 3.6 LOST_AMENDED_TO_WON</p></td></tr><tr><td colspan=\"1\" rowspan=\"2\"><p>追偿与结果管理能力</p></td><td colspan=\"1\" rowspan=\"1\"><p>Clawback：当原交易已 RTC/RTW 后又发生拒付，支持对用户钱包内的超退金额发起追偿，减少 PIPO/业务的资金损失。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.7 Clawback</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Clawback Return：在拒付抗辩胜诉（CBR）后，将追偿成功的超退金额再次返还给用户 RTC 账户，并在满足条件时解冻账户。</p></td><td colspan=\"1\" rowspan=\"1\"><p>3.8 Clawback Return</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-enoc-6",
+      "title": "ENOC",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>历史上只有TT Live和Monetization接过ENOC消息，风控在25年暂停了下发ENOC通知，但后续如果线上拒付风险比较大时风控仍然会下发ENOC通知。</p></aside><p>ENOC为early chargeback消息，数据服务商ethoca和verifi可以在发卡行→卡组时获取用户Chargeback数据，卡组→收单行前会处理72小时左右。ethoca和verifi可以在卡组收到拒付时第一时间传出拒付消息，PIPO可以有72小时的时间主动退款，规避chargeback的报回，那么拒付信息就不会被卡组计算入VDMP指标当中，从而避免惩罚费用及渠道风险。</p><p><code>status</code>=<strong>ENOC</strong>表示early chargeback消息。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-JmzKw1R9ahIkR1bsEyalm61fggd.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><ol><li>PIPO Risk从ethoca和verifi获取early chargeback消息，并以ENOC的消息通知业务方；</li><li>业务方收到ENOC消息，主动发起退款</li></ol>"
+    },
+    {
+      "id": "source-cb-7",
+      "title": "CB",
+      "level": 2,
+      "html": "<p>拒付正式发生，代表商户/收单机构有拒付资损风险，PIPO根据Chargeback的金额扣减业务方账户，并通知业务方有拒付发生。业务方可以根据CB通知选择向用户追偿，例如追回金币/取消提供订阅服务，减少业务方的资损。</p><p>一笔支付账单用户可以提交多次争议，总的争议金额不超过支付金额，但是需要注意拒付报回到PIPO侧并没有部分拒付的标识。</p><p><code>status</code>=<strong>chargeback</strong>表示CB消息</p>"
+    },
+    {
+      "id": "source-商户承担拒付资损-8",
+      "title": "商户承担拒付资损",
+      "level": 3,
+      "html": "<p>卡组制度的核心是“消费者保护优先”，发生争议先退钱给持卡人，再去追责商户。只有商户清楚“是否发货/服务是否达标”，因此“自证清白”的责任和后果只能落在商户头上。</p><p>PIPO作为一个收单机构，无法替商户（业务线）承担拒付的资损，所以在收到拒付后也会追责商户（业务线）。</p><p>在签订拒付子协议时需要指定拒付承责账户：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>商户类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付承责账户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>补充说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>传统型</p></td><td colspan=\"1\" rowspan=\"1\"><p>Payin基本户</p></td><td colspan=\"1\" rowspan=\"1\"><p>Payin基本户余额不足，会从待结算账户轧差</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>平台型</p></td><td colspan=\"1\" rowspan=\"1\"><p>一级商户Special户垫资</p></td><td colspan=\"1\" rowspan=\"1\"><p>电商商责转移通过清结算的垫资回补接口再从卖家Payin基本户扣回拒付损失</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-欺诈拒付包赔服务-9",
+      "title": "欺诈拒付包赔服务",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>是否开通欺诈拒付包赔服务，需要风控策略评估。</p></aside><p>在实物类的业务场景下，PIPO提供拒付包赔服务，针对欺诈类交易而导致的经济损失由PIPO承担；由于货物/服务原因导致的资损仍然由商户（业务方）承担。</p><p>拒付可以基于拒付原因码（reason code）划分为以下几个类型：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付原因码（reason code）</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付原因说明//chargeback reason description</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Fraud</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人否认授权或参与有争议的交易； 包含BC勾结和实锤fraud；</p><blockquote class=\"synced-quote\"><p>The cardholder denies authorising or participating in the disputed transaction; Contains BC collusion and solid hammerfraud;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Merchandise</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人将在未收到物品、产品损坏时发起此争议；</p><blockquote class=\"synced-quote\"><p>The cardholder will initiate this dispute if the item is not received and the product is damaged;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Processing Error</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人会声称存在重复计费、信用未处理、取消订阅等问题；</p><blockquote class=\"synced-quote\"><p>Cardholders will claim problems with double billing, unprocessed credit, and cancellation of subscriptions;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Authorization</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>通常，这种争议原因可以反映为*“授权相关的拒付”*，也就是俗称的“*4808”*，这是万事达拒付代码。这种争议原因意味着收单银行/商户没有从发卡银行获得授权代码。</p><blockquote class=\"synced-quote\"><p>Typically, this dispute reason can be reflected as an &quot;authorisation-related decline&quot;, commonly known as &quot;4808&quot;, which is a MasterCard decline code. This dispute reason means that the acquiring bank/merchant has not obtained an authorisation code from the issuing bank.</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Others</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>渠道未发送原因码或者原因码不可识别 包括fraud类和非fraud类，其中fraud类包含BC勾结和实锤fraud</p><blockquote class=\"synced-quote\"><p>The channel did not send a reason code or the reason code is not recognisable. Includes both fraud and non-fraud categories, where the fraud category includes BC collusion and actual fraud.</p></blockquote></td></tr></tbody></table></div><p>对于<strong>Fraud</strong>类中的fraud实锤和<strong>Others</strong>下被最终判定fraud实锤的交易，由PIPO风控自负盈亏；对于BC勾结类的由业务方承担损失。</p><blockquote class=\"synced-quote\"><p>承责方通过<code>liability</code>下发</p><ul><li>pipo_liability为PIPO承责，由PIPO包赔户承担资金损失；</li><li>merchant_liability则为商户承责，由业务方承担资金损失。</li></ul></blockquote>"
+    },
+    {
+      "id": "source-逆向交易管控-10",
+      "title": "逆向交易管控",
+      "level": 3,
+      "html": "<p>逆向交易包括退款和拒付，对于外部钱包/发卡行而言，已退款的金额不应该再受理拒付；对于PIPO来说，已发生拒付的交易风险较高，不应该再允许退款。</p><div class=\"synced-grid\" style=\"--synced-grid-columns:3\"><div class=\"synced-grid-column\"><ol><li><strong>原交易已拒付，不允许退款</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-FqUFwDqkOhjZQGbJQW8lCkWWgOc.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><ol><li><strong>已全额原路退，则可拒付金额=0</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-Ca6wwcW2MhihNDbPLGnlQgKIgsf.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><ol><li><strong>部分退，剩余金额可受理拒付</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-KqUuwiOe6hRRi3bGbUglm0gLgTe.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div></div>"
+    },
+    {
+      "id": "source-拒付保价-11",
+      "title": "拒付保价",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>目前默认都是PIPO保价。</p></aside><p>在线上链路，拒付因为和原支付交易不是发生在同一时刻，就会导致拒付的金额因为汇率波动的原因大于或者小于原支付金额。</p><p>拒付消息中的拒付金额超过原支付金额时，由PIPO提供拒付保价服务，保的是支付到标价（交易金额）这一段的价格不超过原Payin的支付金额。</p><blockquote class=\"synced-quote\"><p>标价（交易金额）到结算不保价，PIPO一直都是按照结算日当天的实时汇率换算进行结算的。</p></blockquote><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-LQDEwD7eAhRnlNbEHtDlF9cFg2c.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-cbr-12",
+      "title": "CBR",
+      "level": 2,
+      "html": "<p>一笔拒付Case，在经过抗辩和仲裁等流程后会有最终结果，如果抗辩胜诉了，说明赢了Case，发卡行将钱还给了PIPO，PIPO也会将CBR的金额还给业务方账户，并通知业务方抗辩胜诉了。</p><p><code>status</code>=<strong>chargeback_reverse</strong>表示资金返还（CBR），通过<code>outcome</code>=<strong>won</strong>表示胜诉</p><p>！一笔案件只会有一个结果，结果存在改判，但是不会存在won两次的情况发生。</p><p>对应CB的处理，CBR提供如下子功能</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>子功能</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>功能说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CBR金额返还商户账户</p></td><td colspan=\"1\" rowspan=\"1\"><p>如果拒付的资损承担方为商户，那么PIPO会将CBR的金额返还到商户账户；</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CBR金额返还风控包赔户</p></td><td colspan=\"1\" rowspan=\"1\"><p>如果拒付时PIPO提供了包赔服务，那么PIPO会将CBR的金额返还到PIPO风控包赔户</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>解除退款管控</p></td><td colspan=\"1\" rowspan=\"1\"><p>抗辩胜诉，取消拒付标签，允许用户继续发起退款</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>PIPO保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>CBR时PIPO也会保价：当CBR金额大于CB金额时，PIPO会抹平超额部分，按照CB金额下发全额CBR通知；</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-rfi-final-lost借用-13",
+      "title": "RFI（Final-lost借用）",
+      "level": 2,
+      "html": "<p>一笔拒付Case，在经过抗辩和仲裁等流程后会有最终结果，如果抗辩败诉了，说明输了Case，拒付的金额没有拿回来，因为在CB时已经扣减业务方账户了，所以lost时PIPO不会再动业务方的账户</p><p><code>status</code>=<strong>rfi</strong>借用了rif的状态，通过<code>outcome</code>=<strong>lost</strong>表示败诉</p>"
+    },
+    {
+      "id": "source-won-amended-to-lost-14",
+      "title": "WON_AMENDED_TO_LOST",
+      "level": 2,
+      "html": "<p>拒付改判：won-&gt; lost改判，PIPO下发的结案结果为CBR，后续通过资金对账发现渠道并未归还CBR的资金，只有CB扣减的资金，存在结果改判。</p><p><code>status</code>=<code>won_amended_to_lost</code>，同时会下发新的<code>outcome</code>=<strong>lost</strong></p><p><strong>won-&gt; lost改判规则：</strong></p><ol><li>lost的改判需要把won返还给业务方的金额补扣回，所以改判为lost也会动账</li><li>结果改判只允许改判一次，不会反复改判</li><li>改判是对于原结案结果错误的纠正，无法保证渠道侧的SLA，所以只有在对应消息或者资金动账来了的时候才能发现结果不一致，考虑到PIPO的渠道拒付对账在逐渐覆盖中，暂不对改判的周期做限制。</li></ol>"
+    },
+    {
+      "id": "source-lost-amended-to-won-15",
+      "title": "LOST_AMENDED_TO_WON",
+      "level": 2,
+      "html": "<p>拒付改判：lost-&gt; won改判，PIPO下发的结案结果为RFI(Final-lost)，后续通过资金对账发现渠道有一笔CBR的资金返还，存在结果改判。</p><p><code>status</code>=<code>lost_amended_to_won</code>，同时会下发新的<code>outcome</code>=<strong>won</strong></p><p><strong>lost-&gt; won改判规则：</strong></p><ol><li>因为在lost时并未再动账，所以lost-&gt;won的改判会将资金返还给CB时的动账账户</li><li>结果改判只允许改判一次，不会反复改判</li><li>改判是对于原抗辩结果错误的纠正，无法保证渠道侧的SLA，所以只有在对应消息或者资金动账来了的时候才能发现结果不一致，考虑到PIPO的渠道拒付对账在逐渐覆盖中，暂不对改判的周期做限制。</li></ol>"
+    },
+    {
+      "id": "source-clawback-16",
+      "title": "CLAWBACK",
+      "level": 2,
+      "html": "<p><strong>超退拒付追偿：</strong>PIPO给用户提供钱包产品，为了保证用户的退款体验和退款时效性，PIPO支持将外部PI支付的金额退款到钱包。由于发卡行/外部钱包不感知PIPO已给用户退款，当用户发起拒付仍然会受理，拒付报回则PIPO退了两份钱。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-YJ8vwcxYwh1vqKbn6Anlw6N0gsg.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><p>为了挽回PIPO包赔/业务方的损失，PIPO会对用户的RTC交易进行追偿，追偿策略如下：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>liability</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>追偿类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>pipo_liability</p></td><td colspan=\"1\" rowspan=\"1\"><p>Continuous Clawback：</p><ul><li>IF sufficient balance, claw back chargeback amount</li><li>IF insufficient balance, clawback entire balance</li><li>一旦有入金则持续追偿</li><li>set account_status=stop-out</li><li>Indefinite clawback period</li></ul></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>merchant_liablity</p></td><td colspan=\"1\" rowspan=\"1\"><p>One-time Clawback：</p><ul><li>Only claw back one time</li><li>Claw back chargeback amount as much as possible</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>目前都是continuous，待调整为one-time clawback</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-clawback-return-17",
+      "title": "CLAWBACK RETURN",
+      "level": 2,
+      "html": "<p><strong>拒付追偿返还：</strong>拒付结案结果为PIPO won，如果有已RTC超退的金额，PIPO会将RTC超退的CBR金额返还用户RTC账户；</p><p><strong>追偿返还策略：</strong></p><ul><li>追偿返还的金额为RTC/RTW超退的CBR金额</li><li>如果CB时超退金额足额追偿成功，则将CBR金额返还用户RTC Balance；如果CB时未足额追偿，CBR金额先偿还系统记录的CB待扣金额，有多再返还到用户RTC Balance。</li><li>当CBR金额足以偿还CB待扣金额时，解冻用户账户</li></ul>"
+    },
+    {
+      "id": "source-子协议功能开通-18",
+      "title": "子协议功能开通",
+      "level": 3,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>配置项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>传统型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>平台型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>备注</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>拒付出资账户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><ol><li>默认设置为Payin基本户</li><li>也可指定出资账户信息</li></ol><p>liability_type=商户承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }, 如果包赔，配置包赔账户信息liability_type=PIPO承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"><p>指定平台垫资的出资账户信息 liability_type=商户承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }, 如果包赔，配置包赔商户号liability_type=PIPO承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"><p>当前拒付包赔需要通过PIPO商户号下配置出资账户，未来可能会下线</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：保价，当前默认都为保价 N：不保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：保价，当前默认都为保价 N：不保价</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否不自动追偿</p></td><td colspan=\"1\" rowspan=\"1\"><p>False：自动追偿，默认自动追偿 True：不自动追偿</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><p>逻辑是反过来的，需要注意</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-拒付通知地址配置-19",
+      "title": "拒付通知地址配置",
+      "level": 3,
+      "html": "<p><strong>接收消息类型配置</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>配置项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>值</strong></p></th><th colspan=\"2\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否接受动账消息</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：接收动账消息 N：不接收动账消息</p></td><td colspan=\"2\" rowspan=\"1\"><p>动账消息包含：CB和Final-won(CBR)</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否接受非动账消息</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：接收非动账消息 N：不接收非动账消息</p></td><td colspan=\"2\" rowspan=\"1\"><p>非动账消息包含：NOC/ENOC/Final-lost</p></td></tr></tbody></table></div><p><strong>通知地址配置</strong></p><p>配置了需要接收拒付消息，则需要配置通知地址</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>通知类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>机房</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址格式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址URL</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"6\"><p><strong>Chargeback</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>sg</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>va</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>my</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>my4a</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>eu</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>ttp</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-拒付接口清单-20",
+      "title": "拒付接口清单",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>接口名</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口地址</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口字段说明</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>拒付消息通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务方Url</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/chargeback/chargeback</p></td><td colspan=\"1\" rowspan=\"1\"><p>ENOC、CB、CBR、WON_AMENDED_TO_LOST、LOST_AMENDED_TO_WON、等</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>拒付追偿通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务方Url</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><p>Clawback和Clawback return</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-appendix-21",
+      "title": "Appendix",
+      "level": 1,
+      "html": "<p><strong>拒付包赔业务线配置</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>业务线</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>业务类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>欺诈拒付是否包赔</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>渠道成本是否包赔</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTS</p></td><td colspan=\"1\" rowspan=\"1\"><p>收单支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>仅C端购物车场景下的欺诈拒付包赔 B端卖家场景的欺诈拒付不包赔</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTLS</p></td><td colspan=\"1\" rowspan=\"1\"><p>收单支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Tiktok Pay</p></td><td colspan=\"1\" rowspan=\"1\"><p>充值</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Giftcard（US售卡）</p></td><td colspan=\"1\" rowspan=\"1\"><p>收单支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>BNPL<strong>（非自营）</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>还款</p></td><td colspan=\"1\" rowspan=\"1\"><p><strong>✅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CashLoan（商家贷）</p></td><td colspan=\"1\" rowspan=\"1\"><p>还款</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CashAdvance（商家贷）</p></td><td colspan=\"1\" rowspan=\"1\"><p>还款</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
+    }
+  ]
+}

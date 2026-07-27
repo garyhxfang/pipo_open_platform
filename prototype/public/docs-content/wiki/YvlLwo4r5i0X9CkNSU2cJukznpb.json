@@ -1,0 +1,29 @@
+{
+  "slug": "YvlLwo4r5i0X9CkNSU2cJukznpb",
+  "nodeToken": "YvlLwo4r5i0X9CkNSU2cJukznpb",
+  "title": "API列表",
+  "source": "LcD1dfUf9oMrtBxRRG5lKf6mgHb",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/YvlLwo4r5i0X9CkNSU2cJukznpb",
+  "syncedAt": "2026-07-27T04:47:25.452Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"2\" rowspan=\"1\"><p>业务操作</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口endpoint</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口</p></th></tr><tr><td colspan=\"1\" rowspan=\"3\"><p>SKU管理</p></td><td colspan=\"1\" rowspan=\"1\"><p>创建SKU</p></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/inner/sku/v3/create_pipo_sku</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/create-sku</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询SKU</p></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/inner/sku/v3/query_pipo_sku</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/query-sku-details</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>删除SKU</p></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/inner/sku/v3/delete_pipo_sku</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/delete-sku</p></td></tr><tr><td colspan=\"1\" rowspan=\"4\"><p>订阅首订</p></td><td colspan=\"1\" rowspan=\"1\"><p>预下单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/aggregate/prepare_payment</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/aggregate-cashier/pre-order</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询支付结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/aggregate/get_pay_result</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/payment-details</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>关闭订单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/cancel</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/cancel</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付结果通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务提供回调地址</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/aggregate-cashier/payment-callback</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>订阅事件通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>订阅相关变更通知</p><blockquote class=\"synced-quote\"><p>包含首订成功，续订成功/失败，订阅过期等通知</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>业务提供回调地址</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/subscription-status-change-notifications</p></td></tr><tr><td colspan=\"1\" rowspan=\"5\"><p>订阅计划调整</p></td><td colspan=\"1\" rowspan=\"1\"><p>关闭订阅</p><blockquote class=\"synced-quote\"><p>关闭未生效订阅</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/trade/subscription/v3/close_trade</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/close-subscription</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>取消订阅</p></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/trade/subscription/v3/cancel_subscription</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/cancel-subscription</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>恢复订阅</p><blockquote class=\"synced-quote\"><p>订阅从cancel变为active</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/trade/subscription/v3/resume_subscription</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/resume-subscription</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>终止订阅</p><blockquote class=\"synced-quote\"><p>停止续订订阅并撤销用户相应权益</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/trade/subscription/v3/revoke_trade</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/revoketrade</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>调整订阅过期时间</p><blockquote class=\"synced-quote\"><p>可提前或延后时间过期</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>/pipo/trade/subscription/v3/update_subs_expire_time</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/subscription/updatesubsexpiretime</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PIPO 文档中心，内容与目录层级同步自集团飞书产品白皮书知识库。"
+    />
+    <title>PIPO 文档中心</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/docs/docs.css" />
+  </head>
+  <body class="docs-page hub-docs-page">
+    <header class="docs-header">
+      <div class="docs-brand-group">
+        <a class="brand" href="/" aria-label="PIPO 开放平台首页">
+          <span class="brand-mark">PIPO</span>
+          <span class="brand-name">开放平台</span>
+        </a>
+        <span class="docs-divider"></span>
+        <a class="docs-title" href="/docs/">文档中心</a>
+      </div>
+
+      <button class="docs-search" type="button" data-search-trigger>
+        <span aria-hidden="true">⌕</span>
+        搜索产品白皮书
+        <kbd>⌘ K</kbd>
+      </button>
+
+      <nav class="docs-header-links" aria-label="文档辅助导航">
+        <a href="/payment/">产品主页</a>
+        <a data-root-source href="#" target="_blank" rel="noreferrer">飞书知识库 ↗</a>
+        <span class="internal-doc-label"><i></i>集团内部</span>
+      </nav>
+    </header>
+
+    <div class="docs-layout">
+      <aside class="docs-sidebar docs-tree-sidebar" aria-label="产品白皮书目录">
+        <div class="sidebar-scroll">
+          <a class="sidebar-back" href="/"><span>←</span> 返回开放平台</a>
+          <div class="tree-eyebrow">DOCUMENT LIBRARY</div>
+          <nav class="wiki-tree" data-wiki-tree aria-label="知识库目录">
+            <div class="tree-skeleton"></div>
+            <div class="tree-skeleton tree-skeleton-short"></div>
+          </nav>
+          <div class="tree-sync-meta">
+            <span>目录来源</span>
+            <strong>飞书产品白皮书</strong>
+            <time data-tree-sync-time>正在同步…</time>
+          </div>
+        </div>
+      </aside>
+
+      <main class="docs-main wiki-docs-main">
+        <article class="docs-article wiki-article" data-doc-article>
+          <div class="docs-breadcrumb" data-breadcrumb></div>
+
+          <header class="article-header wiki-article-header">
+            <div class="article-meta-row">
+              <span class="article-product-label">PRODUCT WHITEPAPER</span>
+              <span class="sync-badge"><i></i>内容来自飞书</span>
+            </div>
+            <h1 data-doc-title>正在读取文档…</h1>
+            <div class="wiki-article-summary">
+              <p data-doc-summary>正文和目录层级均与飞书知识库保持同步。</p>
+              <a data-doc-source href="#" target="_blank" rel="noreferrer">
+                在飞书中查看 <span>↗</span>
+              </a>
+            </div>
+            <div class="sync-meta wiki-sync-meta">
+              <span>同步状态</span>
+              <strong data-sync-status>正在读取内容…</strong>
+              <time data-sync-time></time>
+            </div>
+          </header>
+
+          <div class="wiki-document-content" data-document-content>
+            <div class="content-skeleton"></div>
+            <div class="content-skeleton content-skeleton-short"></div>
+          </div>
+        </article>
+
+        <aside class="docs-toc wiki-doc-toc" aria-label="本文目录">
+          <p>本页内容</p>
+          <nav data-page-toc></nav>
+          <div class="toc-help">
+            <span>内容需要调整？</span>
+            <a data-doc-source href="#" target="_blank" rel="noreferrer">前往飞书编辑 ↗</a>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <dialog class="search-dialog" data-search-dialog>
+      <div class="search-input-row">
+        <span aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          placeholder="搜索产品白皮书中的文档…"
+          autocomplete="off"
+          data-search-input
+        />
+        <button type="button" aria-label="关闭搜索" data-search-close>Esc</button>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </dialog>
+
+    <script type="module" src="/docs/docs.js"></script>
+  </body>
+</html>

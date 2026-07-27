@@ -1,0 +1,14 @@
+{
+  "documents": [
+    {
+      "kind": "wiki-tree",
+      "slug": "product-whitepaper",
+      "rootWikiToken": "SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+      "sourceUrl": "https://bytedance.larkoffice.com/wiki/SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+      "treeOutput": "prototype/public/docs-content/wiki-tree.json",
+      "contentDirectory": "prototype/public/docs-content/wiki",
+      "mediaDirectory": "prototype/public/docs-media/product-whitepaper",
+      "mediaBaseUrl": "/docs-media/product-whitepaper"
+    }
+  ]
+}

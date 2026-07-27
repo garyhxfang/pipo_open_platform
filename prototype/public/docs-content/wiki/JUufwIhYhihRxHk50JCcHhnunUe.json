@@ -1,0 +1,62 @@
+{
+  "slug": "JUufwIhYhihRxHk50JCcHhnunUe",
+  "nodeToken": "JUufwIhYhihRxHk50JCcHhnunUe",
+  "title": "支付重试",
+  "source": "QpOwdvf2YozWDXxId3ylo682gwg",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/JUufwIhYhihRxHk50JCcHhnunUe",
+  "syncedAt": "2026-07-27T04:47:06.881Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 4,
+    "mediaFound": 12,
+    "mediaDownloaded": 12
+  },
+  "toc": [
+    {
+      "id": "source-支付重试概述-1",
+      "title": "支付重试概述",
+      "level": 1
+    },
+    {
+      "id": "source-用户主动重试-2",
+      "title": "用户主动重试",
+      "level": 1
+    },
+    {
+      "id": "source-收银台挽回重试-3",
+      "title": "收银台挽回重试",
+      "level": 1
+    },
+    {
+      "id": "source-备用方式重试-4",
+      "title": "备用方式重试",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-支付重试概述-1",
+      "title": "支付重试概述",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>支付重试</strong>，是指用户首次支付尝试失败或未完成后，在<strong>同一笔交易订单下</strong>继续完成支付的能力。商户无需重新下单或自行维护换单逻辑，PIPO 通过<strong>同交易单下新建支付请求单</strong>的方式统一处理。针对不同的失败场景与商户诉求，PIPO 提供<strong>三种</strong>支付重试触发方式。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>重试类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>触发场景</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户确认</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>典型价值</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>用户主动重试</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>用户退出收银台后，从商户订单待支付页再次发起</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户主动发起</p></td><td colspan=\"1\" rowspan=\"1\"><p>原方式或更换，用户在收银台选择</p></td><td colspan=\"1\" rowspan=\"1\"><p>兜底场景，避免重新下单与库存释放</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>即时挽回重试</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>同一收银台会话内支付失败后，页面立即引导用户重试</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户确认重试</p></td><td colspan=\"1\" rowspan=\"1\"><p>原方式或更换，用户当场选择</p></td><td colspan=\"1\" rowspan=\"1\"><p>缩短失败—再试链路，挽回当次会话</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>备用方式重试</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>同一收银台会话内支付失败后，系统按用户预先开通的备用方式自动发起</p></td><td colspan=\"1\" rowspan=\"1\"><p>无需用户确认</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户预先开通的备用支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户无感切换，最大化支付成功率</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-用户主动重试-2",
+      "title": "用户主动重试",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>适用场景：</strong>适用于商户交易场景存在<strong>待支付订单</strong>状态（如因锁定库存需要在用户支付完成前保留订单状态）、且需要支持在<strong>同一订单</strong>下多次发起支付的场景。</p><p><strong>接入方式：</strong>商户需在自身业务侧实现<strong>订单待支付页</strong>，用户发起支付后在该页面拉起 PIPO 收银台。PIPO 收银台会基于原交易订单自动新建支付请求单，商户无需额外适配。</p></aside><p><strong>用户流程示意</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>支付中途退出后</strong> <strong>进入商户待支付页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户点击支付拉起收银台</strong> <strong>用户可切换支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>确认支付后跳转渠道页面</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/SRYNbyFt9oJst2xOKI0l9wTOgie.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/QbzvbMSjQoZTDUxoBVWljlElg7f.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/RrBdbuKT3oG7t6xTAh4ljk1Hgle.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/GjzJb4ANnoDAyDxXhrZlKi1igrc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-收银台挽回重试-3",
+      "title": "收银台挽回重试",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>适用场景：</strong>适用于<strong>绝大多数在线支付场景</strong>。失败原因多样（卡要素录入错误、OTP 未通过、用户取消跳转等），均可通过用户再次确认快速挽回，<strong>建议默认开启</strong>。</p><p><strong>接入方式：</strong>PIPO 收银台<strong>默认开启</strong>，无需额外接入或配置；独立收银台与嵌入式收银台均自动生效。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>用户发起支付</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>失败后挽回Case 1</strong> <strong>推荐支付方式一键重试</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>失败后挽回Case 2</strong> <strong>展示完整列表供用户选择后重试</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付成功跳转商户页面</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/Gsc7bdtHsoSSn1xJm27l8d19goZ.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/JB0EbUnzMoivkdxQo8rla5ilg1b.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/D2HabHTBqoZEpgxwj4tlDo5ggPg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/XOjpb85qKozu1bxuYUslXTJvgJO.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-备用方式重试-4",
+      "title": "备用方式重试",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>适用场景：</strong>适用于<strong>绑定类支付方式占比较高的市场</strong>（如以信用卡/借记卡为主的市场）。在这些市场下，用户倾向于绑定多张支付凭证，系统自动切换备用方式可显著提升支付成功率，且对用户无感知。</p><p><strong>接入方式：</strong>需用户在<strong>备用支付方式开通入口</strong>完成开通，<strong>当前仅支持 TT 端内场景</strong>。开通后，用户在该端内发生支付失败时，系统将自动按用户预设的备用支付方式列表发起重试，无需用户额外确认。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>开通入口1</strong> <strong>支付成功后引导</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>开通入口2</strong> <strong>支付方式管理页备用支付模块</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户使用选中支付方式支付</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付失败后</strong> <strong>自动切换备用支付方式重试成功</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:784/1692\"><img src=\"/docs-media/product-whitepaper/OTmjb00fsoybLyxXB6DlA2O1gYh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/Y4cUbYYaqoRE8OxhQRSl0Mc9gch.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/844\"><img src=\"/docs-media/product-whitepaper/DxpKbmuYeoB2G5xXnngl5z99gVV.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:392/846\"><img src=\"/docs-media/product-whitepaper/NXzsbCLpoocb8VxiJsAl2SqIgXg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    }
+  ]
+}

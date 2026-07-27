@@ -1,0 +1,281 @@
+{
+  "title": "产品白皮书",
+  "rootWikiToken": "SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+  "syncedAt": "2026-07-27T04:47:39.547Z",
+  "defaultNodeToken": "KjxsweJwZiwaj6kYlSPcXvHwnlh",
+  "stats": {
+    "nodes": 24,
+    "documents": 21,
+    "containers": 2
+  },
+  "root": {
+    "nodeToken": "SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+    "title": "产品白皮书",
+    "objType": "docx",
+    "sourceUrl": "https://bytedance.larkoffice.com/wiki/SKIiwfpphiZG9dkA3ZRcfiI1nrd",
+    "hasContent": false,
+    "isContainer": true,
+    "defaultExpanded": true,
+    "contentUrl": "/docs-content/wiki/SKIiwfpphiZG9dkA3ZRcfiI1nrd.json",
+    "children": [
+      {
+        "nodeToken": "E6hBw4OAyiLTHpk3g3QcEJKFnUb",
+        "title": "收单",
+        "objType": "docx",
+        "sourceUrl": "https://bytedance.larkoffice.com/wiki/E6hBw4OAyiLTHpk3g3QcEJKFnUb",
+        "hasContent": false,
+        "isContainer": true,
+        "defaultExpanded": true,
+        "contentUrl": "/docs-content/wiki/E6hBw4OAyiLTHpk3g3QcEJKFnUb.json",
+        "children": [
+          {
+            "nodeToken": "KjxsweJwZiwaj6kYlSPcXvHwnlh",
+            "title": "在线支付产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/KjxsweJwZiwaj6kYlSPcXvHwnlh",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/KjxsweJwZiwaj6kYlSPcXvHwnlh.json",
+            "children": [
+              {
+                "nodeToken": "I9qLwqkrAiE4LwkfqPkcL1a2nWh",
+                "title": "收单模式及合单支付",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/I9qLwqkrAiE4LwkfqPkcL1a2nWh",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/I9qLwqkrAiE4LwkfqPkcL1a2nWh.json",
+                "children": []
+              },
+              {
+                "nodeToken": "AXzwwNvzSi2LbDkX2CMcoLHgnoc",
+                "title": "集成模式与收银台",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/AXzwwNvzSi2LbDkX2CMcoLHgnoc",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/AXzwwNvzSi2LbDkX2CMcoLHgnoc.json",
+                "children": []
+              },
+              {
+                "nodeToken": "Tv1RwYPPoitP6Tk4Vhfcch8ynrd",
+                "title": "支付方式与支付流程",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/Tv1RwYPPoitP6Tk4Vhfcch8ynrd",
+                "hasContent": false,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/Tv1RwYPPoitP6Tk4Vhfcch8ynrd.json",
+                "children": []
+              },
+              {
+                "nodeToken": "ULwjw5oKAiD75hkykzRcN3V0nZd",
+                "title": "预授权及请款",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/ULwjw5oKAiD75hkykzRcN3V0nZd",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/ULwjw5oKAiD75hkykzRcN3V0nZd.json",
+                "children": []
+              },
+              {
+                "nodeToken": "IE75wpXjliqzA8kGVfIcDI6onbc",
+                "title": "绑定支付方式",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/IE75wpXjliqzA8kGVfIcDI6onbc",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/IE75wpXjliqzA8kGVfIcDI6onbc.json",
+                "children": []
+              },
+              {
+                "nodeToken": "E2VkwDpz8icLIokn3gFcJ15znJf",
+                "title": "组合支付",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/E2VkwDpz8icLIokn3gFcJ15znJf",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/E2VkwDpz8icLIokn3gFcJ15znJf.json",
+                "children": []
+              },
+              {
+                "nodeToken": "JUufwIhYhihRxHk50JCcHhnunUe",
+                "title": "支付重试",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/JUufwIhYhihRxHk50JCcHhnunUe",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/JUufwIhYhihRxHk50JCcHhnunUe.json",
+                "children": []
+              },
+              {
+                "nodeToken": "PkFbwGPlEi2Gp1kgAn3cj2rXnyd",
+                "title": "API列表",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/PkFbwGPlEi2Gp1kgAn3cj2rXnyd",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/PkFbwGPlEi2Gp1kgAn3cj2rXnyd.json",
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeToken": "YEOkwDQ6Si9qKEkGwPAcS5hmnGf",
+            "title": "协议代扣产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/YEOkwDQ6Si9qKEkGwPAcS5hmnGf",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/YEOkwDQ6Si9qKEkGwPAcS5hmnGf.json",
+            "children": [
+              {
+                "nodeToken": "NNEywEV5WiuuJ6kgg4pcXR19nee",
+                "title": "协议签约及其集成模式",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/NNEywEV5WiuuJ6kgg4pcXR19nee",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/NNEywEV5WiuuJ6kgg4pcXR19nee.json",
+                "children": []
+              },
+              {
+                "nodeToken": "MV77wWWImiTtUwkdzn5cUwHunzh",
+                "title": "协议扣款能力",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/MV77wWWImiTtUwkdzn5cUwHunzh",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/MV77wWWImiTtUwkdzn5cUwHunzh.json",
+                "children": []
+              },
+              {
+                "nodeToken": "G2mnwdFJLicgKukk9nxcsOVhnre",
+                "title": "协议管理能力",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/G2mnwdFJLicgKukk9nxcsOVhnre",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/G2mnwdFJLicgKukk9nxcsOVhnre.json",
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeToken": "ENJXwOtiMifyFkkBD0gcxwMBnVb",
+            "title": "订阅产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/ENJXwOtiMifyFkkBD0gcxwMBnVb",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/ENJXwOtiMifyFkkBD0gcxwMBnVb.json",
+            "children": [
+              {
+                "nodeToken": "ArGuw6tP5ikBkbkezYWcdCTfnIh",
+                "title": "订阅套餐管理",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/ArGuw6tP5ikBkbkezYWcdCTfnIh",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/ArGuw6tP5ikBkbkezYWcdCTfnIh.json",
+                "children": []
+              },
+              {
+                "nodeToken": "EdCIww6QViCgcbkAFtFclzRSngb",
+                "title": "订阅首次购买",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/EdCIww6QViCgcbkAFtFclzRSngb",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/EdCIww6QViCgcbkAFtFclzRSngb.json",
+                "children": []
+              },
+              {
+                "nodeToken": "OX7UwxQnriczViklSoncz15ynLf",
+                "title": "订阅续订",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/OX7UwxQnriczViklSoncz15ynLf",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/OX7UwxQnriczViklSoncz15ynLf.json",
+                "children": []
+              },
+              {
+                "nodeToken": "XKWxwl8zai2c3UkIUoScxZNGneu",
+                "title": "订阅升降级",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/XKWxwl8zai2c3UkIUoScxZNGneu",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/XKWxwl8zai2c3UkIUoScxZNGneu.json",
+                "children": []
+              },
+              {
+                "nodeToken": "VUbnwy5cSiVK3zkMzAscIM7mnGh",
+                "title": "订阅计划调整",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/VUbnwy5cSiVK3zkMzAscIM7mnGh",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/VUbnwy5cSiVK3zkMzAscIM7mnGh.json",
+                "children": []
+              },
+              {
+                "nodeToken": "YvlLwo4r5i0X9CkNSU2cJukznpb",
+                "title": "API列表",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/YvlLwo4r5i0X9CkNSU2cJukznpb",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/YvlLwo4r5i0X9CkNSU2cJukznpb.json",
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeToken": "TKMtwij9kiNsDnkPwqUcXvHQn7b",
+            "title": "退款产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/TKMtwij9kiNsDnkPwqUcXvHQn7b",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/TKMtwij9kiNsDnkPwqUcXvHQn7b.json",
+            "children": []
+          },
+          {
+            "nodeToken": "ZLJuwK00wi3zMVkQkzZcolzonCg",
+            "title": "拒付产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/ZLJuwK00wi3zMVkQkzZcolzonCg",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/ZLJuwK00wi3zMVkQkzZcolzonCg.json",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

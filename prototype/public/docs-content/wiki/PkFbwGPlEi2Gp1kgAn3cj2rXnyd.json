@@ -1,0 +1,40 @@
+{
+  "slug": "PkFbwGPlEi2Gp1kgAn3cj2rXnyd",
+  "nodeToken": "PkFbwGPlEi2Gp1kgAn3cj2rXnyd",
+  "title": "API列表",
+  "source": "HP93duiZRoxdnOxEMdLlb9Hcgmc",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/PkFbwGPlEi2Gp1kgAn3cj2rXnyd",
+  "syncedAt": "2026-07-27T04:47:07.937Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-独立收银台-1",
+      "title": "独立收银台",
+      "level": 1
+    },
+    {
+      "id": "source-嵌入式收银台-纯api-2",
+      "title": "嵌入式收银台/纯API",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-独立收银台-1",
+      "title": "独立收银台",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>接口endpoint</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口文档链接</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>预下单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/aggregate/prepare_payment</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/aggregate-cashier/pre-order</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询支付结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/aggregate/get_pay_result</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/payment-details</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>关闭订单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/cancel</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/cancel</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付结果通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务提供回调地址</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/aggregate-cashier/payment-callback</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-嵌入式收银台-纯api-2",
+      "title": "嵌入式收银台/纯API",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>接口endpoint</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口文档链接</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>下单并支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/initiate_payment_and_pay</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/initiate-payment-and-pay</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/pay</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/pay</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付咨询</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/cashier_basic_info</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/paymentmethod/cashier-basic-info</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>查询订单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/payment_details</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/payment-details</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>关闭订单</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/cancel</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/cancel</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>支付结果通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务提供回调地址</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/pay-callback</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

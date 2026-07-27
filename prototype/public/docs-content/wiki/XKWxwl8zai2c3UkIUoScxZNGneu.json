@@ -1,0 +1,73 @@
+{
+  "slug": "XKWxwl8zai2c3UkIUoScxZNGneu",
+  "nodeToken": "XKWxwl8zai2c3UkIUoScxZNGneu",
+  "title": "订阅升降级",
+  "source": "RMsRdNuvAoz5u6xwgCdlaKETgPc",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/XKWxwl8zai2c3UkIUoScxZNGneu",
+  "syncedAt": "2026-07-27T04:47:21.667Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 5,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    },
+    {
+      "id": "source-订阅升级-2",
+      "title": "订阅升级",
+      "level": 1
+    },
+    {
+      "id": "source-订阅降级-3",
+      "title": "订阅降级",
+      "level": 1
+    },
+    {
+      "id": "source-订阅计划调整-4",
+      "title": "订阅计划调整",
+      "level": 1
+    },
+    {
+      "id": "source-增值服务-5",
+      "title": "增值服务",
+      "level": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>订阅升降级</strong>是指用户在原订阅生效期间，主动切换到同商户下的另一个订阅套餐的过程。例如用户从订阅普通会员升级为订阅高级会员，或订阅从高级会员降级到普通会员。</p></aside>"
+    },
+    {
+      "id": "source-订阅升级-2",
+      "title": "订阅升级",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>当订阅处于active，pending_active，cancelled状态时，商户可发起升级，将用户从当前订阅套餐切换至另一个目标订阅套餐。</p><p>升级发生时，原订阅可能尚有未使用完的剩余权益，PIPO 根据剩余权益的不同处理方式，提供下表所列的几种升级模式供商户选择。</p></aside><blockquote class=\"synced-quote\"><p>示例场景：用户 A 于 6 月 1 日购买个人月包音乐会员（30 USD / 月），按计划 7 月 1 日续费。6 月 20 日，用户 A 升级为家庭月包音乐会员（60 USD / 月）。下表展示三种模式下的处理结果。&quot;</p></blockquote><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>原订阅处理方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>剩余权益对应金额折算来源</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户需要支付的金额</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>下一次扣款日</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>案例结果</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>终止，剩余权益退款</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO基于剩余权益时间计算 或 商户自行计算后传入</p></td><td colspan=\"1\" rowspan=\"1\"><p>全价</p></td><td colspan=\"1\" rowspan=\"1\"><p>升级当天+新套餐订阅周期</p></td><td colspan=\"1\" rowspan=\"1\"><p>升级支付金额：60USD 退款金额：30×10/30=10USD 下一期扣款日：7月20日</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>终止，剩余权益抵扣新订阅首期款项</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO基于剩余权益时间计算 或 商户自行计算后传入</p></td><td colspan=\"1\" rowspan=\"1\"><p>全价 - 抵扣金额</p></td><td colspan=\"1\" rowspan=\"1\"><p>升级当天+新套餐订阅周期</p></td><td colspan=\"1\" rowspan=\"1\"><p>原订阅剩余 10 天对应金额：30×10/30=10USD 抵扣后升级款项：60-10=50USD 下一期扣款日：7月20日</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>不终止，剩余时间补差价升级到新订阅权益</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO基于剩余权益时间计算 或 商户自行计算后传入</p></td><td colspan=\"1\" rowspan=\"1\"><p>补差价</p></td><td colspan=\"1\" rowspan=\"1\"><p>原订阅的下次扣款日</p></td><td colspan=\"1\" rowspan=\"1\"><p>新订阅剩余 10 天对应金额：60×10/30=20 USD 原订阅剩余 10 天对应金额：30×10/30=10 USD 升级补差价：20-10=10USD 下一期扣款日：7月1日</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p>由于业务的权益折算方式，可能基于实际的用量进行折算（如token使用量），在尚未提供按使用量计费能力的前提下，PIPO提供了由业务自己折算使用量的剩余权益折算方式。</p></blockquote>"
+    },
+    {
+      "id": "source-订阅降级-3",
+      "title": "订阅降级",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>当订阅处于active，pending_active，cancelled状态时，商户可发起降级。</p><p>与升级不同，<strong>降级不会立即生效</strong>：原订阅保留至当前周期到期，到期后<strong>不再对原订阅续费</strong>，而是直接以<strong>降级后的订阅套餐</strong>启动新周期扣款。该机制保障用户已支付的高价权益不会因降级而被提前折损</p></aside><blockquote class=\"synced-quote\"><p>示例场景：用户 A 于 6 月 1 日购买家庭月包音乐会员（60 USD / 月），按计划 7 月 1 日续费。6 月 20 日，用户 A 降级为个人月包音乐会员（30 USD / 月）。</p></blockquote><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>原订阅处理方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>用户需要支付的金额</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>下一次扣款日</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>新订阅生效时间点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>案例结果</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>不终止，到期后切换订阅套餐</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>不需要额外支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>原订阅到期当天，发起新订阅的首期扣款</p></td><td colspan=\"1\" rowspan=\"1\"><p>原订阅到期日</p><blockquote class=\"synced-quote\"><p>前提：新订阅的首次扣款成功</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>下一期扣款日：7月1日 下一期扣款金额：30USD</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-订阅计划调整-4",
+      "title": "订阅计划调整",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>订阅计划调整</strong>指订阅创建后，商户对订阅计划生命周期的运营干预手段，包括<strong>取消、恢复、终止、修改过期时间</strong>四项能力。下图标红箭头展示了这些操作触发的状态机流转，覆盖 <code>active</code>、<code>cancelled</code>、<code>expired</code>、<code>in_grace_period</code> 之间的转换。</p></aside><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-SO9DwFHHmhj10Wby0inlopKggge.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>取消订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>active及pending_active状态的订阅，可调用<strong>取消接口</strong>进行取消。取消后，不再对用户进行下次扣款，在当前周期内仍持续生效。如果订阅处于宽限期（in_grace_period），取消后会立刻过期（expired）。 取消阶段同SKU用户也无法再次购买，需等到该权益发放期结束进入 过期（expired）状态后，可以重新购买同SKU。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>恢复订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户主动取消的订阅，在到期日期之前，可调用<strong>恢复接口</strong>恢复订阅。使用后，订阅状态扭转为active，在原定的下一个扣款日期发起扣款。注意，订阅取消后已经转变为过期（expired）状态的订阅不支持恢复。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>终止订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户可以调用<strong>终止接口</strong>主动触发终止动作，任意阶段均可触发该动作。使用后，订阅状态置为终止（revoked）。未生效以及已到达终态的订阅不支持终止（init/pending/expired/closed/revoked），终止订阅不自动触发退款。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>修改过期时间</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>生效中（active）、待生效（pending_active）、或已取消订阅（cancelled），可以调用<strong>修改订阅过期时间接口</strong>提前或延后当前订阅的过期时间。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-增值服务-5",
+      "title": "增值服务",
+      "level": 2,
+      "html": ""
+    }
+  ]
+}

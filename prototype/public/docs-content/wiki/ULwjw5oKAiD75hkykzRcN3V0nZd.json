@@ -1,0 +1,51 @@
+{
+  "slug": "ULwjw5oKAiD75hkykzRcN3V0nZd",
+  "nodeToken": "ULwjw5oKAiD75hkykzRcN3V0nZd",
+  "title": "预授权及请款",
+  "source": "GV9ndzfB4oyrxMxQcTcl6nCYgbf",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/ULwjw5oKAiD75hkykzRcN3V0nZd",
+  "syncedAt": "2026-07-27T04:47:03.070Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 3,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-请款模式定义-1",
+      "title": "请款模式定义",
+      "level": 1
+    },
+    {
+      "id": "source-预授权及手动请款-2",
+      "title": "预授权及手动请款",
+      "level": 1
+    },
+    {
+      "id": "source-支付方式及授权有效期-3",
+      "title": "支付方式及授权有效期",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-请款模式定义-1",
+      "title": "请款模式定义",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>请款模式，定义了用户完成支付授权后，何时完成实际扣款，主要包括自动请款与手动请款，如下表所示。</p><p>针对手动请款模式，PIPO 在授权完成后额外提供预授权请款及预授权取消功能。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>请款模式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>定义</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>自动请款 (Auto Capture)</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>支付授权完成后，直接扣减用户资金。 如无特殊的指定，支付授权都以自动请款的形式进行，交易成功后即会进入清分流程，商户无需与PIPO进行额外的交互。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>手动请款 (Manual Capture)</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>支付授权完成后，不直接扣减用户资金，而是冻结其支付资产的可用额度，并在特定交易阶段达成后，由商户在无需用户再次确认的情况下，在冻结额度的基础上发起扣款的产品功能。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-预授权及手动请款-2",
+      "title": "预授权及手动请款",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>业务可通过接口指定收单支付时的请款模式为“预授权后手动请款”。</p><p>在完成预授权交易后，PIPO提供了预授权请款(capture), 和预授权取消(void)功能，来支持预授权后的交易动作。</p></aside><p><strong>预授权+手动请款能力，适用于以下场景</strong></p><ul><li>支付授权和实际履约（如电商交易），存在一定时间差，通过预授权+手动请款，能够延后实际扣款时间，并且减少由于订单取消带来的退款到账较慢问题，提升用户体验。当前TTS US采用该种方式。</li><li>在交付商品或服务过程中，其最终的金额可能会灵活变化，但商户需要在交付商品和服务之前，就冻结用户可用余额以避免支付不成功造成的损失。如打车，租车，酒店入住后的预授权等。</li></ul><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-ZrD2wsBrHh1G3tbDMCllK5Dhg8c.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>功能描述</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>系统接入链路</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>下单支付-“预授权+手动请款模式“</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户下单并指定进行“预授权+手动请款模式”的支付授权，授权交易成功后，用户特定支付资产的额度会被冻结，以用于完成后续交易请款。</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户通过接口向PIPO发预授权交易，完成授权，PIPO返回授权标识</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>预授权请款-Capture</p></td><td colspan=\"1\" rowspan=\"1\"><p>基于预授权已经冻结的用户资产额度为基础，在特定交易阶段达成后，由商户在无需用户再次确认的情况下，直接发起请款的产品功能。 商户可以在已授权额度内，分多次进行请款，请款成功后，会触发向商户的清分流程。</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户携带授权标识通过接口向PIPO发起请款请求，支持在已授权额度内多次请款</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>预授权-Void</p></td><td colspan=\"1\" rowspan=\"1\"><p>基于预授权已经冻结但还未扣款的额度，取消冻结，释放全部剩余未请款额度。</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户携带授权标识通过接口向PIPO发起取消请求，释放剩余已冻结额度</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-支付方式及授权有效期-3",
+      "title": "支付方式及授权有效期",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>当前仅部分支付方式支持预授权+手动请款，且存在一定的授权有效窗口期，具体如下表所示。</p><p>预授权到期后，剩余未请款额度会被自动释放。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>授权有效期窗口</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行卡支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>7天</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>穿透式钱包 Applepay/Googlepay</p></td><td colspan=\"1\" rowspan=\"1\"><p>7天</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p>部分支付方式（如 PayPal 等电子钱包）渠道侧已具备预授权能力，但 PIPO 暂未接入；其余支付方式因渠道能力限制，暂不支持预授权模式。</p></blockquote>"
+    }
+  ]
+}

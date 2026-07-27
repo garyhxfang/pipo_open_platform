@@ -1,0 +1,29 @@
+{
+  "slug": "VUbnwy5cSiVK3zkMzAscIM7mnGh",
+  "nodeToken": "VUbnwy5cSiVK3zkMzAscIM7mnGh",
+  "title": "订阅计划调整",
+  "source": "P0Cqddf2UoxCY2xEy4OlQZhignc",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/VUbnwy5cSiVK3zkMzAscIM7mnGh",
+  "syncedAt": "2026-07-27T04:47:22.696Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>订阅计划调整</strong>指订阅创建后，商户对订阅计划生命周期的运营干预手段，包括<strong>取消、恢复、终止、修改过期时间</strong>四项能力。下图标红箭头展示了这些操作触发的状态机流转，覆盖 <code>active</code>、<code>cancelled</code>、<code>expired</code>、<code>in_grace_period</code> 之间的转换。</p></aside><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-RXJ7wjl9yh4CB9bYNfOl8pZEgkb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p>描述</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>取消订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>active及pending_active状态的订阅，可调用<strong>取消接口</strong>进行取消。取消后，不再对用户进行下次扣款，在当前周期内仍持续生效。如果订阅处于宽限期（in_grace_period），取消后会立刻过期（expired）。 取消阶段同SKU用户也无法再次购买，需等到该权益发放期结束进入 过期（expired）状态后，可以重新购买同SKU。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>恢复订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户主动取消的订阅，在到期日期之前，可调用<strong>恢复接口</strong>恢复订阅。使用后，订阅状态扭转为active，在原定的下一个扣款日期发起扣款。注意，订阅取消后已经转变为过期（expired）状态的订阅不支持恢复。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>终止订阅</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户可以调用<strong>终止接口</strong>主动触发终止动作，任意阶段均可触发该动作。使用后，订阅状态置为终止（revoked）。未生效以及已到达终态的订阅不支持终止（init/pending/expired/closed/revoked），终止订阅不自动触发退款。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>修改过期时间</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>生效中（active）、待生效（pending_active）、或已取消订阅（cancelled），可以调用<strong>修改订阅过期时间接口</strong>提前或延后当前订阅的过期时间。</p></td></tr></tbody></table></div>"
+    }
+  ]
+}
