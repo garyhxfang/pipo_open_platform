@@ -8,7 +8,10 @@
       "treeOutput": "prototype/public/docs-content/wiki-tree.json",
       "contentDirectory": "prototype/public/docs-content/wiki",
       "mediaDirectory": "prototype/public/docs-media/product-whitepaper",
-      "mediaBaseUrl": "/docs-media/product-whitepaper"
+      "mediaBaseUrl": "/docs-media/product-whitepaper",
+      "excludedContentNodeTokens": [
+        "E6hBw4OAyiLTHpk3g3QcEJKFnUb"
+      ]
     }
   ]
 }

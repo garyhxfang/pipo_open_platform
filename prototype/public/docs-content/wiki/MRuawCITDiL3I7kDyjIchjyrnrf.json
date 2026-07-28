@@ -1,0 +1,40 @@
+{
+  "slug": "MRuawCITDiL3I7kDyjIchjyrnrf",
+  "nodeToken": "MRuawCITDiL3I7kDyjIchjyrnrf",
+  "title": "提现退票处理",
+  "source": "I2b0dTPtxodfoqx0V8ol8Cgwg9g",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/MRuawCITDiL3I7kDyjIchjyrnrf",
+  "syncedAt": "2026-07-28T05:16:25.106Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-退票消息处理-1",
+      "title": "退票消息处理",
+      "level": 2
+    },
+    {
+      "id": "source-退票补差-2",
+      "title": "退票补差",
+      "level": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-退票消息处理-1",
+      "title": "退票消息处理",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>出款退票（Reverse）是指出款订单完成（通常认为已经到账）后，因为各种原因资金被原路退回的场景。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>退票不能由商户主动发起，只能被动接受支付渠道通知。</p><p>当发生退票后，表示该笔出款最终失败，放款资金会被原路退回到用户的付款账户，对应业务侧也需要接收通知并处理提现/代发的状态，同时根据退票原因引导用户更新收款信息或者再次发起，</p><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-TnH2wqwmMh4qdrbRtt8lWiLYgsb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退票回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>代发发生退票时，PIPO会回调商户对应的事件及交易状态</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-退票补差-2",
+      "title": "退票补差",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>Payout退票场景，如涉及换汇，可能由于汇率波动产生损益，出款产品接入时，需确认退票补差损益承担方。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>模式</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>净额模式</strong></p><blockquote class=\"synced-quote\"><p><strong>Net amount</strong></p></blockquote></th><th colspan=\"1\" rowspan=\"1\"><p><strong>足额模式</strong></p><blockquote class=\"synced-quote\"><p><strong>Full amount</strong></p></blockquote></th><th colspan=\"1\" rowspan=\"1\"><p><strong>PiPO 受益模式</strong></p><blockquote class=\"synced-quote\"><p><strong>PiPO favored</strong></p></blockquote></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>处理方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>净额退票，退票多少就返回多少 = 渠道退回金额</p></td><td colspan=\"1\" rowspan=\"1\"><p>足额退票，出款（不含费）多少，到账多少 = 出款金额 注：包含支付币种足额和标价币种足额两种模式</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>退票 ≤ 出款<strong>（不含费）</strong>：净额退用户</li><li>退票 &gt; 出款：按出款退回，差额记收益</li></ul></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>应用场景</p></td><td colspan=\"1\" rowspan=\"1\"><p>默认方式，广泛应用于商户代发、一二级商户提现</p></td><td colspan=\"1\" rowspan=\"1\"><ol><li>TT Live Creator Wallet</li></ol><blockquote class=\"synced-quote\"><p>*PiPO 手续费也退回了</p></blockquote><ol><li>电商卖家提现</li></ol></td><td colspan=\"1\" rowspan=\"1\"><p>TTS Merchant Wallet</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>损益承担方</p><blockquote class=\"synced-quote\"><p>汇率 | 渠道侧费用</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p><strong>原出款CA承担</strong></p><blockquote class=\"synced-quote\"><p>代发场景：业务方平台承担，对用户保价</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p><strong>指定CA承担</strong>，一般为平台损益账户，直播主播提现为PIPO主体商户承担。</p><blockquote class=\"synced-quote\"><p>指定账户承担</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p><strong>损：原出款CA</strong> <strong>益：直接核算到PiPO损益</strong></p><blockquote class=\"synced-quote\"><p><strong>用户</strong>或<strong> PiPO</strong></p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>PIPO手续费</p></td><td colspan=\"3\" rowspan=\"1\"><p>一般不退，6 USD。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退票金额</p></td><td colspan=\"3\" rowspan=\"1\"><p><strong>7156.8 CNY</strong> 因汇率上升，CNY升值，换汇回USD 1008，<strong>收益 14 USD</strong></p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>记账</p><blockquote class=\"synced-quote\"><p>Payout 视角</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><ul><li>出款CA：+ 1008 USD</li></ul><blockquote class=\"synced-quote\"><p>1000-6+14</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><ul><li>出款CA：+ 994 USD</li></ul><blockquote class=\"synced-quote\"><p>1000-6</p></blockquote><ul><li>电商Special或PIPO主体商户：+ 14 USD</li></ul></td><td colspan=\"1\" rowspan=\"1\"><ul><li>出款CA：+ 994 USD, with extra 14 USD</li></ul></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>核算</p></td><td colspan=\"1\" rowspan=\"1\"><p>都是客资，无需额外核算</p></td><td colspan=\"1\" rowspan=\"1\"><p>损益记账，根据Special核算</p></td><td colspan=\"1\" rowspan=\"1\"><p>不记账，计算差值经NewPayCore直接核算</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否需要传损益对应的记账主体</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td><td colspan=\"1\" rowspan=\"1\"><p>是 用损益承担方对应的商户去产品中心查询收单主体，传给统一支付。</p></td><td colspan=\"1\" rowspan=\"1\"><p>否（Payout视角不记账，无法根据出资商户查询主体信息）</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

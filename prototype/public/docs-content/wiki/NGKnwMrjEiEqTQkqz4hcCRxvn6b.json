@@ -1,0 +1,29 @@
+{
+  "slug": "NGKnwMrjEiEqTQkqz4hcCRxvn6b",
+  "nodeToken": "NGKnwMrjEiEqTQkqz4hcCRxvn6b",
+  "title": "提现产品",
+  "source": "CrSjdg8h1odhIOx3U8jlMJe3gTd",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/NGKnwMrjEiEqTQkqz4hcCRxvn6b",
+  "syncedAt": "2026-07-28T05:15:33.762Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>一级产品分类</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p>商户类型</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>二级产品分类（暂定）</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>收款用户角色</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付发起方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>适合场景</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"3\"><p>提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>平台商户 普通商户</p></td><td colspan=\"1\" rowspan=\"1\"><p>一级商户提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>B端用户</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>PIPO Dashboard 手动发起</li><li>Sky自动提现规则维护后系统自动发起</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>用于平台/传统一级商户资产提现的场景</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>平台商户</p></td><td colspan=\"1\" rowspan=\"1\"><p>二级商户提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>B端用户</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>业务页面发起手动提现</li><li>业务侧设置周期打款，到期后业务自动发起</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>平台商户下的二级商户收单/分账资金提现</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>平台商户 普通商户</p></td><td colspan=\"1\" rowspan=\"1\"><p>用户提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>C端用户</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>业务页面发起手动提现</li><li>业务侧设置周期打款，到期后业务自动发起</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>商户所属用户的账户余额提现</p></td></tr></tbody></table></div>"
+    }
+  ]
+}

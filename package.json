@@ -5,7 +5,8 @@
   "description": "收单支付机构开放平台文档站 Demo",
   "scripts": {
     "prototype:dev": "vite prototype --host 0.0.0.0 --port 5175",
-    "prototype:build": "vite build prototype",
+    "prototype:build": "PIPO_BUILD_TARGET=local vite build prototype",
+    "prototype:build:pages": "PIPO_BUILD_TARGET=pages vite build prototype",
     "prototype:build:with-docs": "npm run prototype:sync-docs && npm run prototype:build",
     "prototype:sync-docs": "node scripts/sync-lark-docs.mjs",
     "prototype:preview": "vite preview prototype --host 0.0.0.0 --port 4175",
@@ -19,7 +20,7 @@
     "docs:dev": "vitepress dev docs --host 0.0.0.0 --port 5173",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs --host 0.0.0.0 --port 4173",
-    "pages:build": "npm run docs:build && npm run capability:build && npm run prototype:build && mkdir -p docs/.vitepress/dist/capability-map docs/.vitepress/dist/open-platform && cp -R capability-map/dist/. docs/.vitepress/dist/capability-map/ && cp -R prototype/dist/. docs/.vitepress/dist/open-platform/"
+    "pages:build": "npm run docs:build && npm run capability:build && npm run prototype:build:pages && mkdir -p docs/.vitepress/dist/capability-map docs/.vitepress/dist/open-platform && cp -R capability-map/dist/. docs/.vitepress/dist/capability-map/ && cp -R prototype/dist/. docs/.vitepress/dist/open-platform/"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",

@@ -633,8 +633,20 @@ async function syncWikiRoot(documentConfig) {
   const tree = await buildWikiTree(rootNode, rootNode.space_id);
   const flatNodes = flattenWikiTree(tree);
   const contentDirectory = documentConfig.contentDirectory;
+  const excludedContentNodeTokens = new Set(
+    documentConfig.excludedContentNodeTokens || [],
+  );
 
   for (const { node } of flatNodes) {
+    if (excludedContentNodeTokens.has(node.nodeToken)) {
+      process.stdout.write(
+        `Keeping wiki document empty by configuration: ${node.title}…\n`,
+      );
+      node.hasContent = false;
+      node.contentUrl = null;
+      continue;
+    }
+
     const supportsDocumentContent = ["docx", "doc"].includes(node.objType);
     if (!supportsDocumentContent) {
       node.hasContent = false;

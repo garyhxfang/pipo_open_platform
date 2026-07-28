@@ -1,0 +1,29 @@
+{
+  "slug": "YXCQwFTRMicIkDkCAyccPhAAn2d",
+  "nodeToken": "YXCQwFTRMicIkDkCAyccPhAAn2d",
+  "title": "收款PI跨业务共享",
+  "source": "LNWcdOL1eo1WIyxLm0ilpCZeg7e",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/YXCQwFTRMicIkDkCAyccPhAAn2d",
+  "syncedAt": "2026-07-28T05:17:04.178Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 4,
+    "mediaDownloaded": 4
+  },
+  "toc": [],
+  "sections": [
+    {
+      "id": "source-c端用户-1",
+      "title": "C端用户",
+      "level": 3,
+      "html": "<ol><li><strong>C端用户身份和出款PI关系</strong></li></ol><aside class=\"synced-callout\"><p>基于TT UID的用户，在PIPO拥有同一身份标识，可实现不同商户间的PI互通，避免同一用户不同商户间多次绑定出款PI，提升用户体验。</p></aside><p>TT UID体系下，目前已经支持TTS/TTL/<del>TTLS</del>用户PI互通，其他存量业务有诉求需单独评估方案，新业务接入时按照新用户体系+PI版本，可直接配置支持。</p><p>非TT UID体系，可考虑接入TikTok Pay来使用用户在TT端绑定的PI信息（能力搭建中）。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-JyALwg4UJhY0ZSbzYIFlCApPgLe.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><ol><li><strong>C端用户的PI互通方案</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-ATWZwUgrnh0OzwbIOXrlMNnygAb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-b端商家-wip-2",
+      "title": "B端商家（WIP）",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>B端商家由于暂无统一账户体系，均与其接入PIPO的一级商户有强关联，则B端商家无法向C端用户一样实现身份维度的天然互通，需要接入额外的能力才那个实现商户间PI的互通。</p><blockquote class=\"synced-quote\"><p>能力建设中，暂未上线</p></blockquote></aside><ol><li><strong>B端用户身份和出款PI关系</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-OIgQwOC0shZrORbZsGkl6ppJgqS.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><ol><li>B端用户PI互通方案</li></ol><p>由于不同商户对接的Payout渠道不同，对绑定PI的要求不同，因此B端商户的PI无法直接复制，而是需要走一次完成的绑卡请求渠道流程。因此B端商家只能采用以下方案进行互通：</p><ul><li>查询需要复制的商户下的PI</li><li>重新走一遍绑定流程</li></ul><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-SFoAwsMGJh3ZihbE4FIlEX1HgXg.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    }
+  ]
+}

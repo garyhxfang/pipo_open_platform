@@ -1,0 +1,29 @@
+{
+  "slug": "LD8awBuW1isvNBkHynycpbWqnhb",
+  "nodeToken": "LD8awBuW1isvNBkHynycpbWqnhb",
+  "title": "一级商户提现",
+  "source": "DqPmdN2QIo4Vzvxbf3xliE5KgBb",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/LD8awBuW1isvNBkHynycpbWqnhb",
+  "syncedAt": "2026-07-28T05:15:42.585Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 4,
+    "mediaDownloaded": 4
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>产品简介：</strong>一级商户的账户余额提现到公司同主体下的对公银行账户。</p><p><strong>适用场景：</strong>商户通过PIPO产生的交易结算款项、平台分佣等收入，均需要通过一级商户提现功能来实现资金从PIPO系统账户到商户银行账户。</p><p><strong>产品特性：</strong>一级商户提现有低频，额度大的特点。</p></aside><ol><li><strong>能力概述</strong></li></ol><p>一级商户提现是PIPO提供给直接服务的一级商户的服务，无需商户接口接入，可以在注册后，通过登录PIPO分配的Dashborad后台管理账号进行手动操作，也可以联系PIPO 资金运营同学进行自动提现规则配置，满足配置规则的场景下，PIPO会自动发起提现交易。下面详细介绍两种提现功能的具体能力和操作。</p><ol><li><strong>操作流程</strong></li></ol><blockquote class=\"synced-quote\"><p>Dashboard登录地址：https://pipopay-insight-sea.byteintl.net/login</p></blockquote><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>操作步骤</p></th><th colspan=\"1\" rowspan=\"1\"><p>操作目的&amp;说明</p></th><th colspan=\"1\" rowspan=\"1\"><p>操作流程</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Dashboard绑卡</p></td><td colspan=\"1\" rowspan=\"1\"><p>目的：添加收款银行账户（PI绑定） 说明：</p><ul><li>无论是Dashboard手动还是sky自动发起提现，都依赖前置添加收款银行账户</li><li>一个商户可以绑定多个PI，但是仅有一个会被设置成Primary PI，Primary PI支持更换，设置后将被用作自动提现的收款账户</li><li>不同地区支持的银行和所需要收集的银行信息不一样，请按照页面提示进行输入</li></ul></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1844/962\"><img src=\"/docs-media/product-whitepaper/TqrKbWjgioIt3bxLVx1lenRngHh.gif\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Dashboard发起提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>目的：发起提现订单 说明：</p><ul><li>基于特定账户发起提现，如果一个商户下有多个账户需要提现，则需要分别单独操作</li><li>每次发起提现时，可以选择不同的PI，收款币种与选择的PI的币种相同</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>步骤一 选中需要提现的账户</p><figure class=\"synced-media\" style=\"aspect-ratio:1866/954\"><img src=\"/docs-media/product-whitepaper/D6z9blCG8oBuAQxZA4wlkZfkgLc.gif\" alt=\"飞书文档图片\" loading=\"lazy\"></figure><p>步骤二 发起提现申请</p><figure class=\"synced-media\" style=\"aspect-ratio:1690/932\"><img src=\"/docs-media/product-whitepaper/JVD8bkbI6osmn1xRK8ulms9lgXs.gif\" alt=\"飞书文档图片\" loading=\"lazy\"></figure><p>步骤三 查看提现结果</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Sky后台-提现周期配置</p></td><td colspan=\"1\" rowspan=\"1\"><p>目的：提前配置好提现触发规则，后续命中规则PIPO会自动发情期提现 说明：</p><ul><li>基于特定账户进行提现配置，如果一个商户下有多个账户需要自动提现，则需要每个账户单独配置提现规则</li><li>自动提现规则配置暂时未对商户开放，如果需求，请联系资金运营</li><li>可以配置的规则维度有：</li><li>提现频率：</li><li>Weekly</li><li>Monthly</li><li>Withdraw：</li><li>根据频率选择具体日期</li><li>提现方式：</li><li>liquidity</li><li>Partial</li><li>Percentage</li><li>Specified</li><li>监控账户：TBD</li><li>流速基数：TBD</li><li>预留天数：TBD</li><li>起提门槛：TBD</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>规则概览：</p><figure class=\"synced-media\" style=\"aspect-ratio:1280/1248\"><img src=\"/docs-media/product-whitepaper/YtlZbfqn0oqqKTxDI8Clg4ODg2n.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    }
+  ]
+}

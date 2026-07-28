@@ -2,9 +2,9 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
 const repositoryName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
-const isGitHubActions = process.env.GITHUB_ACTIONS === "true";
+const isPagesBuild = process.env.PIPO_BUILD_TARGET === "pages";
 const base =
-  isGitHubActions && repositoryName
+  isPagesBuild && repositoryName
     ? `/${repositoryName}/open-platform/`
     : "/";
 

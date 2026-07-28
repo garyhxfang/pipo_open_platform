@@ -1,0 +1,29 @@
+{
+  "slug": "PzPqw9dlfiuX7wkEBySchIVFnlf",
+  "nodeToken": "PzPqw9dlfiuX7wkEBySchIVFnlf",
+  "title": "API列表",
+  "source": "Gv2Fd9KvAoYXxGx9Ds2lorSrgoh",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/PzPqw9dlfiuX7wkEBySchIVFnlf",
+  "syncedAt": "2026-07-28T05:17:11.361Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<h2>独立绑卡收银台</h2><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/cashier/get_link</p></td><td colspan=\"1\" rowspan=\"1\"><p>通用接口-获取绑卡链接</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h2>独立提现收银台</h2><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/order/pre_create</p></td><td colspan=\"1\" rowspan=\"1\"><p>预下单-获取收银台链接</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h2>Drop in 嵌入收银台</h2><h3>标准六分屏Drop in收银台</h3><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/cashier/half_screen_cashier/v1/get_iframe_url</p></td><td colspan=\"1\" rowspan=\"1\"><p>新版六分屏获取iframe链接</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h3>直播自建Drop in收银台</h3><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/cashier/get_pi_list</p></td><td colspan=\"1\" rowspan=\"1\"><p>获取PI列表</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/order/create</p></td><td colspan=\"1\" rowspan=\"1\"><p>Drop in-两步口预下单+算价-直播</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/order/submit</p></td><td colspan=\"1\" rowspan=\"1\"><p>Drop in-确认提现-直播</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h2>API提现接口</h2><h3>单笔提现接口</h3><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/order/direct_submit</p></td><td colspan=\"1\" rowspan=\"1\"><p>单笔-API发起交易</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h3>批量打款接口</h3><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/batch/upload</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-上传打款文件</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/resource/reserve</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-资源预留（CA额度占用&amp;流动性预测数据上报）</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/resource/release</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-资源释放（CA额度释放&amp;流动性预测数据rollback）</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/batch/declare</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-声明</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div><h2>查单等配套接口</h2><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>接口地址</p></th><th colspan=\"1\" rowspan=\"1\"><p>接口名称</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口文档</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/order/get_info_biz</p></td><td colspan=\"1\" rowspan=\"1\"><p>单笔订单查询接口-新</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/cashier/v1/order/exchange_rate</p></td><td colspan=\"1\" rowspan=\"1\"><p>查询手续费汇率限额等信息</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/batch/query</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-查询</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>/payout/v1/batch/query_record</p></td><td colspan=\"1\" rowspan=\"1\"><p>批量打款-单条查询</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "slug": "TZgMwlqhei2W05kkieDcKhFFnzc",
+  "nodeToken": "TZgMwlqhei2W05kkieDcKhFFnzc",
+  "title": "结算产品",
+  "source": "PeKsdqAdVoiYPaxz4lWl7ykKgS3",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/TZgMwlqhei2W05kkieDcKhFFnzc",
+  "syncedAt": "2026-07-28T05:15:29.160Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 15,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-版本记录-1",
+      "title": "版本记录",
+      "level": 1
+    },
+    {
+      "id": "source-产品介绍-2",
+      "title": "产品介绍",
+      "level": 1
+    },
+    {
+      "id": "source-产品定位-3",
+      "title": "产品定位",
+      "level": 2
+    },
+    {
+      "id": "source-适用场景-4",
+      "title": "适用场景",
+      "level": 2
+    },
+    {
+      "id": "source-核心流程-5",
+      "title": "核心流程",
+      "level": 2
+    },
+    {
+      "id": "source-产品能力总览-6",
+      "title": "产品能力总览",
+      "level": 2
+    },
+    {
+      "id": "source-产品能力-7",
+      "title": "产品能力",
+      "level": 1
+    },
+    {
+      "id": "source-结算模式选择-8",
+      "title": "结算模式选择",
+      "level": 2
+    },
+    {
+      "id": "source-结算方式和结算账户选择-9",
+      "title": "结算方式和结算账户选择",
+      "level": 2
+    },
+    {
+      "id": "source-报价模式选择-10",
+      "title": "报价模式选择",
+      "level": 2
+    },
+    {
+      "id": "source-产品签约-13",
+      "title": "产品签约",
+      "level": 2
+    },
+    {
+      "id": "source-接口列表及文档-14",
+      "title": "接口列表及文档",
+      "level": 2
+    },
+    {
+      "id": "source-当前业务线情况说明-15",
+      "title": "当前业务线情况说明",
+      "level": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-版本记录-1",
+      "title": "版本记录",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>日期</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>更新点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>更新人</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>2026-05-21</p></td><td colspan=\"1\" rowspan=\"1\"><p>初稿</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品介绍-2",
+      "title": "产品介绍",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>一句话总结：</strong> 商户结算产品承接了收单、清分、分账之后的最终资金出账环节，核心目标是依据商户结算协议，将商户应收资金以约定的周期、方式、币种和账户准确划转到位，是收单资金链路触达商户的关键一环。</p></aside>"
+    },
+    {
+      "id": "source-产品定位-3",
+      "title": "产品定位",
+      "level": 2,
+      "html": "<p>PIPO 向各海外业务线提供商户收单结算服务，商户结算产品按照商户结算协议约定的结算模式、结算币种及结算账户，将商户应收资金从收单资金链路中准确划转至商户侧，实现交易资金从收单完成到商户到账的闭环。</p>"
+    },
+    {
+      "id": "source-适用场景-4",
+      "title": "适用场景",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>面向收单产品服务的商户提供统一结算能力。除传统托管型且 PIPO 无资金管理权的商户外，原则上均可纳入结算产品覆盖范围。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>典型案例</strong></p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>TTS：跨境电商订单结算给卖家、平台、达人等</li><li>TTLS：本地生活券核销后结算给商户</li><li>TCM：向广告主相关商户对象结算</li><li>传统型业务：直播、游戏等业务线商户结算</li><li>金融：为保险、BNPL 等场景向资方 / broker 结算</li></ul></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-核心流程-5",
+      "title": "核心流程",
+      "level": 2,
+      "html": "<figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-D6iBwxpF0hAjOvbbHWQlpHEtgCb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    },
+    {
+      "id": "source-产品能力总览-6",
+      "title": "产品能力总览",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>类别</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>能力维度</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>可选项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>选型建议</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"6\"><p><strong>基础服务</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p><strong>结算模式</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>周期结算 / 实时结算 / 指令结算 / 不结算</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>大部分商户选择 <strong>周期结算（默认）</strong>，兼顾规模化运营与稳定到账</li><li>传统托管商户且 PIPO 无资金代管权时，通常<strong>选择不结算</strong></li><li>如 TTS 等业务需要主动控制结算节奏，可选择指令结算，但<strong>发起结算的时间需至少在收单后 +x 天后发起</strong></li></ul></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算方式</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>结算到户 / 结算到钱包 / 内部结转清</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>默认采用结算到户（Payin 户）</li><li>持有钱包的商户，如全托管卖家，可选择结算到钱包</li><li>金融机构如 BNPL、broker 等场景，适合选择内部结转清</li></ul></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算周期</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>D（自然日结）/ T（工作日结）/ W（周结）/ M（月结）</p></td><td colspan=\"1\" rowspan=\"1\"><p>大部分业务选择 D / T，主要满足对结算时效要求较高、同时需要兼顾运营可管理性的场景</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算币种</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>本地币种 / USD / 商户指定币种</p></td><td colspan=\"1\" rowspan=\"1\"><p>覆盖多国业务时，通常按<strong>本地币种</strong>或 USD 结算；如商户有统一资金管理诉求，可进一步约定指定结算币种</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算报价模式</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>前报价（Trade）/ 后报价（Settlement）/ 被动报价（Passive）</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>期望在收单清分时换汇，选择前报价</li><li>期望在结算时换汇，选择后报价</li><li>期望独立换汇、在结算时使用前置换好的汇率，则选择被动报价；该模式更适合对汇率波动敏感、需要提前锁价的场景，目前 GS 全托管业务采用该模式</li></ul></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算国家与时区</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>结合金融日历（工作日结时）/ 商户指定时区</p></td><td colspan=\"1\" rowspan=\"1\"><p>一级商户通常采用 UTC +8 / UTC +0；BNPL 在 PH / ID / TH 的 FI 结算采用本地时区；TTLS ID 采用本地时区</p></td></tr><tr><td colspan=\"1\" rowspan=\"2\"><p><strong>增值服务</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p><strong>结算预留金</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>结算预留金的预留与释放</p></td><td colspan=\"1\" rowspan=\"1\"><p>若业务侧出于风控考虑，希望结算后资金不立即进入商家可提现余额，可使用结算预留金能力；待风险解除后再按规则释放</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>结算账期管理</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>退随收 / 收退分离</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>若期望未结算退款与正向交易独立结算，选择收退分离；目前大部分业务采用该策略</li><li>若期望未结算退款单与正向交易一起轧差结算，则选择退随收；目前主要TTLS 业务采用</li></ul></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品能力-7",
+      "title": "产品能力",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>能力框架：</strong> 结算产品的核心能力可归纳为三层：一是围绕到账时效的<strong>结算模式</strong>，二是围绕标价币种与结算币种转换的<strong>报价模式</strong>，三是面向复杂经营和风险控制场景的<strong>增值服务</strong>。</p></aside>"
+    },
+    {
+      "id": "source-结算模式选择-8",
+      "title": "结算模式选择",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>PIPO 结算产品的结算模式，本质上是围绕<strong>资金到账时效、业务控制方式与批量处理效率</strong>进行选择的产品功能</p></aside><div class=\"synced-grid\" style=\"--synced-grid-columns:3\"><div class=\"synced-grid-column\"><p><strong>🕐 周期结算</strong></p><p>按商户签约的结算子协议中的结算周期（D / T / W / M + x）批量结算到账，是<strong>默认结算模式</strong>。</p><p>适合无需控制结算周期并对账期可预期、对资金占用有一定容忍度的业务。</p><p>SLA：结算日期当日结算到账</p></div><div class=\"synced-grid-column\"><p><strong>⚡ 实时结算</strong></p><p>收单 / 分账完成后立刻结算到账。</p><p>适合对资金时效要求高的场景。*目前在PIPO主要是金融业务在支付侧完成商户结算时使用（后续对机构的清算打款由清算中心继续承接）*</p><p>SLA：收单/分账后1h内结算到账</p></div><div class=\"synced-grid-column\"><p><strong>🎛️ 指令结算</strong></p><p>由结算发起方主动下达结算指令后到账，支持<strong>按结算批次单号批次结算</strong>，也支持<strong>按最细待结算明细粒度结算</strong>。</p><p>适合业务方主动控制结算节奏、且对到账时效要求相对不高的场景。</p><p>SLA：指令结算发起 24h 内结算到账</p></div></div>"
+    },
+    {
+      "id": "source-结算方式和结算账户选择-9",
+      "title": "结算方式和结算账户选择",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>PIPO 结算产品的结算账户支持选择PIPO收单产品提供的余额账户、钱包产品的钱包户、以及内部清算账户</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>结算账户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>核心特点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>典型适用场景</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>余额户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>当前<strong>默认结算方式</strong>，先入商户在 PIPO 体系内的余额户，再由商户按需提现或继续使用，便于承接周期结算、退款逆向处理等标准能力</p></td><td colspan=\"1\" rowspan=\"1\"><p>绝大多数 PIPO 收单商户；TTS、TTLS、TCM、传统型直连商户</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>B-wallet 钱包</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>资金沉淀在 PIPO B-wallet 体系内，更适合商户经营体系已经围绕 <strong>B-wallet</strong> 建立余额沉淀和资金再利用能力的场景</p></td><td colspan=\"1\" rowspan=\"1\"><p>当前以<strong>TTS全托管商家</strong>为主</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>内部清算账户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>不是面向普通商户的钱包 / 卡账户，而是完成支付结算后继续触发金融 / 机构业务的内部清算</p></td><td colspan=\"1\" rowspan=\"1\"><p>金融业务</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-报价模式选择-10",
+      "title": "报价模式选择",
+      "level": 2,
+      "html": "<aside class=\"synced-callout\"><p>PIPO 结算产品在清分结算环节提供换汇能力，主要适用于<strong>标价币种 ≠ 结算币种</strong>的场景；不同报价模式的核心差异，在于换汇时点以及汇率风险的承担方式。</p></aside><div class=\"synced-grid\" style=\"--synced-grid-columns:3\"><div class=\"synced-grid-column\"><p><strong>前报价</strong></p><p>在交易清分时完成外汇兑换。</p><p>适用于传统型商户、无需分账结算，且希望尽早确定换汇结果的场景。</p></div><div class=\"synced-grid-column\"><p><strong>后报价</strong></p><p>在结算执行时完成外汇兑换。</p><p>适用于平台型商户、需要分账结算，且希望以最终结算时点汇率完成资金换汇的场景。</p></div><div class=\"synced-grid-column\"><p><strong>被动报价</strong></p><p>在结算时使用第三方已前置兑换好的汇率完成结算。</p><p>适用于结算账期较长、希望提前锁定汇率或对汇率波动较敏感的场景。</p></div></div>"
+    },
+    {
+      "id": "source-结算预留金-11",
+      "title": "结算预留金",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>结算预留金适用于新兴业务或高风险经营场景：在不额外提高商家准入门槛的前提下，通过从结算资金中按规则预留部分金额，兼顾平台招商效率与风险缓释需求。</p></aside><p><strong>结算预留金的核心优势及与保证金的区别如下：</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>预留金</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>保证金</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>核心优势</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>门槛更低，可随交易滚动预留，在降低平台招商阻力的同时为平台提供风险缓冲</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>定义</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>从销售货款中暂时扣留的资金，用于覆盖退货、索赔、拒付等风险</p></td><td colspan=\"1\" rowspan=\"1\"><p>商家入驻时交纳的押金，用于担保合规经营、赔付消费者，更适合在入驻阶段建立基础履约保障</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>收取时机</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>事中扣留（订单产生并进入结算周期时动态截留）</p></td><td colspan=\"1\" rowspan=\"1\"><p>事前收取（开店前或发布特定商品前交纳）</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>金额计算</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>动态变化，与销售额、退款率、账号健康度等经营指标挂钩</p></td><td colspan=\"1\" rowspan=\"1\"><p>固定或阶梯式，由店铺类型、经营类目等因素决定</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>资金流转</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>风控周期结束后可按规则自动释放</p></td><td colspan=\"1\" rowspan=\"1\"><p>退店且无违规时可全额退还</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-结算账期管理-12",
+      "title": "结算账期管理",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>结算账期管理的核心，是定义退款与正向收款在结算账期中的归属关系，从而平衡到账确定性、账期轧差方式与商户对账体验。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>退随收</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>收退分离</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>定义</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>退款结算<strong>跟随收款结算周期</strong>处理，逆向单据与对应正向单据尽量进入<strong>同一结算账期</strong>。</p></td><td colspan=\"1\" rowspan=\"1\"><p>退款结算<strong>不跟随收款账期</strong>，退款作为独立逆向结算单据进入<strong>后续独立账期</strong>处理。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>核心逻辑</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>系统在账期归集时，将退款影响并入原账期或当前待出账的同周期资金中，商户看到的是<strong>轧差后的应结资金净额</strong>。</p></td><td colspan=\"1\" rowspan=\"1\"><p>正向收款按既定周期正常出账，退款影响在后续账期独立扣减或处理，商户会看到<strong>正向结算</strong>与<strong>退款结算</strong>分账期体现。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>优势 / 劣势</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>优点是逆向单据滚动少、对账更直观； 不足是退款会对当期应结金额形成直接影响。</p></td><td colspan=\"1\" rowspan=\"1\"><p>优点是保障正向结算到账确定性； 不足是对账视角相对更复杂，需要分别关注正向与逆向账期。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>高频退款、即时核销类业务</p></td><td colspan=\"1\" rowspan=\"1\"><p>标准周期结算、退款滞后类业务</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-产品签约-13",
+      "title": "产品签约",
+      "level": 2,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>签约项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>结算子产品签约</p></td><td colspan=\"1\" rowspan=\"1\"><p>结算能力接入前，需先完成结算子产品协议签约。签约方式可由商户调用 API 直接签约，也可由 PIPO 运营代理签约。 当前，一级商户主要由 PIPO 运营代理签约，二级商户主要通过 API 自主签约。</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-接口列表及文档-14",
+      "title": "接口列表及文档",
+      "level": 2,
+      "html": "<p>结算能力对外接口主要围绕预留金管理、指令结算和结果通知展开，具体如下：</p><ul><li>结算预留金预留和释放（签约结算预留金产品在期望冻结/解冻卖家结算款时使用）</li><li>指令批次结算（如结算模式=指令结算且希望按结算批次结算使用）</li><li>指令明细结算（如结算模式=指令结算且希望待结算明细结算使用）</li><li>结算完成通知</li></ul><p>Settlement API</p>"
+    },
+    {
+      "id": "source-当前业务线情况说明-15",
+      "title": "当前业务线情况说明",
+      "level": 2,
+      "html": ""
+    }
+  ]
+}

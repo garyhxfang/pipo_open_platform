@@ -2,11 +2,11 @@
   "title": "产品白皮书",
   "rootWikiToken": "SKIiwfpphiZG9dkA3ZRcfiI1nrd",
   "sourceUrl": "https://bytedance.larkoffice.com/wiki/SKIiwfpphiZG9dkA3ZRcfiI1nrd",
-  "syncedAt": "2026-07-27T08:38:41.149Z",
+  "syncedAt": "2026-07-28T05:17:49.934Z",
   "defaultNodeToken": "KjxsweJwZiwaj6kYlSPcXvHwnlh",
   "stats": {
-    "nodes": 47,
-    "documents": 40,
+    "nodes": 65,
+    "documents": 52,
     "containers": 4
   },
   "root": {
@@ -27,7 +27,7 @@
         "hasContent": false,
         "isContainer": true,
         "defaultExpanded": true,
-        "contentUrl": "/docs-content/wiki/E6hBw4OAyiLTHpk3g3QcEJKFnUb.json",
+        "contentUrl": null,
         "children": [
           {
             "nodeToken": "KjxsweJwZiwaj6kYlSPcXvHwnlh",
@@ -253,6 +253,28 @@
             ]
           },
           {
+            "nodeToken": "Fxc1wVgdLizUgQkgb0xchdhGnEf",
+            "title": "IAP产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/Fxc1wVgdLizUgQkgb0xchdhGnEf",
+            "hasContent": false,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/Fxc1wVgdLizUgQkgb0xchdhGnEf.json",
+            "children": []
+          },
+          {
+            "nodeToken": "V5gZwwiXdixNoTkN5v3ccaD4nXd",
+            "title": "支付方式",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/V5gZwwiXdixNoTkN5v3ccaD4nXd",
+            "hasContent": false,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/V5gZwwiXdixNoTkN5v3ccaD4nXd.json",
+            "children": []
+          },
+          {
             "nodeToken": "TKMtwij9kiNsDnkPwqUcXvHQn7b",
             "title": "退款产品",
             "objType": "docx",
@@ -440,6 +462,152 @@
                 "children": []
               }
             ]
+          },
+          {
+            "nodeToken": "PTacwvCQpiBqnPkHU7LcHKIgnJ9",
+            "title": "分账产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/PTacwvCQpiBqnPkHU7LcHKIgnJ9",
+            "hasContent": false,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/PTacwvCQpiBqnPkHU7LcHKIgnJ9.json",
+            "children": []
+          },
+          {
+            "nodeToken": "TZgMwlqhei2W05kkieDcKhFFnzc",
+            "title": "结算产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/TZgMwlqhei2W05kkieDcKhFFnzc",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/TZgMwlqhei2W05kkieDcKhFFnzc.json",
+            "children": [
+              {
+                "nodeToken": "ZyM2wemyRi53FskwgKmcs9V2nXc",
+                "title": "商户账单及对账",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/ZyM2wemyRi53FskwgKmcs9V2nXc",
+                "hasContent": false,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/ZyM2wemyRi53FskwgKmcs9V2nXc.json",
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeToken": "NGKnwMrjEiEqTQkqz4hcCRxvn6b",
+            "title": "提现产品",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/NGKnwMrjEiEqTQkqz4hcCRxvn6b",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/NGKnwMrjEiEqTQkqz4hcCRxvn6b.json",
+            "children": [
+              {
+                "nodeToken": "LD8awBuW1isvNBkHynycpbWqnhb",
+                "title": "一级商户提现",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/LD8awBuW1isvNBkHynycpbWqnhb",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/LD8awBuW1isvNBkHynycpbWqnhb.json",
+                "children": []
+              },
+              {
+                "nodeToken": "SayJwkWzfibfH6kh82ucrH88nBe",
+                "title": "二级商户提现",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/SayJwkWzfibfH6kh82ucrH88nBe",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/SayJwkWzfibfH6kh82ucrH88nBe.json",
+                "children": []
+              },
+              {
+                "nodeToken": "C9m2w8LtkiwY7ikPtmPcmeMvnNc",
+                "title": "用户提现",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/C9m2w8LtkiwY7ikPtmPcmeMvnNc",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/C9m2w8LtkiwY7ikPtmPcmeMvnNc.json",
+                "children": []
+              },
+              {
+                "nodeToken": "MRuawCITDiL3I7kDyjIchjyrnrf",
+                "title": "提现退票处理",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/MRuawCITDiL3I7kDyjIchjyrnrf",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/MRuawCITDiL3I7kDyjIchjyrnrf.json",
+                "children": []
+              },
+              {
+                "nodeToken": "KAF0wdvVyipruHkXFmRcCmi8nZw",
+                "title": "提现同名校验-WIP",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/KAF0wdvVyipruHkXFmRcCmi8nZw",
+                "hasContent": false,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/KAF0wdvVyipruHkXFmRcCmi8nZw.json",
+                "children": []
+              },
+              {
+                "nodeToken": "OIBnwjxVbi2o04k02Rcciazlnnc",
+                "title": "提现支付方式介绍",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/OIBnwjxVbi2o04k02Rcciazlnnc",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/OIBnwjxVbi2o04k02Rcciazlnnc.json",
+                "children": [
+                  {
+                    "nodeToken": "YXCQwFTRMicIkDkCAyccPhAAn2d",
+                    "title": "收款PI跨业务共享",
+                    "objType": "docx",
+                    "sourceUrl": "https://bytedance.larkoffice.com/wiki/YXCQwFTRMicIkDkCAyccPhAAn2d",
+                    "hasContent": true,
+                    "isContainer": false,
+                    "defaultExpanded": false,
+                    "contentUrl": "/docs-content/wiki/YXCQwFTRMicIkDkCAyccPhAAn2d.json",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodeToken": "SxOKwg2WyiD7nykn7ylcYunnnot",
+                "title": "提现增值服务",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/SxOKwg2WyiD7nykn7ylcYunnnot",
+                "hasContent": false,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/SxOKwg2WyiD7nykn7ylcYunnnot.json",
+                "children": []
+              },
+              {
+                "nodeToken": "PzPqw9dlfiuX7wkEBySchIVFnlf",
+                "title": "API列表",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/PzPqw9dlfiuX7wkEBySchIVFnlf",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/PzPqw9dlfiuX7wkEBySchIVFnlf.json",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -499,6 +667,29 @@
             "children": []
           },
           {
+            "nodeToken": "QYsewgl8Jixp4pk4jDpclzcCncc",
+            "title": "代发支付方式介绍",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/QYsewgl8Jixp4pk4jDpclzcCncc",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/QYsewgl8Jixp4pk4jDpclzcCncc.json",
+            "children": [
+              {
+                "nodeToken": "YQjPwHaOUion6Ekm3CbcjaeSnEg",
+                "title": "收款PI跨业务共享",
+                "objType": "docx",
+                "sourceUrl": "https://bytedance.larkoffice.com/wiki/YQjPwHaOUion6Ekm3CbcjaeSnEg",
+                "hasContent": true,
+                "isContainer": false,
+                "defaultExpanded": false,
+                "contentUrl": "/docs-content/wiki/YQjPwHaOUion6Ekm3CbcjaeSnEg.json",
+                "children": []
+              }
+            ]
+          },
+          {
             "nodeToken": "Kx0PwwLSpi1ztAkzEt5cBR8tn1g",
             "title": "商户备款",
             "objType": "docx",
@@ -531,6 +722,17 @@
                 "children": []
               }
             ]
+          },
+          {
+            "nodeToken": "Yl2twbuxJiee2ek0Rr5cUIAOnkd",
+            "title": "API列表",
+            "objType": "docx",
+            "sourceUrl": "https://bytedance.larkoffice.com/wiki/Yl2twbuxJiee2ek0Rr5cUIAOnkd",
+            "hasContent": true,
+            "isContainer": false,
+            "defaultExpanded": false,
+            "contentUrl": "/docs-content/wiki/Yl2twbuxJiee2ek0Rr5cUIAOnkd.json",
+            "children": []
           }
         ]
       }
