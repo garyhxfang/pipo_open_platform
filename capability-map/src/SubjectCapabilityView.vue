@@ -301,7 +301,7 @@ function returnToList() {
             </tbody>
           </table>
         </div>
-        <div v-else class="subject-empty">没有符合当前筛选条件的主体依赖能力。</div>
+        <div v-else class="subject-empty">没有符合当前筛选条件的收单主体依赖能力。</div>
       </section>
     </template>
   </main>

@@ -45,10 +45,10 @@ const emit = defineEmits<{
 
 const statusOptions: SupportStatus[] = ['standard', 'conditional', 'unsupported']
 const marketDependencyLabels: Record<MarketDependency, string> = {
-  none: '无主体依赖',
-  merchant: '商户签约主体',
-  consumer: '用户支付主体',
-  both: '双侧主体'
+  none: '不依赖收单主体',
+  merchant: '依赖收单主体',
+  consumer: '依赖收单主体',
+  both: '依赖收单主体'
 }
 const roleLabel: Record<AppRole, string> = { viewer: '查看者', editor: '编辑者', publisher: '发布者' }
 
@@ -355,6 +355,11 @@ function updateAbilityTypeName() {
   }
 }
 
+function updateTypeSubjectDependency(event: Event) {
+  selectedAbilityType.value.marketDependency =
+    (event.target as HTMLSelectElement).value === 'merchant' ? 'merchant' : 'none'
+}
+
 function resetScenarioFilters() {
   scenarioFilters.value = {
     merchantType: 'all',
@@ -596,7 +601,6 @@ onMounted(initializePersistence)
 
       <template v-if="configScreen === 'list'">
         <nav class="collection-config-stage-filter" aria-label="收单能力阶段">
-          <span>收单阶段</span>
           <div role="tablist" aria-label="收单能力阶段">
             <button
               v-for="stageOption in collectionConfigStageOptions"
@@ -641,7 +645,7 @@ onMounted(initializePersistence)
                   <th>能力类型</th>
                   <th>能力</th>
                   <th>产品链路条件维度</th>
-                  <th>主体依赖</th>
+                  <th>收单主体依赖</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -780,7 +784,7 @@ onMounted(initializePersistence)
           <div>
             <span class="section-kicker">能力类型配置</span>
             <h1 id="ability-type-title">{{ selectedAbilityType.name }}</h1>
-            <p>{{ selectedTypeAbilities.length }} 项能力共享产品链路条件维度和主体依赖。</p>
+            <p>{{ selectedTypeAbilities.length }} 项能力共享产品链路条件维度和收单主体依赖。</p>
           </div>
           <button class="secondary-button ability-list-back" type="button" @click="showAbilityList">返回能力列表</button>
         </section>
@@ -794,9 +798,14 @@ onMounted(initializePersistence)
               <label><span>类型编码</span><input :value="selectedAbilityType.id" disabled /></label>
               <label><span>能力类型名称</span><input v-model="selectedAbilityType.name" :disabled="!canEdit" @input="updateAbilityTypeName" /></label>
               <label>
-                <span>主体依赖</span>
-                <select v-model="selectedAbilityType.marketDependency" :disabled="!canEdit">
-                  <option v-for="(label, value) in marketDependencyLabels" :key="value" :value="value">{{ label }}</option>
+                <span>收单主体依赖</span>
+                <select
+                  :value="selectedAbilityType.marketDependency === 'none' ? 'none' : 'merchant'"
+                  :disabled="!canEdit"
+                  @change="updateTypeSubjectDependency"
+                >
+                  <option value="none">不依赖收单主体</option>
+                  <option value="merchant">依赖收单主体</option>
                 </select>
               </label>
               <label>
@@ -859,12 +868,12 @@ onMounted(initializePersistence)
       <nav class="config-tabs" aria-label="能力配置类型">
         <button :class="{ 'is-active': activeTab === 'metadata' }" type="button" @click="activeTab = 'metadata'">能力元数据</button>
         <button :class="{ 'is-active': activeTab === 'scenarios' }" type="button" @click="activeTab = 'scenarios'">产品链路支持条件 <span>{{ scenarioRules.length }}</span></button>
-        <button :class="{ 'is-active': activeTab === 'markets' }" type="button" @click="activeTab = 'markets'">主体支持条件 <span>{{ supportedSubjectProductCount }}</span></button>
+        <button :class="{ 'is-active': activeTab === 'markets' }" type="button" @click="activeTab = 'markets'">收单主体支持条件 <span>{{ supportedSubjectProductCount }}</span></button>
         <button :class="{ 'is-active': activeTab === 'conflicts' }" type="button" @click="activeTab = 'conflicts'">能力冲突 <span>{{ relatedConflicts.length }}</span></button>
       </nav>
 
       <section v-if="activeTab === 'metadata'" class="panel metadata-panel">
-        <header class="panel-header"><div><strong>能力元数据</strong><span>能力类型统一维护产品链路条件维度和主体依赖。</span></div></header>
+        <header class="panel-header"><div><strong>能力元数据</strong><span>能力类型统一维护产品链路条件维度和收单主体依赖。</span></div></header>
         <div class="metadata-grid">
           <div class="metadata-summary">
             <label><span>能力编码</span><input :value="metadata.id" disabled /></label>
@@ -878,7 +887,7 @@ onMounted(initializePersistence)
           <div class="inherited-type-summary">
             <strong>继承的能力类型条件</strong>
             <span>产品链路：{{ typeDimensionLabels(metadataType) }}</span>
-            <span>主体依赖：{{ marketDependencyLabels[metadataType.marketDependency] }}</span>
+            <span>收单主体依赖：{{ marketDependencyLabels[metadataType.marketDependency] }}</span>
             <button class="configure-type-button" type="button" @click="openAbilityTypeConfig(metadataType.id)">配置能力类型</button>
           </div>
         </div>
@@ -1008,7 +1017,7 @@ onMounted(initializePersistence)
           <div v-else class="empty-state empty-state--compact">没有符合当前筛选条件的收单产品码。</div>
         </template>
         <div v-else class="empty-state">
-          当前能力类型未配置主体依赖，无需维护收单产品码支持情况。
+          当前能力类型未配置收单主体依赖，无需维护收单产品码支持情况。
         </div>
       </section>
 

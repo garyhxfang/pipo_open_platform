@@ -9,6 +9,7 @@ import {
 } from './capabilityConfigModel'
 import AcquiringConfigView from './AcquiringConfigView.vue'
 import AgileIntakeView from './AgileIntakeView.vue'
+import CapabilityDocHint from './CapabilityDocHint.vue'
 import PayoutConfigView from './PayoutConfigView.vue'
 import PayoutMapView, { type PayoutStageId } from './PayoutMapView.vue'
 import ReconciliationView from './ReconciliationView.vue'
@@ -48,6 +49,7 @@ import {
 } from './capabilityData'
 import type { CapabilityConfigPayloadV4, CapabilityFeatureId } from './configTypes'
 import { acquiringProductCatalog } from './acquiringProductCatalog'
+import { productDocumentationPath } from './documentationLinks'
 
 const currentMerchantType = ref<MerchantType>('standardMerchant')
 type WorkspacePage =
@@ -391,6 +393,35 @@ function closePaymentMethodDetails() {
   selectedPaymentMethod.value = undefined
 }
 
+let capabilityDocHoverTimer: number | undefined
+
+function positionCapabilityDocHint(event: PointerEvent) {
+  const target = event.currentTarget as HTMLElement
+  if (target.classList.contains('is-doc-hint-visible')) return
+
+  const rect = target.getBoundingClientRect()
+  const pointerX = event.clientX - rect.left
+  const pointerY = event.clientY - rect.top
+  const hintWidth = 104
+  const pointerGap = 8
+  const hasRoomOnRight = window.innerWidth - event.clientX >= hintWidth + pointerGap + 8
+  const offsetX = hasRoomOnRight ? pointerGap : -(hintWidth + pointerGap)
+  target.style.setProperty('--doc-hint-x', `${pointerX + offsetX}px`)
+  target.style.setProperty('--doc-hint-y', `${pointerY + pointerGap}px`)
+
+  if (capabilityDocHoverTimer) window.clearTimeout(capabilityDocHoverTimer)
+  capabilityDocHoverTimer = window.setTimeout(() => {
+    target.classList.add('is-doc-hint-visible')
+  }, 120)
+}
+
+function hideCapabilityDocHint(event: PointerEvent) {
+  if (capabilityDocHoverTimer) window.clearTimeout(capabilityDocHoverTimer)
+  capabilityDocHoverTimer = undefined
+  const target = event.currentTarget as HTMLElement
+  target.classList.remove('is-doc-hint-visible')
+}
+
 function handleWorkspaceKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape' && selectedPaymentMethod.value) closePaymentMethodDetails()
 }
@@ -572,6 +603,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  if (capabilityDocHoverTimer) window.clearTimeout(capabilityDocHoverTimer)
   window.removeEventListener('hashchange', syncWorkspacePageFromHash)
   window.removeEventListener('keydown', handleWorkspaceKeydown)
   window.removeEventListener('resize', syncPaymentMethodGridColumns)
@@ -831,30 +863,43 @@ onBeforeUnmount(() => {
             <small>选择使用的收单支付产品</small>
           </legend>
           <div class="choice-grid choice-grid--three">
-            <button
+            <div
               v-for="option in productOptions"
               :key="option.value"
-              class="choice-card choice-card--with-status"
-              :class="[
-                { 'is-active': currentProduct === option.value },
-                `choice-card--${productStatusFor(option.value)}`
-              ]"
-              type="button"
-              :aria-pressed="currentProduct === option.value"
-              @click="selectProduct(option.value)"
+              class="choice-card-shell"
+              :class="{ 'capability-doc-target': option.value === 'online' }"
+              @pointerenter="option.value === 'online' && positionCapabilityDocHint($event)"
+              @pointermove="option.value === 'online' && positionCapabilityDocHint($event)"
+              @pointerleave="option.value === 'online' && hideCapabilityDocHint($event)"
             >
-              <span class="choice-icon" aria-hidden="true" v-html="iconSvg[choiceIcon[option.value]]"></span>
-              <span class="choice-copy">
-                <strong>{{ option.label }}</strong>
-                <span>{{ option.description }}</span>
-              </span>
-              <span class="choice-meta">
-                <em class="status-chip" :class="`status-chip--${productStatusFor(option.value)}`">
-                  {{ supportStatusLabel[productStatusFor(option.value)] }}
-                </em>
-                <span class="choice-radio" aria-hidden="true"></span>
-              </span>
-            </button>
+              <button
+                class="choice-card choice-card--with-status"
+                :class="[
+                  { 'is-active': currentProduct === option.value },
+                  `choice-card--${productStatusFor(option.value)}`
+                ]"
+                type="button"
+                :aria-pressed="currentProduct === option.value"
+                @click="selectProduct(option.value)"
+              >
+                <span class="choice-icon" aria-hidden="true" v-html="iconSvg[choiceIcon[option.value]]"></span>
+                <span class="choice-copy">
+                  <strong>{{ option.label }}</strong>
+                  <span>{{ option.description }}</span>
+                </span>
+                <span class="choice-meta">
+                  <em class="status-chip" :class="`status-chip--${productStatusFor(option.value)}`">
+                    {{ supportStatusLabel[productStatusFor(option.value)] }}
+                  </em>
+                  <span class="choice-radio" aria-hidden="true"></span>
+                </span>
+              </button>
+              <CapabilityDocHint
+                v-if="option.value === 'online'"
+                :path="productDocumentationPath(option.value)"
+                :label="option.label"
+              />
+            </div>
           </div>
         </fieldset>
 
@@ -1066,7 +1111,6 @@ onBeforeUnmount(() => {
             </button>
           </div>
         </nav>
-        <div v-else class="empty-state">暂无可展示的支付方式，请调整产品、环境、集成模式或市场。</div>
       </section>
 
       <section class="payment-ability-panel" aria-labelledby="payment-ability-title">
