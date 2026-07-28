@@ -1,0 +1,53 @@
+{
+  "slug": "E7dpwGOVtihqIJkefZRcwKHPnNf",
+  "nodeToken": "E7dpwGOVtihqIJkefZRcwKHPnNf",
+  "title": "拒付发生(CB)",
+  "source": "CXlfd34JAoQYgRxlQz5lqMYwgOd",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/E7dpwGOVtihqIJkefZRcwKHPnNf",
+  "syncedAt": "2026-07-27T08:37:25.788Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 5,
+    "mediaFound": 4,
+    "mediaDownloaded": 4
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<p>拒付正式发生，代表商户/收单机构有拒付资损风险，PIPO根据Chargeback的金额扣减业务方账户，并通知业务方有拒付发生。业务方可以根据CB通知选择向用户追偿，例如追回金币/取消提供订阅服务，减少业务方的资损。</p><p>一笔支付账单用户可以提交多次争议，总的争议金额不超过支付金额，但是需要注意拒付报回到PIPO侧并没有部分拒付的标识。</p><p><code>status</code>=<strong>chargeback</strong>表示CB消息</p>"
+    },
+    {
+      "id": "source-商户承担拒付资损-2",
+      "title": "商户承担拒付资损",
+      "level": 3,
+      "html": "<p>卡组制度的核心是“消费者保护优先”，发生争议先退钱给持卡人，再去追责商户。只有商户清楚“是否发货/服务是否达标”，因此“自证清白”的责任和后果只能落在商户头上。</p><p>PIPO作为一个收单机构，无法替商户（业务线）承担拒付的资损，所以在收到拒付后也会追责商户（业务线）。</p><p>在签订拒付子协议时需要指定拒付承责账户：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>商户类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付承责账户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>补充说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>传统型</p></td><td colspan=\"1\" rowspan=\"1\"><p>Payin基本户</p></td><td colspan=\"1\" rowspan=\"1\"><p>Payin基本户余额不足，会从待结算账户轧差</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>平台型</p></td><td colspan=\"1\" rowspan=\"1\"><p>一级商户Special户垫资</p></td><td colspan=\"1\" rowspan=\"1\"><p>电商商责转移通过清结算的垫资回补接口再从卖家Payin基本户扣回拒付损失</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-欺诈拒付包赔服务-3",
+      "title": "欺诈拒付包赔服务",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>是否开通欺诈拒付包赔服务，需要风控策略评估。</p></aside><p>在实物类的业务场景下，PIPO提供拒付包赔服务，针对欺诈类交易而导致的经济损失由PIPO承担；由于货物/服务原因导致的资损仍然由商户（业务方）承担。</p><p>拒付可以基于拒付原因码（reason code）划分为以下几个类型：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付原因码（reason code）</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>拒付原因说明//chargeback reason description</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Fraud</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人否认授权或参与有争议的交易； 包含BC勾结和实锤fraud；</p><blockquote class=\"synced-quote\"><p>The cardholder denies authorising or participating in the disputed transaction; Contains BC collusion and solid hammerfraud;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Merchandise</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人将在未收到物品、产品损坏时发起此争议；</p><blockquote class=\"synced-quote\"><p>The cardholder will initiate this dispute if the item is not received and the product is damaged;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Processing Error</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>持卡人会声称存在重复计费、信用未处理、取消订阅等问题；</p><blockquote class=\"synced-quote\"><p>Cardholders will claim problems with double billing, unprocessed credit, and cancellation of subscriptions;</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Authorization</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>通常，这种争议原因可以反映为*“授权相关的拒付”*，也就是俗称的“*4808”*，这是万事达拒付代码。这种争议原因意味着收单银行/商户没有从发卡银行获得授权代码。</p><blockquote class=\"synced-quote\"><p>Typically, this dispute reason can be reflected as an &quot;authorisation-related decline&quot;, commonly known as &quot;4808&quot;, which is a MasterCard decline code. This dispute reason means that the acquiring bank/merchant has not obtained an authorisation code from the issuing bank.</p></blockquote></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Others</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>渠道未发送原因码或者原因码不可识别 包括fraud类和非fraud类，其中fraud类包含BC勾结和实锤fraud</p><blockquote class=\"synced-quote\"><p>The channel did not send a reason code or the reason code is not recognisable. Includes both fraud and non-fraud categories, where the fraud category includes BC collusion and actual fraud.</p></blockquote></td></tr></tbody></table></div><p>对于<strong>Fraud</strong>类中的fraud实锤和<strong>Others</strong>下被最终判定fraud实锤的交易，由PIPO风控自负盈亏；对于BC勾结类的由业务方承担损失。</p><blockquote class=\"synced-quote\"><p>承责方通过<code>liability</code>下发</p><ul><li>pipo_liability为PIPO承责，由PIPO包赔户承担资金损失；</li><li>merchant_liability则为商户承责，由业务方承担资金损失。</li></ul></blockquote>"
+    },
+    {
+      "id": "source-逆向交易管控-4",
+      "title": "逆向交易管控",
+      "level": 3,
+      "html": "<p>逆向交易包括退款和拒付，对于外部钱包/发卡行而言，已退款的金额不应该再受理拒付；对于PIPO来说，已发生拒付的交易风险较高，不应该再允许退款。</p><div class=\"synced-grid\" style=\"--synced-grid-columns:3\"><div class=\"synced-grid-column\"><ol><li><strong>原交易已拒付，不允许退款</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-YyZOwLCGFhpVOybddW2lEv6xgae.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><ol><li><strong>已全额原路退，则可拒付金额=0</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-BNc6wBEzOhoboubUKmolihp2gjf.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><ol><li><strong>部分退，剩余金额可受理拒付</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-N22RwdYsEhu0RDbtsQRlXyE7gBd.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure></div></div>"
+    },
+    {
+      "id": "source-拒付保价-5",
+      "title": "拒付保价",
+      "level": 3,
+      "html": "<aside class=\"synced-callout\"><p>目前默认都是PIPO保价。</p></aside><p>在线上链路，拒付因为和原支付交易不是发生在同一时刻，就会导致拒付的金额因为汇率波动的原因大于或者小于原支付金额。</p><p>拒付消息中的拒付金额超过原支付金额时，由PIPO提供拒付保价服务，保的是支付到标价（交易金额）这一段的价格不超过原Payin的支付金额。</p><blockquote class=\"synced-quote\"><p>标价（交易金额）到结算不保价，PIPO一直都是按照结算日当天的实时汇率换算进行结算的。</p></blockquote><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-Y173wJXbzhnW5wbYLm5lDjGZgK5.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
+    }
+  ]
+}

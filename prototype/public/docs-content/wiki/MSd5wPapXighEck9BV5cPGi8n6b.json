@@ -1,0 +1,51 @@
+{
+  "slug": "MSd5wPapXighEck9BV5cPGi8n6b",
+  "nodeToken": "MSd5wPapXighEck9BV5cPGi8n6b",
+  "title": "批量代发",
+  "source": "AXTLdRumhoYju7xlxxvlIO6sgec",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/MSd5wPapXighEck9BV5cPGi8n6b",
+  "syncedAt": "2026-07-27T08:38:25.808Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 3,
+    "mediaFound": 7,
+    "mediaDownloaded": 7
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    },
+    {
+      "id": "source-api接口发起-2",
+      "title": "API接口发起",
+      "level": 1
+    },
+    {
+      "id": "source-dashboard发起-3",
+      "title": "Dashboard发起",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p><strong>产品特性：</strong>相较于单笔代发，批量代发的发起频率低（比如每月1次/每周1次），但单次发起的订单量多，累计付款金额较大。相比于单笔代发实时处理，批量代发会根据订单情况，结合流动性情况等条件进行分批处理，所以批量代发的处理时间较长。同时提升业务场景的资金流动性利用，出款产品同时提供打款<a href=\"https%3A%2F%2Fbytedance.larkoffice.com%2Fwiki%2FPyx1w5WS9ihxAgkosEvcesuknAg%23share-UzvcdynEwokZq4xCDvdlIC2Vgqb\" target=\"_blank\" rel=\"noreferrer\">交易试算能力</a>，根据试算结果完成出款渠道的备款。</p></aside>"
+    },
+    {
+      "id": "source-api接口发起-2",
+      "title": "API接口发起",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>纯API接入，是指商户完全自建提现页面，不使用PIPO提供的收银台能力，同时业务侧的付款具有特定时间周期批量发起的特点，可以通过批量代发API接入，一次请求发起多笔代发。</p></aside><ol><li><strong>适用场景</strong></li></ol><p>业务场景的代发周期规则为固定时间，可选择批量发起</p><ol><li><strong>用户流程</strong></li></ol><p>业务侧编排用户流程</p><ol><li><strong>集成链路</strong></li></ol><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-GxT8wFy5dhQB8pbk2ORlLtq4gff.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>关键交互节点</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>批量下单并提交</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户侧生成批量代发文件，请求PIPO下单 PIPO解析文件后，根据批次情况，按照单笔代发逻辑逐单处理</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>逐笔提现成功回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>批次内的每笔订单，代发成功后，PIPO会逐笔回调商户对应的事件及交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>批量处理查单</p></td><td colspan=\"1\" rowspan=\"1\"><p>按批次查询订单批次中的代发订单状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>逐笔查询交易状态</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户可通过查询交易状态接口，以获取最新的交易状态</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>逐笔退票回调通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>代发发生退票时，PIPO会回调商户对应的事件及交易状态</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-dashboard发起-3",
+      "title": "Dashboard发起",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>Dashboard发起，是指通过Dashboard手动上传批量代发文件发起代发。</p><p>同时提升业务场景的资金流动性利用，出款产品同时提供打款<a href=\"https%3A%2F%2Fbytedance.larkoffice.com%2Fwiki%2FPyx1w5WS9ihxAgkosEvcesuknAg%23share-UzvcdynEwokZq4xCDvdlIC2Vgqb\" target=\"_blank\" rel=\"noreferrer\">交易试算能力</a>，根据试算结果完成出款渠道的备款。</p></aside><ol><li><strong>能力概述</strong></li></ol><p>系统对接能力较弱的业务，有特定时间周期批量发起代发的诉求，可以通过Dashboard发起。</p><p>例如教育线教师工资发放、番茄小说给内容创作者进行收入发放，直播业务Money Platform周期性打款等。</p><ol><li><strong>操作流程-TBD</strong></li></ol><blockquote class=\"synced-quote\"><p>Dashboard登录地址：https://pipopay-insight-sea.byteintl.net/login</p><p>Dashboard操作指引详见Dashboard批量付款指引 【过集团资金版】</p></blockquote><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>操作步骤</p></th><th colspan=\"1\" rowspan=\"1\"><p>操作目的&amp;说明</p></th><th colspan=\"1\" rowspan=\"1\"><p>操作流程</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>完成批付文件</p></td><td colspan=\"1\" rowspan=\"1\"><p>按照所付款商户及其币种下载模板，根据模板输出付款文件</p></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:2026/1024\"><img src=\"/docs-media/product-whitepaper/AGg0bvzqLoYkJcxTwN2lO5hUgug.gif\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>发起OA</p></td><td colspan=\"1\" rowspan=\"1\"><p>在发起批量付款前，需要业务先完成OA打款流程 线下批量付款<strong>费用描述</strong>当中：请填写“PIPO代付，出款商户号为<strong>*”，所在机房为</strong>*&quot;，如不确定商户号名称或机房，请联系国际支付同学确认。请附加填写“Dashboard付款” 填写格式：“Dashboard付款+商户号+所在机房” 并上传</p></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1340/972\"><img src=\"/docs-media/product-whitepaper/QnYVbmYFjovJLwxMKLxlbT0Lgcc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>发起批量付款</p></td><td colspan=\"1\" rowspan=\"1\"><p>定位批量代发菜单，查看和入口</p></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1280/830\"><img src=\"/docs-media/product-whitepaper/C2r2btHFDoUsXHxtWPGlzhxFgOe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Dashboard发起提现</p></td><td colspan=\"1\" rowspan=\"1\"><p>按照模板上传批量付款文件</p></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1980/1046\"><img src=\"/docs-media/product-whitepaper/CUh5bWgaEod69hxdcSQlE0YFgqc.gif\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Dashboard-提现审批</p></td><td colspan=\"1\" rowspan=\"1\"><p>有权限的用户可以点击【Balance--Review mass】进入Review mass 页面，查看订单详细信息，核对金额。</p></td><td colspan=\"1\" rowspan=\"1\"><div class=\"synced-grid\" style=\"--synced-grid-columns:2\"><div class=\"synced-grid-column\"><p>查看待审批订单</p><figure class=\"synced-media\" style=\"aspect-ratio:1535/969\"><img src=\"/docs-media/product-whitepaper/YRAVbciHZoH2PnxyWhalk2L1gMe.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div><div class=\"synced-grid-column\"><p>OTP验证</p><figure class=\"synced-media\" style=\"aspect-ratio:1706/1332\"><img src=\"/docs-media/product-whitepaper/KwyUbvvjEo4wo2xwRhtlw7BngUf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></div></div></td></tr></tbody></table></div>"
+    }
+  ]
+}

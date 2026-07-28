@@ -1,0 +1,40 @@
+{
+  "slug": "JUPFwHRDkiO0P7kCm0UcpLTInIb",
+  "nodeToken": "JUPFwHRDkiO0P7kCm0UcpLTInIb",
+  "title": "超退后拒付追偿",
+  "source": "TvZQdASuHompPRxT3AmldpiCg6e",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/JUPFwHRDkiO0P7kCm0UcpLTInIb",
+  "syncedAt": "2026-07-27T08:37:34.756Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-clawback-1",
+      "title": "CLAWBACK",
+      "level": 1
+    },
+    {
+      "id": "source-clawback-return-2",
+      "title": "CLAWBACK RETURN",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-clawback-1",
+      "title": "CLAWBACK",
+      "level": 1,
+      "html": "<p><strong>超退拒付追偿：</strong>PIPO给用户提供钱包产品，为了保证用户的退款体验和退款时效性，PIPO支持将外部PI支付的金额退款到钱包。由于发卡行/外部钱包不感知PIPO已给用户退款，当用户发起拒付仍然会受理，拒付报回则PIPO退了两份钱。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-XQypwi24ZhPisHbyiWal2taZgOr.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><p>为了挽回PIPO包赔/业务方的损失，PIPO会对用户的RTC交易进行追偿，追偿策略如下：</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>liability</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>追偿类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>pipo_liability</p></td><td colspan=\"1\" rowspan=\"1\"><p>Continuous Clawback：</p><ul><li>IF sufficient balance, claw back chargeback amount</li><li>IF insufficient balance, clawback entire balance</li><li>一旦有入金则持续追偿</li><li>set account_status=stop-out</li><li>Indefinite clawback period</li></ul></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>merchant_liablity</p></td><td colspan=\"1\" rowspan=\"1\"><p>One-time Clawback：</p><ul><li>Only claw back one time</li><li>Claw back chargeback amount as much as possible</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>目前都是continuous，待调整为one-time clawback</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-clawback-return-2",
+      "title": "CLAWBACK RETURN",
+      "level": 1,
+      "html": "<p><strong>拒付追偿返还：</strong>拒付结案结果为PIPO won，如果有已RTC超退的金额，PIPO会将RTC超退的CBR金额返还用户RTC账户；</p><p><strong>追偿返还策略：</strong></p><ul><li>追偿返还的金额为RTC/RTW超退的CBR金额</li><li>如果CB时超退金额足额追偿成功，则将CBR金额返还用户RTC Balance；如果CB时未足额追偿，CBR金额先偿还系统记录的CB待扣金额，有多再返还到用户RTC Balance。</li><li>当CBR金额足以偿还CB待扣金额时，解冻用户账户</li></ul>"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "Kx0PwwLSpi1ztAkzEt5cBR8tn1g",
+  "nodeToken": "Kx0PwwLSpi1ztAkzEt5cBR8tn1g",
+  "title": "商户备款",
+  "source": "ACvTdOUjqor2zjxBSBklGDkcgPe",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/Kx0PwwLSpi1ztAkzEt5cBR8tn1g",
+  "syncedAt": "2026-07-27T08:38:35.726Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>针对商户代发场景，发起代发前需要商户向在PIPO开立的账户完成充值，在账户余额充足的前提下，才能成功发起代发。</p><p>*了解商户备款的全部功能，请查看*<a href=\"https%3A%2F%2Fbytedance.larkoffice.com%2Fwiki%2FIt62wUbT1iDDJ4kpw7QcT5CgnEg\" target=\"_blank\" rel=\"noreferrer\">*商户备款产品介绍*</a></p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>产品分类</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>备款触发方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>发起付款流程/请款</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p>付款成功来源/认款</p></th><th colspan=\"1\" rowspan=\"1\"><p>资金处理</p></th><th colspan=\"1\" rowspan=\"1\"><p>是否支持逆向退回</p></th></tr><tr><td colspan=\"1\" rowspan=\"3\"><p>普通来账备款</p><blockquote class=\"synced-quote\"><p>sky配置VA</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>Dashboard手动触发</p></td><td colspan=\"1\" rowspan=\"2\"><p>对公付款OA</p></td><td colspan=\"1\" rowspan=\"4\"><p>来账通知</p></td><td colspan=\"1\" rowspan=\"3\"><p>CA记账</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>系统规则自动触发</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>接收来账通知触发</p></td><td colspan=\"1\" rowspan=\"1\"><p>不感知付款流程</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>计费外缴备款</p><blockquote class=\"synced-quote\"><p>研发配置VA</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>Dashboard手动触发</p></td><td colspan=\"1\" rowspan=\"1\"><p>对公付款OA</p></td><td colspan=\"1\" rowspan=\"1\"><p>内部冲正</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>清算后备款</p><blockquote class=\"synced-quote\"><p>研发配置VA</p></blockquote></td><td colspan=\"1\" rowspan=\"1\"><p>上游业务api触发</p></td><td colspan=\"1\" rowspan=\"1\"><p>上报清算中心</p></td><td colspan=\"1\" rowspan=\"1\"><p>清算成功登记结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>CA记账</p></td><td colspan=\"1\" rowspan=\"1\"><p>否</p></td></tr><tr><td colspan=\"1\" rowspan=\"2\"><p>在线支付备款</p><blockquote class=\"synced-quote\"><p>PIPO</p></blockquote></td><td colspan=\"1\" rowspan=\"2\"><p>上游业务api触发</p></td><td colspan=\"1\" rowspan=\"1\"><p>步骤一：下payin单 步骤二：发起Transfer</p><blockquote class=\"synced-quote\"><p>单独请款</p></blockquote></td><td colspan=\"1\" rowspan=\"2\"><p>payin成功通知</p></td><td colspan=\"1\" rowspan=\"2\"><p>CA记账</p></td><td colspan=\"1\" rowspan=\"2\"><p>是</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>步骤一：下payin单</p><blockquote class=\"synced-quote\"><p>无需单独请款</p></blockquote></td></tr></tbody></table></div>"
+    }
+  ]
+}

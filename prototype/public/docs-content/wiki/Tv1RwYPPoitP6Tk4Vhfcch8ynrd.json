@@ -4,13 +4,37 @@
   "title": "支付方式与支付流程",
   "source": "WEradLCD5olfl9xRzUPlwXHcgpf",
   "sourceUrl": "https://bytedance.larkoffice.com/wiki/Tv1RwYPPoitP6Tk4Vhfcch8ynrd",
-  "syncedAt": "2026-07-27T04:47:01.897Z",
-  "hasContent": false,
+  "syncedAt": "2026-07-27T08:36:18.602Z",
+  "hasContent": true,
   "stats": {
-    "sections": 0,
-    "mediaFound": 0,
-    "mediaDownloaded": 0
+    "sections": 2,
+    "mediaFound": 5,
+    "mediaDownloaded": 5
   },
-  "toc": [],
-  "sections": []
+  "toc": [
+    {
+      "id": "source-各支付方式能力总览-1",
+      "title": "各支付方式能力总览",
+      "level": 1
+    },
+    {
+      "id": "source-主流支付推进流程-2",
+      "title": "主流支付推进流程",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-各支付方式能力总览-1",
+      "title": "各支付方式能力总览",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>本节从<strong>在线支付产品视角</strong>，总览 PIPO 当前支持的各支付方式在<strong>预授权、绑定支付方式、组合支付三项</strong>支付能力上的支持情况，以及该支付方式对应的支付流程概况。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>分类</p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付方式类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>预授权支付</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>绑定支付</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>组合支付</strong></p><blockquote class=\"synced-quote\"><p>作为主支付方式</p></blockquote></th><th colspan=\"1\" rowspan=\"1\"><p><strong>支付交互方式</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"5\"><p>自营 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>TTS Balance</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 同账户默认绑定 ❌ 跨账号不支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 同账户默认绑定 ➖ 跨账号暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TTPL</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 同账户默认绑定 ➖ 跨账号暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Seller Wallet</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 同账户默认绑定 ✅ 跨账号支持独立绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>GMVpay</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 同账户默认绑定 ➖ 跨账号暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 暂未支持</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"9\"><p>第三方 支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行卡</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定 / 支付并绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或跳转3DS验证</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>穿透式钱包（ApplePay / GooglePay）</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或跳转3DS验证</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方电子钱包（PayPal 等）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分钱包支持，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ <strong>部分</strong>钱包支持独立绑定 / 支付并绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或跳转钱包页面授权</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>第三方先买后付（BNPL）</p></td><td colspan=\"1\" rowspan=\"1\"><p>➖ 部分BNPL支持，PIPO 暂未接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ <strong>部分</strong>BNPL支持独立绑定 / 支付并绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>跳转BNPL页面授权</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>网银 / 手机银行</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>跳转银行页面/App授权</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行转账</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>展示银行账户</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>银行直接借记（Direct Debit）</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 支持独立绑定</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>同步返回结果或须风控加验PIN/OTP</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>本地实时支付 / 扫码支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>展示支付码或凭证号</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>线下柜台现金支付</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>展示支付码或凭证号</p></td></tr></tbody></table></div><blockquote class=\"synced-quote\"><p>关于组合支付：上表中的 &quot;组合支付&quot; 仅标注该支付方式能否作为主支付方式发起组合支付。所有 PIPO 已接入的支付方式均可作为副支付方式参与组合，具体规则详见 2.7 组合支付。</p></blockquote>"
+    },
+    {
+      "id": "source-主流支付推进流程-2",
+      "title": "主流支付推进流程",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>上表<strong>支付交互方式</strong>列中出现的五类交互形态，其用户体验与系统交互差异如下。同一支付方式可能涉及多种交互方式，商户需根据实际接入的支付方式组合，评估收银台集成的完整交互链路。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>支付交互方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>直接同步返回结果</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>风控加验PIN/OTP</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>跳转渠道页面/App授权</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>跳转3DS验证</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>展示账户，支付码或凭证号</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>用户体验</strong></p></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/MbaBbohEjoSVy3x3HYTlJPepgoh.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/DzDdb8Fgcorro5xvHUvl7gVNggg.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/FTERb2ZtCobz8ExZ3wtlRDppgpf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/OitPbh5nNoySG2xJAiclyhuQgnc.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:390/812\"><img src=\"/docs-media/product-whitepaper/Mw8obHrhcoZzHQxl8LilfQ2YgCb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>涉及支付方式类型</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>所有自营支付方式， 银行卡，穿透式钱包，第三方电子钱包，银行直接借记</p></td><td colspan=\"1\" rowspan=\"1\"><p>所有自营支付方式</p></td><td colspan=\"1\" rowspan=\"1\"><p>第三方电子钱包，先买后付，网银 / 手机银行，银行直接借记</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行卡，穿透式钱包</p></td><td colspan=\"1\" rowspan=\"1\"><p>银行转账，本地实时支付 / 扫码支付网络，线下柜台现金支付</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>系统交互简述</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>支付接口直接返回成功</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付接口直接返回加验 商户拉起验证SDK 验证后调用接口推进二次推进获取结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付接口返回渠道页面url或者deeplink 支付成功后回调支付结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付接口返回3ds验证页面url 支付成功后回调支付结果</p></td><td colspan=\"1\" rowspan=\"1\"><p>支付接口返回账号或二维码/条形码信息供前端展示 支付成功后回调支付结果</p></td></tr></tbody></table></div>"
+    }
+  ]
 }

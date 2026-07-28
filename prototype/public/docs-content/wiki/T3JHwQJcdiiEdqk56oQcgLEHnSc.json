@@ -1,0 +1,29 @@
+{
+  "slug": "T3JHwQJcdiiEdqk56oQcgLEHnSc",
+  "nodeToken": "T3JHwQJcdiiEdqk56oQcgLEHnSc",
+  "title": "退款集成模式",
+  "source": "BHrXdEHEmoDdbdxHGiIlarXMgad",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/T3JHwQJcdiiEdqk56oQcgLEHnSc",
+  "syncedAt": "2026-07-27T08:37:01.665Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 4,
+    "mediaDownloaded": 4
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>Function</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Description</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>UI</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>商户通过退款API接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>通过系统集成，商户可以发起退款请求，把支付款项退回用户原账户中或者指定的账户中。 Pros：</p><ol><li>用户可以自助完成，体验好</li><li>可以处理多种退款场景（原路退，非原路退）以及异常场景</li></ol><p>Cons：</p><ol><li>需要集成，前期集成投入较大</li></ol></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:498/1076\"><img src=\"/docs-media/product-whitepaper/RXoobEgMPopySvxUxQClDQ8ugkf.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>商户接入PiPO独立退款收银台（For 电商卖家场景）</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户发起退款请求，引导用户跳转到PiPO退款收银台上完成退款。 Pros：</p><ol><li>集成简单，维护成本低</li><li>可以处理多种退款场景（原路退，非原路退）</li></ol><p>Cons：</p><ol><li>定制化较低</li></ol></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:1058/562\"><img src=\"/docs-media/product-whitepaper/Oq4bbMtHloZYJ8xQ5izlqtTrgre.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>通过dashboard退款 Dashboard Refund</p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO为业务提供的dashboard退款能力，商户运营可以在PIPO的dashboard发起退款请求，该退款请求需要审批。目前仅支持原路退款。 Pros：</p><ol><li>不需要集成，开通即可用</li></ol><p>Cons：</p><ol><li>使用时需要人工接入，自动化程度不高</li><li>目前仅支持原路退款</li></ol></td><td colspan=\"1\" rowspan=\"1\"><figure class=\"synced-media\" style=\"aspect-ratio:2824/1492\"><img src=\"/docs-media/product-whitepaper/FPIXb6QUooiQMMxoV2ylyuEqgKb.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure><figure class=\"synced-media\" style=\"aspect-ratio:2848/1492\"><img src=\"/docs-media/product-whitepaper/Uzkfbb3bFoUmTTxvloQlvzOngKd.png\" alt=\"飞书文档图片\" loading=\"lazy\"></figure></td></tr></tbody></table></div>"
+    }
+  ]
+}

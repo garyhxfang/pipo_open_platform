@@ -1,0 +1,29 @@
+{
+  "slug": "QPMTwoop8inRjIkuTWFclZ4Nnic",
+  "nodeToken": "QPMTwoop8inRjIkuTWFclZ4Nnic",
+  "title": "换汇",
+  "source": "D7o7d2ZIToHuZNxYbbolFwgagIh",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/QPMTwoop8inRjIkuTWFclZ4Nnic",
+  "syncedAt": "2026-07-27T08:38:41.147Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>PIPO在出款环节环节为商户提供换汇服务，满足商户和用户的多样化币种的出款需求。</p></aside><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-QjB1wLNWchRxJfbi6j0lwurLgGe.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>标价币种</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>提现/代发交易对应的出款账户的币种</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>支付币种</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO出款时，实际送给渠道的币种。在现行逻辑里，提现币种与绑定的PI币种保持一致。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>到账币种</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>商户/用户最终收到资金的币种，一般与支付币种相同，但是存在特殊场景收款渠道也会进行换汇，最终到账币种与支付币种不相同</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>出款交易换汇</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>当<strong>支付币种</strong>与<strong>标价币种</strong>不一致时，PIPO提供的换汇服务，在发生付款时，先请求FX完成换汇</p><blockquote class=\"synced-quote\"><p>下图为交易换汇在收银台上的展现</p></blockquote></td></tr></tbody></table></div>"
+    }
+  ]
+}

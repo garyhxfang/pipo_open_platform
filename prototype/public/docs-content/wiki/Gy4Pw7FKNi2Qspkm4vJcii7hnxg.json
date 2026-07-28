@@ -1,0 +1,40 @@
+{
+  "slug": "Gy4Pw7FKNi2Qspkm4vJcii7hnxg",
+  "nodeToken": "Gy4Pw7FKNi2Qspkm4vJcii7hnxg",
+  "title": "拒付改判",
+  "source": "RRFpdYiG8oVeuKxv7DmlQRnTgAe",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/Gy4Pw7FKNi2Qspkm4vJcii7hnxg",
+  "syncedAt": "2026-07-27T08:37:29.286Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-won-amended-to-lost-1",
+      "title": "WON_AMENDED_TO_LOST",
+      "level": 1
+    },
+    {
+      "id": "source-lost-amended-to-won-2",
+      "title": "LOST_AMENDED_TO_WON",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-won-amended-to-lost-1",
+      "title": "WON_AMENDED_TO_LOST",
+      "level": 1,
+      "html": "<p>拒付改判：won-&gt; lost改判，PIPO下发的结案结果为CBR，后续通过资金对账发现渠道并未归还CBR的资金，只有CB扣减的资金，存在结果改判。</p><p><code>status</code>=<code>won_amended_to_lost</code>，同时会下发新的<code>outcome</code>=<strong>lost</strong></p><p><strong>won-&gt; lost改判规则：</strong></p><ol><li>lost的改判需要把won返还给业务方的金额补扣回，所以改判为lost也会动账</li><li>结果改判只允许改判一次，不会反复改判</li><li>改判是对于原结案结果错误的纠正，无法保证渠道侧的SLA，所以只有在对应消息或者资金动账来了的时候才能发现结果不一致，考虑到PIPO的渠道拒付对账在逐渐覆盖中，暂不对改判的周期做限制。</li></ol>"
+    },
+    {
+      "id": "source-lost-amended-to-won-2",
+      "title": "LOST_AMENDED_TO_WON",
+      "level": 1,
+      "html": "<p>拒付改判：lost-&gt; won改判，PIPO下发的结案结果为RFI(Final-lost)，后续通过资金对账发现渠道有一笔CBR的资金返还，存在结果改判。</p><p><code>status</code>=<code>lost_amended_to_won</code>，同时会下发新的<code>outcome</code>=<strong>won</strong></p><p><strong>lost-&gt; won改判规则：</strong></p><ol><li>因为在lost时并未再动账，所以lost-&gt;won的改判会将资金返还给CB时的动账账户</li><li>结果改判只允许改判一次，不会反复改判</li><li>改判是对于原抗辩结果错误的纠正，无法保证渠道侧的SLA，所以只有在对应消息或者资金动账来了的时候才能发现结果不一致，考虑到PIPO的渠道拒付对账在逐渐覆盖中，暂不对改判的周期做限制。</li></ol>"
+    }
+  ]
+}

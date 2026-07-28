@@ -1,0 +1,29 @@
+{
+  "slug": "R6ktwM8h2i1zNVk9hYbcv3BInFd",
+  "nodeToken": "R6ktwM8h2i1zNVk9hYbcv3BInFd",
+  "title": "拒付前置预警",
+  "source": "XHUDdQaE1o8Iw0xPDdGlkWYGgeh",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/R6ktwM8h2i1zNVk9hYbcv3BInFd",
+  "syncedAt": "2026-07-27T08:37:44.397Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 1,
+    "mediaDownloaded": 1
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<aside class=\"synced-callout\"><p>历史上只有TT Live和Monetization接过ENOC消息，风控在25年暂停了下发ENOC通知，但后续如果线上拒付风险比较大时风控仍然会下发ENOC通知。</p></aside><p>ENOC为early chargeback消息，数据服务商ethoca和verifi可以在发卡行→卡组时获取用户Chargeback数据，卡组→收单行前会处理72小时左右。ethoca和verifi可以在卡组收到拒付时第一时间传出拒付消息，PIPO可以有72小时的时间主动退款，规避chargeback的报回，那么拒付信息就不会被卡组计算入VDMP指标当中，从而避免惩罚费用及渠道风险。</p><p><code>status</code>=<strong>ENOC</strong>表示early chargeback消息。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-RDTRw9b6yhP7UnbkXMqlopnRgje.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure><ol><li>PIPO Risk从ethoca和verifi获取early chargeback消息，并以ENOC的消息通知业务方；</li><li>业务方收到ENOC消息，主动发起退款</li></ol>"
+    }
+  ]
+}

@@ -165,32 +165,6 @@ details[open] > summary .tree-chevron {
   letter-spacing: -0.04em;
 }
 
-.wiki-article-summary {
-  margin-top: 20px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.wiki-article-summary p {
-  max-width: 650px;
-  margin: 0;
-  color: #667087;
-  font-size: 14px;
-  line-height: 1.75;
-}
-
-.wiki-article-summary a {
-  flex: 0 0 auto;
-  color: var(--blue);
-  font-size: 12px;
-}
-
-.wiki-sync-meta {
-  margin-top: 25px;
-}
-
 .wiki-document-content {
   min-height: 360px;
   padding: 8px 0 70px;
@@ -371,12 +345,4 @@ details[open] > summary .tree-chevron {
     padding: 34px 22px 90px;
   }
 
-  .wiki-article-summary {
-    display: block;
-  }
-
-  .wiki-article-summary a {
-    margin-top: 14px;
-    display: inline-flex;
-  }
 }

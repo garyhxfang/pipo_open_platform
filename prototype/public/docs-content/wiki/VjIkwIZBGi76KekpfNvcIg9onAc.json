@@ -1,0 +1,40 @@
+{
+  "slug": "VjIkwIZBGi76KekpfNvcIg9onAc",
+  "nodeToken": "VjIkwIZBGi76KekpfNvcIg9onAc",
+  "title": "拒付结案处理",
+  "source": "Wdlvdj9oDoPwCQxjfpNlbxofgjJ",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/VjIkwIZBGi76KekpfNvcIg9onAc",
+  "syncedAt": "2026-07-27T08:37:27.474Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-拒付返还-cbr-1",
+      "title": "拒付返还(CBR)",
+      "level": 2
+    },
+    {
+      "id": "source-final-lost-2",
+      "title": "Final-lost",
+      "level": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-拒付返还-cbr-1",
+      "title": "拒付返还(CBR)",
+      "level": 2,
+      "html": "<p>一笔拒付Case，在经过抗辩和仲裁等流程后会有最终结果，如果抗辩胜诉了，说明赢了Case，发卡行将钱还给了PIPO，PIPO也会将CBR的金额还给业务方账户，并通知业务方抗辩胜诉了。</p><p><code>status</code>=<strong>chargeback_reverse</strong>表示资金返还（CBR），通过<code>outcome</code>=<strong>won</strong>表示胜诉</p><p>！一笔案件只会有一个结果，结果存在改判，但是不会存在won两次的情况发生。</p><p>对应CB的处理，CBR提供如下子功能</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>子功能</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>功能说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CBR金额返还商户账户</p></td><td colspan=\"1\" rowspan=\"1\"><p>如果拒付的资损承担方为商户，那么PIPO会将CBR的金额返还到商户账户；</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>CBR金额返还风控包赔户</p></td><td colspan=\"1\" rowspan=\"1\"><p>如果拒付时PIPO提供了包赔服务，那么PIPO会将CBR的金额返还到PIPO风控包赔户</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>解除退款管控</p></td><td colspan=\"1\" rowspan=\"1\"><p>抗辩胜诉，取消拒付标签，允许用户继续发起退款</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>PIPO保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>CBR时PIPO也会保价：当CBR金额大于CB金额时，PIPO会抹平超额部分，按照CB金额下发全额CBR通知；</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-final-lost-2",
+      "title": "Final-lost",
+      "level": 2,
+      "html": "<p>一笔拒付Case，在经过抗辩和仲裁等流程后会有最终结果，如果抗辩败诉了，说明输了Case，拒付的金额没有拿回来，因为在CB时已经扣减业务方账户了，所以lost时PIPO不会再动业务方的账户</p><p><code>status</code>=<strong>rfi</strong>借用了rif的状态，通过<code>outcome</code>=<strong>lost</strong>表示败诉</p>"
+    }
+  ]
+}

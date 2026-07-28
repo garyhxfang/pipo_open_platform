@@ -1,0 +1,40 @@
+{
+  "slug": "DqzOwphTjiecoqk3oWTcc7o1nag",
+  "nodeToken": "DqzOwphTjiecoqk3oWTcc7o1nag",
+  "title": "拒付接入配置",
+  "source": "NFdHdrpRboy2fzxzlWYlGbHZgjG",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/DqzOwphTjiecoqk3oWTcc7o1nag",
+  "syncedAt": "2026-07-27T08:37:46.104Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 2,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-子协议功能开通-1",
+      "title": "子协议功能开通",
+      "level": 1
+    },
+    {
+      "id": "source-拒付通知地址配置-2",
+      "title": "拒付通知地址配置",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-子协议功能开通-1",
+      "title": "子协议功能开通",
+      "level": 1,
+      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>配置项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>传统型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>平台型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>备注</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>拒付出资账户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><ol><li>默认设置为Payin基本户</li><li>也可指定出资账户信息</li></ol><p>liability_type=商户承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }, 如果包赔，配置包赔账户信息liability_type=PIPO承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"><p>指定平台垫资的出资账户信息 liability_type=商户承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }, 如果包赔，配置包赔商户号liability_type=PIPO承责 { 出资账户商户号 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"><p>当前拒付包赔需要通过PIPO商户号下配置出资账户，未来可能会下线</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：保价，当前默认都为保价 N：不保价</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：保价，当前默认都为保价 N：不保价</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否不自动追偿</p></td><td colspan=\"1\" rowspan=\"1\"><p>False：自动追偿，默认自动追偿 True：不自动追偿</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><p>逻辑是反过来的，需要注意</p></td></tr></tbody></table></div>"
+    },
+    {
+      "id": "source-拒付通知地址配置-2",
+      "title": "拒付通知地址配置",
+      "level": 1,
+      "html": "<p><strong>接收消息类型配置</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>配置项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>值</strong></p></th><th colspan=\"2\" rowspan=\"1\"><p><strong>说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否接受动账消息</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：接收动账消息 N：不接收动账消息</p></td><td colspan=\"2\" rowspan=\"1\"><p>动账消息包含：CB和Final-won(CBR)</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>是否接受非动账消息</p></td><td colspan=\"1\" rowspan=\"1\"><p>Y：接收非动账消息 N：不接收非动账消息</p></td><td colspan=\"2\" rowspan=\"1\"><p>非动账消息包含：NOC/ENOC/Final-lost</p></td></tr></tbody></table></div><p><strong>通知地址配置</strong></p><p>配置了需要接收拒付消息，则需要配置通知地址</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>通知类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>机房</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址格式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址URL</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"6\"><p><strong>Chargeback</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>sg</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>va</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>my</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>my4a</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>eu</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>ttp</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
+    }
+  ]
+}

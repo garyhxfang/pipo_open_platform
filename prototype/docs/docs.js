@@ -4,10 +4,7 @@ const treeRoot = document.querySelector("[data-wiki-tree]");
 const treeSyncTime = document.querySelector("[data-tree-sync-time]");
 const documentRoot = document.querySelector("[data-document-content]");
 const documentTitle = document.querySelector("[data-doc-title]");
-const documentSummary = document.querySelector("[data-doc-summary]");
 const breadcrumbRoot = document.querySelector("[data-breadcrumb]");
-const syncStatus = document.querySelector("[data-sync-status]");
-const syncTime = document.querySelector("[data-sync-time]");
 const tocRoot = document.querySelector("[data-page-toc]");
 const sourceLinks = document.querySelectorAll("[data-doc-source]");
 const rootSourceLinks = document.querySelectorAll("[data-root-source]");
@@ -298,15 +295,12 @@ function renderDocumentSections(data) {
 
 async function loadDocument(node) {
   documentTitle.textContent = node.title;
-  documentSummary.textContent = "正文和目录层级均与飞书产品白皮书知识库保持同步。";
   sourceLinks.forEach((link) => {
     link.href = node.sourceUrl;
   });
   renderBreadcrumb();
 
   if (!node.contentUrl) {
-    syncStatus.textContent = "该节点没有可同步的正文";
-    syncTime.textContent = "";
     renderDocumentSections({ sections: [], toc: [] });
     renderPageToc({ toc: [] });
     return;
@@ -316,9 +310,6 @@ async function loadDocument(node) {
   if (!response.ok) throw new Error(`Unable to load ${node.contentUrl}`);
   const data = await response.json();
   documentTitle.textContent = data.title || node.title;
-  syncStatus.textContent = `${data.stats.sections} 个章节 · ${data.stats.mediaDownloaded} 个媒体资源`;
-  syncTime.dateTime = data.syncedAt;
-  syncTime.textContent = `同步于 ${formatDate(data.syncedAt)}`;
   renderDocumentSections(data);
   renderPageToc(data);
 }
@@ -380,7 +371,6 @@ async function initializeDocs() {
     await loadDocument(selectedNode);
   } catch (error) {
     documentTitle.textContent = "暂时无法读取文档";
-    syncStatus.textContent = "请先运行飞书知识库同步";
     documentRoot.innerHTML = `
       <div class="empty-document">
         <strong>知识库内容尚未生成</strong>

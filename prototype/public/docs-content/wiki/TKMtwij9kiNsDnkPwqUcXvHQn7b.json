@@ -4,205 +4,59 @@
   "title": "退款产品",
   "source": "F5HZdscJzok2q2xRsVxlSoQUg0g",
   "sourceUrl": "https://bytedance.larkoffice.com/wiki/TKMtwij9kiNsDnkPwqUcXvHQn7b",
-  "syncedAt": "2026-07-27T04:47:26.937Z",
+  "syncedAt": "2026-07-27T08:36:54.710Z",
   "hasContent": true,
   "stats": {
-    "sections": 20,
+    "sections": 4,
     "mediaFound": 4,
     "mediaDownloaded": 4
   },
   "toc": [
     {
-      "id": "source-version-record-版本记录-1",
-      "title": "Version Record // 版本记录",
+      "id": "source-产品定位-1",
+      "title": "产品定位",
       "level": 1
     },
     {
-      "id": "source-产品定位-2",
-      "title": "产品定位",
-      "level": 2
-    },
-    {
-      "id": "source-典型产品体验-3",
+      "id": "source-典型产品体验-2",
       "title": "典型产品体验",
-      "level": 2
+      "level": 1
     },
     {
-      "id": "source-产品流程-8",
+      "id": "source-产品流程-3",
       "title": "产品流程",
-      "level": 2
+      "level": 1
     },
     {
-      "id": "source-退款资金流-9",
+      "id": "source-退款资金流-4",
       "title": "退款资金流",
-      "level": 2
-    },
-    {
-      "id": "source-退款方式与可用性-10",
-      "title": "退款方式与可用性",
-      "level": 2
-    },
-    {
-      "id": "source-降级自动退款-11",
-      "title": "降级自动退款",
-      "level": 2
-    },
-    {
-      "id": "source-组合支付退款-12",
-      "title": "组合支付退款",
-      "level": 2
-    },
-    {
-      "id": "source-换汇损益承担-13",
-      "title": "换汇损益承担",
-      "level": 2
-    },
-    {
-      "id": "source-税费-手续费-营销逆向处理-14",
-      "title": "税费/手续费/营销逆向处理",
-      "level": 2
-    },
-    {
-      "id": "source-退款退票-15",
-      "title": "退款退票",
-      "level": 2
-    },
-    {
-      "id": "source-退款追偿-16",
-      "title": "退款追偿",
-      "level": 2
-    },
-    {
-      "id": "source-退款集成模式-19",
-      "title": "退款集成模式",
-      "level": 2
-    },
-    {
-      "id": "source-退款接口清单-20",
-      "title": "退款接口清单",
-      "level": 2
+      "level": 1
     }
   ],
   "sections": [
     {
-      "id": "source-version-record-版本记录-1",
-      "title": "Version Record // 版本记录",
-      "level": 1,
-      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p>Date 日期</p></th><th colspan=\"1\" rowspan=\"1\"><p>Created by 创建</p></th><th colspan=\"1\" rowspan=\"1\"><p>Changes on 修改记录</p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>2026-4-24</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><p>Draft version</p></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-产品定位-2",
+      "id": "source-产品定位-1",
       "title": "产品定位",
-      "level": 2,
+      "level": 1,
       "html": "<p><strong>退款产品：</strong>退款是平台/商户售后履约的一种工具，以简单、透明、高效的自助退款能力，帮助平台/商户<strong>快速处理订单纠纷</strong>、<strong>安抚用户</strong>、<strong>降低拒付与客诉</strong>，同时保障平台资金安全、账务清晰、流程合规可追溯。</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-Psidw5s8whyNS6bSmvNloSTXgqc.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
     },
     {
-      "id": "source-典型产品体验-3",
+      "id": "source-典型产品体验-2",
       "title": "典型产品体验",
-      "level": 2,
-      "html": "<p>todo：只讲售后退款、关单退款（包含差错退款）</p>"
+      "level": 1,
+      "html": "<p>目前在TTS和TTLS业务线下支持多种退款方式，PIPO提供Web SDK/H5/Native的退款收银台给用户选择退款方式；其他业务线仅能原路退，由业务方请求退款API直接发起原路退款。</p><p>以TTS侧发起退款为例：</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-Hq3wwwTXoh2rqbbFW6Jl1owmghd.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
     },
     {
-      "id": "source-售后退款-4",
-      "title": "售后退款",
-      "level": 3,
-      "html": "<p>目前在TTS和TTLS业务线下支持多种退款方式，PIPO提供Web SDK/H5/Native的退款收银台给用户选择退款方式；其他业务线仅能原路退，由业务方请求退款API直接发起原路退款。</p><p>以TTS侧发起退款为例：</p><div class=\"synced-whiteboard-missing\"><span>流程图</span><p>该飞书画板暂未生成预览，请前往源文档查看。</p></div>"
-    },
-    {
-      "id": "source-退款追偿-5",
-      "title": "退款追偿",
-      "level": 3,
-      "html": "<p>为了让用户能最快的拿到钱并继续消费，TTS US定义了两种退款：Speedy Refund和会员权益的Instant Refund，由TTS指定退款方式为退至钱包。如果用户未按照平台政策退回商品，平台会向用户发起追偿。</p><p>当前追偿仅支持向用户Credit Balance进行追偿，PiPO支持两种追偿方式：One-time Clawback和Continuous Calwback。</p><p>以电商会员权益的Instant Refund交互举例：</p><div class=\"synced-whiteboard-missing\"><span>流程图</span><p>该飞书画板暂未生成预览，请前往源文档查看。</p></div>"
-    },
-    {
-      "id": "source-关单退款-6",
-      "title": "关单退款",
-      "level": 3,
-      "html": "<p>当交易超时关单后收到用户支付成功的回调通知，PiPO系统会自动触发关退交易，关退会优先通过原路退给用户退款，如果支付方式不支持原路退或者系统原路退失败，则需要用户选择其他退款方式退款，用户会收到对应业务的push notification来查看或处理退款申请。</p><blockquote class=\"synced-quote\"><p>目前PIPO没有直接对客的门户，因此依赖业务方的触达系统。未来PIPO自有支付品牌ready后，可以由PIPO直接触达用户处理所有支付相关的信息。</p></blockquote><div class=\"synced-whiteboard-missing\"><span>流程图</span><p>该飞书画板暂未生成预览，请前往源文档查看。</p></div>"
-    },
-    {
-      "id": "source-差错退款-7",
-      "title": "差错退款",
-      "level": 3,
-      "html": "<p>在一些差错场景（如PiPO长款退款、重复支付退款等），Ops会发起差错退款，差错退款的系统流程同关退退款，当不支持原路退或者系统原路退失败，则会给业务方发送关退通知。</p><div class=\"synced-whiteboard-missing\"><span>流程图</span><p>该飞书画板暂未生成预览，请前往源文档查看。</p></div>"
-    },
-    {
-      "id": "source-产品流程-8",
+      "id": "source-产品流程-3",
       "title": "产品流程",
-      "level": 2,
+      "level": 1,
       "html": "<figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-QIJ5wlZIdh5LhnbylHPlbpFMgBb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
     },
     {
-      "id": "source-退款资金流-9",
+      "id": "source-退款资金流-4",
       "title": "退款资金流",
-      "level": 2,
+      "level": 1,
       "html": "<figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-C48uwxcG6hdDOMbH5DDlPzaTgBe.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
-    },
-    {
-      "id": "source-退款方式与可用性-10",
-      "title": "退款方式与可用性",
-      "level": 2,
-      "html": "<p>todo：需要说明一下哪个业务线或者场景下的适用范围</p><p>转代发需要用到退款收银台</p><p>为应对不同支付渠道的能力差异与各国合规要求，退款产品支持多种退款方式。系统会通过<strong>退款决策</strong>能力，根据原单信息、商户配置与合规规则，动态判断并推荐最适合的退款方式。</p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>退款方式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>UI</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>可用性判断核心要素</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>原路退款</strong> (Refund to Originator)</p></td><td colspan=\"1\" rowspan=\"1\"><p>将款项退还至用户支付时使用的原始支付工具账户。这是最主流、用户体验最自然的退款方式。 <strong>适用场景：</strong>银行卡、电子钱包、BNPL 等大多数在线支付方式。</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><ol><li>渠道能力：支付渠道是否支持原路退款及部分退款。</li><li>退款窗口期：是否在渠道允许的最大退款时限内。</li><li>原支付账户状态：用户原账户是否依然有效。</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>退至钱包</strong> (Refund to Balance/TTPay)</p></td><td colspan=\"1\" rowspan=\"1\"><p>将款项退入用户在平台内的虚拟余额账户，用户可用于再消费或提现（取决于业务模式与合规）。 <strong>适用场景：</strong>平台型业务（如电商、内容平台）希望构建资金闭环，提升用户粘性与复购率。</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><ol><li>业务模式：商户是否开通并接入了平台的余额/钱包产品。</li><li>合规策略：部分国家/地区限制“原路可退”的交易退至余额。</li><li>用户账户状态：用户余额账户是否激活、状态正常、未超限额。</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>退款转代发</strong> (Refund to Payout)</p></td><td colspan=\"1\" rowspan=\"1\"><p>当原路退不可用时，通过代发 (Payout) 渠道，将款项发放到用户新指定的银行账户或电子钱包。 <strong>适用场景：</strong></p><ol><li>原支付方式不支持退款（如某些银行转账、现金支付）。</li><li>原路退款失败（如账户失效、超期）。</li></ol></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"><ol><li>合规策略：是为“反洗钱”重点监管领域，需经严格的合规审批，不同国家政策差异大。</li><li>用户验证：通常需要用户完成 KYC 或同名校验等身份验证流程。</li><li>渠道覆盖：代发渠道是否覆盖用户指定的收款银行/钱包。</li></ol></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>原 PI 转代发</strong> (Refund to Origin PI via Payout)</p></td><td colspan=\"1\" rowspan=\"1\"><p>一种特殊的“转代发”，当原支付渠道不支持退款接口、但其本身（如某电子钱包）支持 P2P 转账或收款时，可通过代发能力将钱退回原支付工具。 <strong>适用场景：</strong>原支付方式为电子钱包，但其作为收单渠道时不支持退款API，却作为代发渠道时支持收款。</p></td><td colspan=\"1\" rowspan=\"1\"><p>与原路退一致</p></td><td colspan=\"1\" rowspan=\"1\"><ol><li>渠道能力：原支付工具是否同时在 PIPO 的代发渠道列表中并支持收款。</li><li>账户信息：原单中是否包含足够用于发起代发的收款账户信息。</li></ol></td></tr></tbody></table></div><p><strong>退余额和转代发覆盖的国家和业务线</strong></p><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>Biz Line</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Country or Region</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Refund to Credit</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Refund to TTPay</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Refund to Payout</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"12\"><p>TT Shop</p></td><td colspan=\"1\" rowspan=\"1\"><p>ID</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>PH</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TH</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>VN</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 25Q4</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>MY</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅ 25Q4</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>KSA</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>JP</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26H2</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>BR</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>MX</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>US</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26H2</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>UK</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>EU</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td></tr><tr><td colspan=\"1\" rowspan=\"2\"><p>TTLS</p></td><td colspan=\"1\" rowspan=\"1\"><p>ID</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>✅</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>US</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>⭕️ 26Q2</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>TT Live</p></td><td colspan=\"1\" rowspan=\"1\"><p>All</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Monetization</p></td><td colspan=\"1\" rowspan=\"1\"><p>All</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>Capcut/Game/Pico/Gauth/Lark/Flow...</p></td><td colspan=\"1\" rowspan=\"1\"><p>All</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td><td colspan=\"1\" rowspan=\"1\"><p>❌</p></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-降级自动退款-11",
-      "title": "降级自动退款",
-      "level": 2,
-      "html": "<p>todo：说明降级退款的适用场景</p><p>当一笔支付交易在原路退失败/渠道不支持原路退的场景下，如果有其他退款方式，退款产品提供系统自动降级退款到其他退款方式的产品功能。</p><aside class=\"synced-callout\"><p><strong>场景示例</strong>：用户购买 150 元商品，使用信用卡支付。后续商品库存不足系统自动发起退款，商户使用降级自动退款策略：[原路退] &gt; [RTC/RTT] -&gt; [RTP]；</p></aside><p><strong>降级退款规则：</strong></p><ol><li>按照退款策略设置的优先级自动降级，一般优先原路退；</li><li>当所有可退方式都尝试失败，需要商户主动发起重试，且重试会跳过原路退；</li><li>当降级策略是RTP时，需要引导用户打开转代发链接并选择绑定的PI继续完成退款；</li></ol>"
-    },
-    {
-      "id": "source-组合支付退款-12",
-      "title": "组合支付退款",
-      "level": 2,
-      "html": "<p>当一笔交易由多种支付方式共同完成时（如“钱包余额 + 银行卡”），退款流程会变得更加复杂。PIPO 退款产品通过精细化的金额拆分、双重决策和部分成功处理机制，确保组合支付退款的准确性。</p><aside class=\"synced-callout\"><p><strong>场景示例</strong>：用户购买 150 元商品，使用 50 元钱包余额和 100 元信用卡支付。后续用户申请部分退款 60 元。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>处理维度</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>描述</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>示例说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>金额分拆与退款顺序</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>当发生部分退款时，需要一个明确的规则来决定退款金额如何在不同的支付方式间分配。这通常由业务策略决定，常见的策略有：</p><ol><li><strong>按比例拆分</strong>：按原支付比例退款（退 20 元至余额，40 元至信用卡）。</li><li><strong>指定顺序优先</strong>：优先退回某个支付方式，如“优先退信用卡”。（先退信用卡 60 元）。</li></ol></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO 退款核心支持灵活的金额分拆算价逻辑，以适应不同业务的财务和用户体验需求。算价结果会明确每种支付方式应退的金额。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>双方式决策</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>在退款决策阶段，系统需要对组合支付中的<strong>每一种支付方式</strong>独立进行可用性判断。例如，信用卡部分可能支持原路退，而余额部分只能退回余额。</p></td><td colspan=\"1\" rowspan=\"1\"><p>退款决策接口会返回一个包含多个退款选项的列表，每个选项对应一种支付方式及其可用的退款方式。例如：[{type: &quot;credit_card&quot;, method: &quot;originator&quot;}, {type: &quot;balance&quot;, method: &quot;credit&quot;}]。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>部分成功后的重试</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>由于涉及多个支付渠道，组合支付退款有可能会部分成功。例如，信用卡部分退款成功，但钱包余额部分因账户冻结而失败。在这种情况下，整个退款单的状态会被标记为“部分成功”。</p></td><td colspan=\"1\" rowspan=\"1\"><p>系统允许商户或用户仅对失败的部分发起重试。例如，在用户余额账户恢复正常后，可再次尝试退还剩余的 20 元至余额，而无需重新申请整笔 60 元的退款。</p></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-换汇损益承担-13",
-      "title": "换汇损益承担",
-      "level": 2,
-      "html": "<p>在跨境交易中，如果支付币种 (Payment Currency) 与商户的收单币种 (Trade Currency) 不同，退款时就会因汇率波动产生汇兑损益 (FX PnL)。PIPO 支持两种汇损承担模式，以满足不同业务场景的需求。</p><aside class=\"synced-callout\"><p><strong>场景示例</strong>：一件商品标价 10 USD，用户支付时汇率为 1 USD = 7.0 CNY，用户实付 70 CNY。一周后用户退款，此时汇率变为 1 USD = 7.2 CNY。</p></aside><div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>损益承担模式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>核心逻辑</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>交互与账务影响</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>适用场景</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>商户承担损益</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>退款时，用户的收款金额以其<strong>原支付金额</strong>为准（70 CNY），但商户侧的扣款则按<strong>实时汇率</strong>计算（10 USD* 7.2 = 72 CNY）。商户实际被扣 72 CNY，但用户只收到 70 CNY，其中的 2 CNY 差额即为商户承担的汇兑损失。</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li><strong>对用户</strong>：收到与支付时等值的本地货币金额，体验一致。</li><li><strong>对商户</strong>：承担汇率波动风险，退款成本不确定。</li><li><strong>与清结算交互</strong>：退款核心会明确将汇兑损益金额（2 CNY）通知清结算系统，用于精确记账。</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>大多数标准电商业务，商户作为经营主体，承担经营活动中的各类风险，包括汇率风险。</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>PIPO退款保价(原汇率退款)</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>退款时，使用<strong>原支付时的汇率</strong>（1 USD = 7.0 CNY）进行换汇计算。商户侧扣款金额为 10 USD* 7.0 = 70 CNY。这样，商户动账金额与用户收款金额完全相等，没有汇损。汇率波动的风险敞口由 PIPO 或合作的汇率服务方承担。</p></td><td colspan=\"1\" rowspan=\"1\"><ul><li><strong>对用户</strong>：收到与支付时等值的本地货币金额，体验一致。</li><li><strong>对商户</strong>：退款成本固定，无汇率风险。</li><li><strong>与清结算交互</strong>：对清结算系统透明，无需传递损益信息，因为对商户而言收支平衡。</li></ul></td><td colspan=\"1\" rowspan=\"1\"><p>对汇率波动敏感的特定业务，如保证金、充值等场景，平台希望为商户提供确定性的资金管理体验。</p></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-税费-手续费-营销逆向处理-14",
-      "title": "税费/手续费/营销逆向处理",
-      "level": 2,
-      "html": "<p><strong>税费 (Tax)</strong>：若原单计算了税费，退款时可按比例或全额退还相应的税款。</p><p><strong>用户手续费 (Fee)</strong>：若原单向用户收取了支付手续费，退款时通常也需按比例退还。</p><p><strong>营销优惠 (Promotion)</strong>：若原单使用了平台或商家的优惠券、立减等，退款时需根据营销规则，处理优惠资产的返还或核销。</p>"
-    },
-    {
-      "id": "source-退款退票-15",
-      "title": "退款退票",
-      "level": 2,
-      "html": "<p>退款退票，是指退款交易在渠道信息流返回成功，退款核心将退款状态流转至成功后，渠道侧又通知实际退款未入账成功的情况。</p><p>退款退票发生在<strong>原路退</strong>和<strong>退款转代发（RTP）</strong>两种退款方式下，当退票发生，说明用户未收到钱，PiPO在处理退票时按照原退款金额和币种发起退票。商户需要接入退票通知，并决定是否取消退款或者联系用户使用其他方式完成退款。</p><p>在支持退钱包的场景下，PiPO提供退票直接退回到用户钱包余额的能力。目前在TTLS ID下已支持</p>"
-    },
-    {
-      "id": "source-退款追偿-16",
-      "title": "退款追偿",
-      "level": 2,
-      "html": "<p>有两种追偿类型：One-time Clawback和Continuous Clawback</p><figure class=\"synced-media synced-whiteboard\"><figcaption>飞书画板</figcaption><img src=\"/docs-media/product-whitepaper/whiteboard-VpNKwY6YRhpCZvbbi09lXj19gAb.jpg\" alt=\"飞书画板预览\" loading=\"lazy\"></figure>"
-    },
-    {
-      "id": "source-子协议功能开通-17",
-      "title": "子协议功能开通",
-      "level": 3,
-      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>配置项</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>传统型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>平台型商户</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>备注</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Refund Fund Movement Acc</strong> <strong>退款出资账户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>默认设置为Payin基本户</p></td><td colspan=\"1\" rowspan=\"1\"><p>指定平台垫资的出资账户信息 { 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>极速退款用户退款追偿</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td><td colspan=\"1\" rowspan=\"1\"><p>开启 关闭</p></td><td colspan=\"1\" rowspan=\"1\"><p>目前仅有TTS有退款追偿</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Refund Clawback Acc</strong> <strong>退款追偿账户</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>N/A</p></td><td colspan=\"1\" rowspan=\"1\"><p>指定平台垫资的出资账户信息 { 账户类型：Special 账户币种： 账户id： }</p></td><td colspan=\"1\" rowspan=\"1\"><p>开通退款追偿需要配置追偿的账户</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>Open Refund Method</strong> <strong>退款方式开通</strong></p></td><td colspan=\"1\" rowspan=\"1\"><ul><li>[ ] 退款转代发</li><li>[ ] 指定PI转代发</li><li>[ ] web转代发收银台</li><li>[ ] 退款到钱包</li></ul></td><td colspan=\"1\" rowspan=\"1\"><ul><li>[ ] 退款转代发</li><li>[ ] 指定PI转代发</li><li>[ ] web转代发收银台</li><li>[ ] 退款到钱包</li></ul></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>退款换汇保价</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>开启 关闭</p></td><td colspan=\"1\" rowspan=\"1\"><p>开启 关闭</p></td><td colspan=\"1\" rowspan=\"1\"><p>目前仍然通过TCC配置</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p><strong>退款退票是否允许退到钱包</strong></p></td><td colspan=\"1\" rowspan=\"1\"><p>允许 不允许</p></td><td colspan=\"1\" rowspan=\"1\"><p>允许 不允许</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-退款通知地址配置-18",
-      "title": "退款通知地址配置",
-      "level": 3,
-      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>通知类型</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址格式</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>通知地址URL</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款ARN通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款退票通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-退款集成模式-19",
-      "title": "退款集成模式",
-      "level": 2,
-      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>Function</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>Description</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>UI</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>商户通过退款API接入</p></td><td colspan=\"1\" rowspan=\"1\"><p>通过系统集成，商户可以发起退款请求，把支付款项退回用户原账户中或者指定的账户中。 Pros：</p><ol><li>用户可以自助完成，体验好</li><li>可以处理多种退款场景（原路退，非原路退）以及异常场景</li></ol><p>Cons：</p><ol><li>需要集成，前期集成投入较大</li></ol></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>商户接入PiPO独立退款收银台（For 电商卖家场景）</p></td><td colspan=\"1\" rowspan=\"1\"><p>商户发起退款请求，引导用户跳转到PiPO退款收银台上完成退款。 Pros：</p><ol><li>集成简单，维护成本低</li><li>可以处理多种退款场景（原路退，非原路退）</li></ol><p>Cons：</p><ol><li>定制化较低</li></ol></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>通过dashboard退款 Dashboard Refund</p></td><td colspan=\"1\" rowspan=\"1\"><p>PIPO为业务提供的dashboard退款能力，商户运营可以在PIPO的dashboard发起退款请求，该退款请求需要审批。目前仅支持原路退款。 Pros：</p><ol><li>不需要集成，开通即可用</li></ol><p>Cons：</p><ol><li>使用时需要人工接入，自动化程度不高</li><li>目前仅支持原路退款</li></ol></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
-    },
-    {
-      "id": "source-退款接口清单-20",
-      "title": "退款接口清单",
-      "level": 2,
-      "html": "<div class=\"synced-table-wrap\"><table class=\"synced-table\"><tbody><tr><th colspan=\"1\" rowspan=\"1\"><p><strong>接口名</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口地址</strong></p></th><th colspan=\"1\" rowspan=\"1\"><p><strong>接口字段说明</strong></p></th></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款咨询</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/get_refund_decision</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/refund/get-refund-decision</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款请求</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/refund</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/refund/refund</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款查询</p></td><td colspan=\"1\" rowspan=\"1\"><p>/payment/v1/refund_details</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/refund/refund-details</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款追偿</p></td><td colspan=\"1\" rowspan=\"1\"></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款结果通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务方Url</p></td><td colspan=\"1\" rowspan=\"1\"><p>https://pipopay-docs.bytedance.net/internal/reference/payin/payment/pay-callback</p></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>退款退票通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务方Url</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr><tr><td colspan=\"1\" rowspan=\"1\"><p>追偿结果通知</p></td><td colspan=\"1\" rowspan=\"1\"><p>业务方Url</p></td><td colspan=\"1\" rowspan=\"1\"></td></tr></tbody></table></div>"
     }
   ]
 }

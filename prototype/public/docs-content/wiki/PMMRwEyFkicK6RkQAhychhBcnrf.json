@@ -1,0 +1,29 @@
+{
+  "slug": "PMMRwEyFkicK6RkQAhychhBcnrf",
+  "nodeToken": "PMMRwEyFkicK6RkQAhychhBcnrf",
+  "title": "退款退票",
+  "source": "GY8sdJr3momAQmxsIW5lk8qSgpe",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/PMMRwEyFkicK6RkQAhychhBcnrf",
+  "syncedAt": "2026-07-27T08:37:14.141Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<p>退款退票，是指退款交易在渠道信息流返回成功，退款核心将退款状态流转至成功后，渠道侧又通知实际退款未入账成功的情况。</p><p>退款退票发生在<strong>原路退</strong>和<strong>退款转代发（RTP）</strong>两种退款方式下，当退票发生，说明用户未收到钱，PiPO在处理退票时按照原退款金额和币种发起退票。商户需要接入退票通知，并决定是否取消退款或者联系用户使用其他方式完成退款。</p><p>在支持退钱包的场景下，PiPO提供退票直接退回到用户钱包余额的能力。目前在TTLS ID下已支持</p>"
+    }
+  ]
+}

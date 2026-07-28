@@ -1,0 +1,29 @@
+{
+  "slug": "KvMewrJLEiasp6ksCgKcJ3PBnVh",
+  "nodeToken": "KvMewrJLEiasp6ksCgKcJ3PBnVh",
+  "title": "降级自动退款",
+  "source": "ECX1dZun3oKIMmx7BGIlTDrHgZe",
+  "sourceUrl": "https://bytedance.larkoffice.com/wiki/KvMewrJLEiasp6ksCgKcJ3PBnVh",
+  "syncedAt": "2026-07-27T08:37:08.607Z",
+  "hasContent": true,
+  "stats": {
+    "sections": 1,
+    "mediaFound": 0,
+    "mediaDownloaded": 0
+  },
+  "toc": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1
+    }
+  ],
+  "sections": [
+    {
+      "id": "source-文档说明-1",
+      "title": "文档说明",
+      "level": 1,
+      "html": "<p>当一笔支付交易在原路退失败/渠道不支持原路退的场景下，如果有其他退款方式，退款产品提供系统自动降级退款到其他退款方式的产品功能。</p><aside class=\"synced-callout\"><p><strong>场景示例</strong>：用户购买 150 元商品，使用信用卡支付。后续商品库存不足系统自动发起退款，商户使用降级自动退款策略：[原路退] &gt; [RTC/RTT] -&gt; [RTP]；</p></aside><p><strong>降级退款规则：</strong></p><ol><li>按照退款策略设置的优先级自动降级，一般优先原路退；</li><li>当所有可退方式都尝试失败，需要商户主动发起重试，且重试会跳过原路退；</li><li>当降级策略是RTP时，需要引导用户打开转代发链接并选择绑定的PI继续完成退款；</li></ol>"
+    }
+  ]
+}
