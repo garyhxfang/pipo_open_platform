@@ -1,7 +1,9 @@
 import {
   bankTransferPaymentMethods,
   bankCardPaymentMethods,
+  cashPinPaymentMethods,
   electronicWalletPaymentMethods,
+  internetBankingPaymentMethods,
   mobileBankingPaymentMethods,
   realtimePaymentNetworks
 } from './paymentMethodCatalog'
@@ -26,6 +28,7 @@ export type MarketCode =
   | 'MX'
   | 'VN'
   | 'CN'
+  | 'CO'
 export type MarketSelection = 'All' | MarketCode
 export type SupportStatus = 'standard' | 'conditional' | 'onDemand' | 'unsupported'
 export type VersionTag = 'standard' | 'beta'
@@ -37,7 +40,8 @@ export type PaymentMethodType =
   | 'mobileBanking'
   | 'realTimePaymentNetwork'
   | 'bankTransfer'
-  | 'localPayment'
+  | 'internetBanking'
+  | 'cashPin'
 export type PaymentMethodTypeSelection = 'All' | PaymentMethodType
 export type PaymentAbilityGroupId =
   | 'retry'
@@ -211,7 +215,8 @@ export const marketOptions: MarketSelection[] = [
   'CL',
   'MX',
   'VN',
-  'CN'
+  'CN',
+  'CO'
 ]
 
 export const paymentMethodTypeOptions: Array<{ label: string; value: PaymentMethodTypeSelection }> = [
@@ -222,7 +227,8 @@ export const paymentMethodTypeOptions: Array<{ label: string; value: PaymentMeth
   { label: '手机银行', value: 'mobileBanking' },
   { label: '实时支付网络', value: 'realTimePaymentNetwork' },
   { label: '银行转账', value: 'bankTransfer' },
-  { label: '本地支付方式', value: 'localPayment' }
+  { label: '网银（Internet Banking）', value: 'internetBanking' },
+  { label: '线下现金支付（Cash PIN）', value: 'cashPin' }
 ]
 
 export const supportStatusLabel: Record<SupportStatus, string> = {
@@ -266,9 +272,9 @@ export const paymentAbilityGroups: PaymentAbilityGroup[] = [
     id: 'combined',
     title: '组合支付',
     options: [
-      { label: 'Credit + X', value: 'creditPlusX', status: 'standard' },
-      { label: 'TTPay + X', value: 'ttpayPlusX', status: 'conditional' },
-      { label: 'TTPL + X', value: 'ttplPlusX', status: 'unsupported' }
+      { label: 'Tiktok Pay + 其他支付方式', value: 'creditPlusX', status: 'standard' },
+      { label: 'Tiktok Paylater + 其他支付方式', value: 'ttpayPlusX', status: 'conditional' },
+      { label: 'TTS Balance + 其他支付方式', value: 'ttplPlusX', status: 'unsupported' }
     ]
   },
   {
@@ -292,7 +298,7 @@ export const subscriptionManagementGroups: PaymentAbilityGroup[] = [
     options: [
       { label: '正价期', value: 'regularPricing', status: 'standard' },
       { label: '试用期', value: 'trialPeriod', status: 'standard' },
-      { label: '优惠期', value: 'discountPeriod', status: 'conditional' }
+      { label: '优惠期', value: 'discountPeriod', status: 'standard' }
     ]
   },
   {
@@ -300,17 +306,17 @@ export const subscriptionManagementGroups: PaymentAbilityGroup[] = [
     title: '订阅到期处理',
     options: [
       { label: '宽限期', value: 'gracePeriod', status: 'standard' },
-      { label: '保留期', value: 'retentionPeriod', status: 'conditional' }
+      { label: '保留期', value: 'retentionPeriod', status: 'unsupported' }
     ]
   },
   {
     id: 'subscriptionUpgrade',
     title: '订阅升降级',
     options: [
-      { label: '剩余权益退款（升级）', value: 'upgradeRefundRemainingBenefits', status: 'conditional' },
+      { label: '剩余权益退款（升级）', value: 'upgradeRefundRemainingBenefits', status: 'standard' },
       { label: '剩余权益抵扣新订阅款项（升级）', value: 'upgradeOffsetNewSubscription', status: 'standard' },
-      { label: '剩余时间补差价（升级）', value: 'upgradeProratedPriceDifference', status: 'conditional' },
-      { label: '到期后降级续费（降级）', value: 'downgradeOnRenewal', status: 'standard' }
+      { label: '剩余时间补差价（升级）', value: 'upgradeProratedPriceDifference', status: 'standard' },
+      { label: '到期后降级续费（降级）', value: 'downgradeOnRenewal', status: 'unsupported' }
     ]
   },
   {
@@ -319,7 +325,7 @@ export const subscriptionManagementGroups: PaymentAbilityGroup[] = [
     options: [
       { label: '取消订阅', value: 'cancelSubscription', status: 'standard' },
       { label: '恢复订阅', value: 'resumeSubscription', status: 'standard' },
-      { label: '终止订阅', value: 'terminateSubscription', status: 'conditional' }
+      { label: '终止订阅', value: 'terminateSubscription', status: 'standard' }
     ]
   }
 ]
@@ -329,17 +335,16 @@ export const subscriptionPaymentAbilityGroups: PaymentAbilityGroup[] = [
     id: 'initialRetry',
     title: '首订支付重试',
     options: [
-      { label: '收银台支付挽回', value: 'subscriptionCashierRecovery', status: 'standard' },
       { label: '二次拉起收银台支付', value: 'subscriptionReopenCashier', status: 'standard' },
-      { label: '备用支付方式重试', value: 'subscriptionBackupMethodRetry', status: 'conditional' }
+      { label: '收银台支付挽回', value: 'subscriptionCashierRecovery', status: 'unsupported' }
     ]
   },
   {
     id: 'renewalCharge',
-    title: '续订扣款模式',
+    title: '续订阶段重试',
     options: [
-      { label: '主 PI 扣款', value: 'primaryPiCharge', status: 'standard' },
-      { label: '主 PI + 备用 PI 轮询', value: 'primaryBackupPiPolling', status: 'conditional' }
+      { label: '备用支付方式重试', value: 'subscriptionBackupMethodRetry', status: 'standard' },
+      { label: '智能重试', value: 'intelligentRetry', status: 'standard' }
     ]
   }
 ]
@@ -408,7 +413,8 @@ const allMarketsStandard: Record<MarketCode, SupportStatus> = {
   CL: 'standard',
   MX: 'standard',
   VN: 'standard',
-  CN: 'standard'
+  CN: 'standard',
+  CO: 'standard'
 }
 
 const allMarketsUnsupported: Record<MarketCode, SupportStatus> = {
@@ -426,7 +432,8 @@ const allMarketsUnsupported: Record<MarketCode, SupportStatus> = {
   CL: 'unsupported',
   MX: 'unsupported',
   VN: 'unsupported',
-  CN: 'unsupported'
+  CN: 'unsupported',
+  CO: 'unsupported'
 }
 
 export const capabilities: CapabilityItem[] = [
@@ -528,25 +535,42 @@ export const capabilities: CapabilityItem[] = [
     },
     paymentMethodTags: { ...method.paymentMethodTags }
   })),
-  {
-    id: 'fpx',
-    name: 'FPX',
+  ...internetBankingPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
     category: 'payment',
-    paymentMethodType: 'localPayment',
-    version: 'standard',
-    description: '马来西亚本地网银支付。',
-    initial: 'F',
-    accent: '#0b4ea2',
-    products: ['online'],
-    environments: ['web', 'app'],
-    integrationModes: ['hosted', 'embedded', 'api'],
-    marketStatus: { ...allMarketsUnsupported, MY: 'standard' },
-    paymentMethodTags: {
-      standaloneBinding: 'unsupported',
-      payAndBind: 'standard',
-      preAuthPay: 'unsupported'
-    }
-  },
+    paymentMethodType: 'internetBanking',
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
+    marketStatus: {
+      ...allMarketsUnsupported,
+      ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+    },
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
+  ...cashPinPaymentMethods.map<CapabilityItem>((method) => ({
+    id: method.id,
+    name: method.name,
+    category: 'payment',
+    paymentMethodType: 'cashPin',
+    version: method.version,
+    description: method.description,
+    initial: method.initial,
+    accent: method.accent,
+    products: [...method.products],
+    environments: [...method.environments],
+    integrationModes: [...method.integrationModes],
+    marketStatus: {
+      ...allMarketsUnsupported,
+      ...Object.fromEntries(method.availability.map((market) => [market, 'standard' as const]))
+    },
+    paymentMethodTags: { ...method.paymentMethodTags }
+  })),
   {
     id: 'apple-pay',
     name: 'Apple Pay',

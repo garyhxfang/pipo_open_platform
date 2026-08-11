@@ -98,9 +98,23 @@ const collectionConfigStageOptions: Array<{ id: CollectionConfigStageId; label: 
   { id: 'withdrawal', label: '提现' },
   { id: 'reconciliation', label: '账单与对账' }
 ]
-const collectionStageTypeIds = new Set(
-  collectionConfigStageOptions.filter((item) => item.id !== 'acquiring').map((item) => item.id)
-)
+const collectionStageTypeIds: Record<Exclude<CollectionConfigStageId, 'acquiring'>, string[]> = {
+  refund: [
+    'refundInitiation',
+    'refundFunding',
+    'refundMethod',
+    'refundDecision',
+    'refundCashierIntegration',
+    'refundValueAdded'
+  ],
+  chargeback: ['chargeback'],
+  settlement: ['settlement'],
+  split: ['split'],
+  platformTransfer: ['platformTransfer'],
+  withdrawal: ['withdrawal'],
+  reconciliation: ['reconciliation']
+}
+const allCollectionStageTypeIds = new Set(Object.values(collectionStageTypeIds).flat())
 const selectedCollectionConfigStage = ref<CollectionConfigStageId>('acquiring')
 
 const scenarioFilters = ref<Record<ScenarioDimensionId, string>>({
@@ -123,8 +137,8 @@ const abilityTypes = computed(() => config.value.capabilityTypes)
 const stageAbilityTypes = computed(() =>
   abilityTypes.value.filter((type) =>
     selectedCollectionConfigStage.value === 'acquiring'
-      ? !collectionStageTypeIds.has(type.id as CollectionConfigStageId)
-      : type.id === selectedCollectionConfigStage.value
+      ? !allCollectionStageTypeIds.has(type.id)
+      : collectionStageTypeIds[selectedCollectionConfigStage.value].includes(type.id)
   )
 )
 const stageAbilityTypeIds = computed(() => new Set(stageAbilityTypes.value.map((item) => item.id)))

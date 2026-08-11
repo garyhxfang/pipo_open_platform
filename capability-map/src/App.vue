@@ -471,9 +471,7 @@ function normalizeDependentSelections() {
 }
 
 function paymentAbilityStatusFor(abilityId: PaymentAbilityId, fallback: SupportStatus): SupportStatus {
-  if (!publishedConfig.value) return fallback
-
-  const status = resolveCapabilityStatus(publishedConfig.value, abilityId, {
+  const status = resolveCapabilityStatus(activeCapabilityConfig(), abilityId, {
     merchantType: currentMerchantType.value,
     product: currentProduct.value,
     environment: currentEnvironment.value,
@@ -546,6 +544,20 @@ async function refreshPublishedConfig() {
   }
 }
 
+async function refreshMapPublishedConfig() {
+  if (currentWorkspacePage.value !== 'map' || currentBusinessLine.value !== 'collection') return
+  await refreshPublishedConfig()
+  normalizeDependentSelections()
+}
+
+function handleWindowFocus() {
+  void refreshMapPublishedConfig()
+}
+
+function handleVisibilityChange() {
+  if (document.visibilityState === 'visible') void refreshMapPublishedConfig()
+}
+
 async function returnToMap() {
   await refreshPublishedConfig()
   normalizeDependentSelections()
@@ -593,20 +605,28 @@ function switchConfigBusiness(business: 'collection' | 'payout') {
   navigateWorkspace(business === 'collection' ? 'config' : 'payout-config')
 }
 
+watch(currentWorkspacePage, (page) => {
+  if (page === 'map') void refreshMapPublishedConfig()
+})
+
 onMounted(() => {
   syncWorkspacePageFromHash()
   syncPaymentMethodGridColumns()
   window.addEventListener('hashchange', syncWorkspacePageFromHash)
   window.addEventListener('keydown', handleWorkspaceKeydown)
+  window.addEventListener('focus', handleWindowFocus)
   window.addEventListener('resize', syncPaymentMethodGridColumns)
-  void refreshPublishedConfig()
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  void refreshMapPublishedConfig()
 })
 
 onBeforeUnmount(() => {
   if (capabilityDocHoverTimer) window.clearTimeout(capabilityDocHoverTimer)
   window.removeEventListener('hashchange', syncWorkspacePageFromHash)
   window.removeEventListener('keydown', handleWorkspaceKeydown)
+  window.removeEventListener('focus', handleWindowFocus)
   window.removeEventListener('resize', syncPaymentMethodGridColumns)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 
 </script>

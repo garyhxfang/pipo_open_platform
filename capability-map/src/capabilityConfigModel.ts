@@ -131,19 +131,19 @@ const pricingCurrencyMetadata: CapabilityMetadata[] = pricingCurrencies.map(([co
 )
 
 const collectionStageCapabilityDefinitions = [
-  ['collection:refund:dashboard', 'Dashboard 退款', 'refund', '退款能力', 'standard'],
-  ['collection:refund:api', 'API 退款', 'refund', '退款能力', 'standard'],
-  ['collection:refund:original', '原路退款', 'refund', '退款能力', 'standard'],
-  ['collection:refund:wallet', '退至钱包', 'refund', '退款能力', 'conditional'],
-  ['collection:refund:payout', '退款转代发', 'refund', '退款能力', 'conditional'],
-  ['collection:refund:userChoice', '用户主动选择', 'refund', '退款能力', 'standard'],
-  ['collection:refund:autoRoute', '系统自动路由', 'refund', '退款能力', 'conditional'],
-  ['collection:refund:hosted', '独立收银台', 'refund', '退款能力', 'standard'],
-  ['collection:refund:embedded', '嵌入式收银台', 'refund', '退款能力', 'conditional'],
-  ['collection:refund:merchantFunded', '商户出资', 'refund', '退款能力', 'standard'],
-  ['collection:refund:platformAdvance', '平台商户垫资退款', 'refund', '退款能力', 'conditional'],
-  ['collection:refund:proof', '退款查单凭证', 'refund', '退款能力', 'standard'],
-  ['collection:refund:fxLock', '退款换汇保价', 'refund', '退款能力', 'conditional'],
+  ['collection:refund:dashboard', 'Dashboard 退款', 'refundInitiation', '退款发起方式', 'standard'],
+  ['collection:refund:api', 'API 退款', 'refundInitiation', '退款发起方式', 'standard'],
+  ['collection:refund:merchantFunded', '商户出资', 'refundFunding', '退款出资方式', 'standard'],
+  ['collection:refund:platformAdvance', '平台商户垫资退款', 'refundFunding', '退款出资方式', 'conditional'],
+  ['collection:refund:original', '原路退款', 'refundMethod', '退款方式', 'standard'],
+  ['collection:refund:wallet', '退至钱包', 'refundMethod', '退款方式', 'conditional'],
+  ['collection:refund:payout', '退款转代发', 'refundMethod', '退款方式', 'conditional'],
+  ['collection:refund:userChoice', '用户主动选择', 'refundDecision', '退款方式决策', 'standard'],
+  ['collection:refund:autoRoute', '系统自动路由', 'refundDecision', '退款方式决策', 'conditional'],
+  ['collection:refund:hosted', '独立收银台', 'refundCashierIntegration', '退款收银台集成模式', 'standard'],
+  ['collection:refund:embedded', '嵌入式收银台', 'refundCashierIntegration', '退款收银台集成模式', 'conditional'],
+  ['collection:refund:proof', '退款查单凭证', 'refundValueAdded', '退款增值服务', 'standard'],
+  ['collection:refund:fxLock', '退款换汇保价', 'refundValueAdded', '退款增值服务', 'conditional'],
   ['collection:chargeback:merchantLoss', '商户承担', 'chargeback', '拒付能力', 'standard'],
   ['collection:chargeback:fraudProtection', '欺诈拒付包赔', 'chargeback', '拒付能力', 'conditional'],
   ['collection:chargeback:alert', '拒付预警消息', 'chargeback', '拒付能力', 'standard'],
@@ -189,6 +189,13 @@ const collectionStageCapabilityDefinitions = [
   ['collection:reconciliation:sftp', 'SFTP', 'reconciliation', '账单与对账', 'unsupported']
 ] as const
 
+const refundCapabilityTypeAssignments = new Map<CapabilityFeatureId, { groupId: string; groupName: string }>(
+  collectionStageCapabilityDefinitions
+    .filter(([id]) => id.startsWith('collection:refund:'))
+    .map(([id, , groupId, groupName]) => [id as CapabilityFeatureId, { groupId, groupName }])
+)
+const refundCapabilityIds = new Set(refundCapabilityTypeAssignments.keys())
+
 const collectionStageMetadata: CapabilityMetadata[] = collectionStageCapabilityDefinitions.map(
   ([id, name, groupId, groupName, status]) =>
     businessFeature(id, name, groupId, groupName, status)
@@ -222,7 +229,12 @@ const paymentCapabilityTypes = [
 )
 
 const collectionStageCapabilityTypes: CapabilityTypeDefinition[] = [
-  capabilityType('refund', '退款能力', ['merchantType', 'product', 'environment', 'integrationMode'], 'both', 'inline', 4),
+  capabilityType('refundInitiation', '退款发起方式', ['product'], 'none', 'inline', 4),
+  capabilityType('refundFunding', '退款出资方式', ['merchantType', 'product'], 'merchant', 'inline', 4),
+  capabilityType('refundMethod', '退款方式', ['merchantType', 'product'], 'both', 'inline', 4),
+  capabilityType('refundDecision', '退款方式决策', ['merchantType', 'product', 'environment'], 'none', 'inline', 4),
+  capabilityType('refundCashierIntegration', '退款收银台集成模式', ['merchantType', 'product', 'environment'], 'none', 'inline', 4),
+  capabilityType('refundValueAdded', '退款增值服务', ['merchantType', 'product'], 'both', 'inline', 4),
   capabilityType('chargeback', '拒付能力', ['merchantType', 'product'], 'both', 'inline', 4),
   capabilityType('settlement', '结算能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
   capabilityType('split', '分账能力', ['merchantType', 'product'], 'merchant', 'inline', 4),
@@ -366,7 +378,7 @@ export function scenarioRuleId(capabilityId: CapabilityFeatureId, conditions: Sc
 export function createSeedPayload(): CapabilityConfigPayloadV4 {
   const payload: CapabilityConfigPayloadV4 = {
     schemaVersion: 4,
-    catalogRevision: 12,
+    catalogRevision: 17,
     exportedAt: new Date().toISOString(),
     dimensions: cloneValue(scenarioDimensions),
     capabilityTypes: cloneValue(defaultCapabilityTypes),
@@ -436,6 +448,8 @@ function applyDefaultBusinessCapabilityStatuses(payload: CapabilityConfigPayload
   setRuleStatus(payload, 'userFee', { product: 'online', integrationMode: 'hosted' }, 'standard', '在线支付独立收银台支持用户手续费')
   setRuleStatus(payload, 'userFee', { product: 'online', integrationMode: 'embedded' }, 'standard', '在线支付嵌入式收银台支持用户手续费')
 
+  applyHostedCombinedPaymentStatuses(payload)
+
   const platformMerchantOnlyCapabilities: CapabilityFeatureId[] = [
     'collection:refund:platformAdvance',
     ...collectionStageCapabilityDefinitions
@@ -451,6 +465,24 @@ function applyDefaultBusinessCapabilityStatuses(payload: CapabilityConfigPayload
       { merchantType: 'standardMerchant' },
       'unsupported',
       '该能力仅适用于平台商户'
+    )
+  }
+}
+
+function applyHostedCombinedPaymentStatuses(payload: CapabilityConfigPayloadV4) {
+  const combinedPaymentCapabilityIds: CapabilityFeatureId[] = [
+    'creditPlusX',
+    'ttpayPlusX',
+    'ttplPlusX'
+  ]
+
+  for (const capabilityId of combinedPaymentCapabilityIds) {
+    setRuleStatus(
+      payload,
+      capabilityId,
+      { integrationMode: 'hosted' },
+      'unsupported',
+      '独立收银台不支持组合支付'
     )
   }
 }
@@ -496,6 +528,43 @@ function setRuleStatus(
     rule.domains = uniformDomains(status)
     rule.note = note
   }
+}
+
+function projectScenarioRulesToCurrentTypeDimensions(
+  payload: CapabilityConfigPayloadV4,
+  capabilityIds: Set<CapabilityFeatureId>
+) {
+  const projectedRules = new Map<string, ScenarioSupportRule>()
+
+  for (const rule of payload.scenarioRules.filter((item) => capabilityIds.has(item.capabilityId))) {
+    const typeMetadata = capabilityTypeFor(payload, rule.capabilityId)
+    if (!typeMetadata) continue
+
+    const conditions = Object.fromEntries(
+      typeMetadata.scenarioDimensionIds
+        .map((dimensionId) => [dimensionId, rule.conditions[dimensionId]] as const)
+        .filter((entry): entry is readonly [ScenarioDimensionId, string] => Boolean(entry[1]))
+    ) as ScenarioConditions
+    const id = scenarioRuleId(rule.capabilityId, conditions)
+    const existing = projectedRules.get(id)
+
+    if (!existing) {
+      projectedRules.set(id, { ...cloneValue(rule), id, conditions })
+      continue
+    }
+
+    existing.domains = {
+      transaction: weakestStatus([existing.domains.transaction, rule.domains.transaction]),
+      cashier: weakestStatus([existing.domains.cashier, rule.domains.cashier]),
+      gn: weakestStatus([existing.domains.gn, rule.domains.gn])
+    }
+    if (!existing.note && rule.note) existing.note = rule.note
+  }
+
+  payload.scenarioRules = [
+    ...payload.scenarioRules.filter((item) => !capabilityIds.has(item.capabilityId)),
+    ...projectedRules.values()
+  ]
 }
 
 type LegacyTypeConfiguration = CapabilityMetadata & {
@@ -600,6 +669,9 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
   const seed = createSeedPayload()
   const needsCatalogUpgrade = (payload.catalogRevision ?? 0) < 2
   const needsElectronicWalletCatalogUpgrade = (payload.catalogRevision ?? 0) < 8
+  const needsHostedCombinedPaymentUpgrade = (payload.catalogRevision ?? 0) < 13
+  const needsCombinedPaymentNamingUpgrade = (payload.catalogRevision ?? 0) < 14
+  const needsRefundTaxonomyUpgrade = (payload.catalogRevision ?? 0) < 15
   const suppliedCapabilityIds = new Set(payload.capabilities.map((item) => item.id))
   const suppliedRuleCapabilities = new Set(payload.scenarioRules.map((item) => item.capabilityId))
   const suppliedMarketRuleIds = new Set((payload.marketRules ?? []).map((item) => item.id))
@@ -626,6 +698,15 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
         displayMode: legacyValueAddedType?.displayMode ?? defaultType.displayMode,
         previewLimit: legacyValueAddedType?.previewLimit ?? defaultType.previewLimit
       })
+    }
+  }
+
+  if (needsRefundTaxonomyUpgrade) {
+    for (const capability of suppliedCapabilities) {
+      const assignment = refundCapabilityTypeAssignments.get(capability.id)
+      if (!assignment) continue
+      capability.groupId = assignment.groupId
+      capability.groupName = assignment.groupName
     }
   }
 
@@ -683,9 +764,23 @@ function normalizeV4(payload: CapabilityConfigPayloadV4): CapabilityConfigPayloa
   normalized.marketRules = normalized.marketRules.filter((item) => !deprecatedCapabilityIds.has(item.capabilityId))
   const preAuth = normalized.capabilities.find((item) => item.id === 'preAuthMultiple')
   if (preAuth) preAuth.name = '预授权支付'
+  if (needsCombinedPaymentNamingUpgrade) {
+    const combinedPaymentNames = new Map<CapabilityFeatureId, string>([
+      ['creditPlusX', 'Tiktok Pay + 其他支付方式'],
+      ['ttpayPlusX', 'Tiktok Paylater + 其他支付方式'],
+      ['ttplPlusX', 'TTS Balance + 其他支付方式']
+    ])
+    for (const capability of normalized.capabilities) {
+      capability.name = combinedPaymentNames.get(capability.id) ?? capability.name
+    }
+  }
   synchronizeCapabilityTypeNames(normalized)
+  if (needsRefundTaxonomyUpgrade) {
+    projectScenarioRulesToCurrentTypeDimensions(normalized, refundCapabilityIds)
+  }
   materializeDimensionFeatureRules(normalized)
   materializeBusinessCapabilityRules(normalized)
+  if (needsHostedCombinedPaymentUpgrade) applyHostedCombinedPaymentStatuses(normalized)
   return normalized
 }
 

@@ -822,3 +822,273 @@ export const bankTransferPaymentMethods: readonly BankTransferPaymentMethodDefin
 export const bankTransferPaymentMethodById = Object.fromEntries(
   bankTransferPaymentMethods.map((method) => [method.id, method])
 ) as Record<BankTransferPaymentMethodId, BankTransferPaymentMethodDefinition>
+
+export const internetBankingPaymentMethodIds = [
+  'bdo',
+  'bpi',
+  'unionbank-ph',
+  'corporate-internet-banking-cn',
+  'personal-internet-banking-cn',
+  'fpx'
+] as const
+
+export type InternetBankingPaymentMethodId = (typeof internetBankingPaymentMethodIds)[number]
+
+export interface InternetBankingPaymentMethodDefinition {
+  id: InternetBankingPaymentMethodId
+  name: string
+  description: string
+  initial: string
+  accent: string
+  availability: readonly MarketCode[]
+  products: readonly ProductType[]
+  environments: readonly Environment[]
+  integrationModes: readonly IntegrationMode[]
+  version: VersionTag
+  paymentMethodTags: Readonly<Record<PaymentMethodTagId, SupportStatus>>
+}
+
+function internetBankingPaymentMethod(
+  definition: Omit<
+    InternetBankingPaymentMethodDefinition,
+    'products' | 'environments' | 'integrationModes' | 'version' | 'paymentMethodTags'
+  > & Partial<
+    Pick<InternetBankingPaymentMethodDefinition, 'paymentMethodTags'>
+  >
+): InternetBankingPaymentMethodDefinition {
+  return {
+    products: onlinePaymentOnly,
+    environments: walletEnvironments,
+    integrationModes: walletIntegrationModes,
+    version: 'standard',
+    paymentMethodTags: {
+      standaloneBinding: 'unsupported',
+      payAndBind: 'unsupported',
+      preAuthPay: 'unsupported'
+    },
+    ...definition
+  }
+}
+
+export const internetBankingPaymentMethods: readonly InternetBankingPaymentMethodDefinition[] = [
+  internetBankingPaymentMethod({
+    id: 'bdo',
+    name: 'BDO',
+    description: '仅在菲律宾可用的 BDO 网银支付。',
+    initial: 'BDO',
+    accent: '#003b70',
+    availability: ['PH']
+  }),
+  internetBankingPaymentMethod({
+    id: 'bpi',
+    name: 'BPI',
+    description: '仅在菲律宾可用的 BPI 网银支付。',
+    initial: 'BPI',
+    accent: '#a6192e',
+    availability: ['PH']
+  }),
+  internetBankingPaymentMethod({
+    id: 'unionbank-ph',
+    name: 'Union Bank',
+    description: '仅在菲律宾可用的 Union Bank 网银支付。',
+    initial: 'UB',
+    accent: '#f58220',
+    availability: ['PH']
+  }),
+  internetBankingPaymentMethod({
+    id: 'corporate-internet-banking-cn',
+    name: '企业网银',
+    description: '仅在中国大陆可用的企业网银支付。',
+    initial: '企',
+    accent: '#1d4ed8',
+    availability: ['CN']
+  }),
+  internetBankingPaymentMethod({
+    id: 'personal-internet-banking-cn',
+    name: '个人网银',
+    description: '仅在中国大陆可用的个人网银支付。',
+    initial: '个',
+    accent: '#2563eb',
+    availability: ['CN']
+  }),
+  internetBankingPaymentMethod({
+    id: 'fpx',
+    name: 'FPX',
+    description: '仅在马来西亚可用的 FPX 网银支付。',
+    initial: 'F',
+    accent: '#0b4ea2',
+    availability: ['MY'],
+    paymentMethodTags: {
+      standaloneBinding: 'unsupported',
+      payAndBind: 'standard',
+      preAuthPay: 'unsupported'
+    }
+  })
+]
+
+export const internetBankingPaymentMethodById = Object.fromEntries(
+  internetBankingPaymentMethods.map((method) => [method.id, method])
+) as Record<InternetBankingPaymentMethodId, InternetBankingPaymentMethodDefinition>
+
+export const cashPinPaymentMethodIds = [
+  'alfamart',
+  'boleto',
+  'convenience-stores-ph',
+  'daily-yamazaki',
+  'efecty',
+  'familymart',
+  'indomaret',
+  'lawson',
+  'ministop',
+  'oxxo',
+  'seicomart',
+  'seveneleven',
+  'otc'
+] as const
+
+export type CashPinPaymentMethodId = (typeof cashPinPaymentMethodIds)[number]
+
+export interface CashPinPaymentMethodDefinition {
+  id: CashPinPaymentMethodId
+  name: string
+  description: string
+  initial: string
+  accent: string
+  availability: readonly MarketCode[]
+  products: readonly ProductType[]
+  environments: readonly Environment[]
+  integrationModes: readonly IntegrationMode[]
+  version: VersionTag
+  paymentMethodTags: Readonly<Record<PaymentMethodTagId, SupportStatus>>
+}
+
+function cashPinPaymentMethod(
+  definition: Omit<
+    CashPinPaymentMethodDefinition,
+    'products' | 'environments' | 'integrationModes' | 'version' | 'paymentMethodTags'
+  >
+): CashPinPaymentMethodDefinition {
+  return {
+    products: onlinePaymentOnly,
+    environments: walletEnvironments,
+    integrationModes: walletIntegrationModes,
+    version: 'standard',
+    paymentMethodTags: {
+      standaloneBinding: 'unsupported',
+      payAndBind: 'unsupported',
+      preAuthPay: 'unsupported'
+    },
+    ...definition
+  }
+}
+
+export const cashPinPaymentMethods: readonly CashPinPaymentMethodDefinition[] = [
+  cashPinPaymentMethod({
+    id: 'alfamart',
+    name: 'Alfamart',
+    description: '仅在印度尼西亚可用的 Alfamart 线下现金支付。',
+    initial: 'A',
+    accent: '#e31e24',
+    availability: ['ID']
+  }),
+  cashPinPaymentMethod({
+    id: 'boleto',
+    name: 'Boleto',
+    description: '仅在巴西可用的 Boleto 线下现金支付。',
+    initial: 'B',
+    accent: '#009b3a',
+    availability: ['BR']
+  }),
+  cashPinPaymentMethod({
+    id: 'convenience-stores-ph',
+    name: 'Convenience Stores PH',
+    description: '仅在菲律宾可用的便利店线下现金支付。',
+    initial: 'CS',
+    accent: '#2563eb',
+    availability: ['PH']
+  }),
+  cashPinPaymentMethod({
+    id: 'daily-yamazaki',
+    name: 'Daily Yamazaki',
+    description: '仅在日本可用的 Daily Yamazaki 线下现金支付。',
+    initial: 'DY',
+    accent: '#d71920',
+    availability: ['JP']
+  }),
+  cashPinPaymentMethod({
+    id: 'efecty',
+    name: 'Efecty',
+    description: '仅在哥伦比亚可用的 Efecty 线下现金支付。',
+    initial: 'E',
+    accent: '#f5c400',
+    availability: ['CO']
+  }),
+  cashPinPaymentMethod({
+    id: 'familymart',
+    name: 'FamilyMart',
+    description: '仅在日本可用的 FamilyMart 线下现金支付。',
+    initial: 'FM',
+    accent: '#00a650',
+    availability: ['JP']
+  }),
+  cashPinPaymentMethod({
+    id: 'indomaret',
+    name: 'Indomaret',
+    description: '仅在印度尼西亚可用的 Indomaret 线下现金支付。',
+    initial: 'I',
+    accent: '#005baa',
+    availability: ['ID']
+  }),
+  cashPinPaymentMethod({
+    id: 'lawson',
+    name: 'Lawson',
+    description: '仅在日本可用的 Lawson 线下现金支付。',
+    initial: 'L',
+    accent: '#0077c8',
+    availability: ['JP']
+  }),
+  cashPinPaymentMethod({
+    id: 'ministop',
+    name: 'Ministop',
+    description: '仅在日本可用的 Ministop 线下现金支付。',
+    initial: 'M',
+    accent: '#005bac',
+    availability: ['JP']
+  }),
+  cashPinPaymentMethod({
+    id: 'oxxo',
+    name: 'OXXO',
+    description: '仅在墨西哥可用的 OXXO 线下现金支付。',
+    initial: 'O',
+    accent: '#d71920',
+    availability: ['MX']
+  }),
+  cashPinPaymentMethod({
+    id: 'seicomart',
+    name: 'SeicoMart',
+    description: '仅在日本可用的 SeicoMart 线下现金支付。',
+    initial: 'S',
+    accent: '#f58220',
+    availability: ['JP']
+  }),
+  cashPinPaymentMethod({
+    id: 'seveneleven',
+    name: 'SevenEleven',
+    description: '在日本和菲律宾可用的 SevenEleven 线下现金支付。',
+    initial: '7',
+    accent: '#008c44',
+    availability: ['JP', 'PH']
+  }),
+  cashPinPaymentMethod({
+    id: 'otc',
+    name: 'OTC',
+    description: '在日本和菲律宾可用的 OTC 线下现金支付。',
+    initial: 'OTC',
+    accent: '#475569',
+    availability: ['JP', 'PH']
+  })
+]
+
+export const cashPinPaymentMethodById = Object.fromEntries(
+  cashPinPaymentMethods.map((method) => [method.id, method])
+) as Record<CashPinPaymentMethodId, CashPinPaymentMethodDefinition>

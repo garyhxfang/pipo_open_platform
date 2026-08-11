@@ -14,16 +14,51 @@ export type IntakeType = 'newBusiness' | 'newProduct' | 'newMerchantAccount' | '
 export type IntakeBusinessType = 'acquiring' | 'payout'
 export type IntakeProductType = ProductType | 'iap'
 export type IntakeStep = 1 | 2 | 3
-export type IntakeStageId = 'acquiring' | 'refund' | 'chargeback' | 'settlement' | 'reconciliation'
+export type IntakeStageId =
+  | 'acquiring'
+  | 'refund'
+  | 'chargeback'
+  | 'settlement'
+  | 'withdrawal'
+  | 'reconciliation'
+  | 'currencyExchange'
+  | 'taxCalculation'
+  | 'userFee'
 export type MerchantAccountSelectionMode = 'existing' | 'new'
 export type PaymentBindingMode = 'none' | 'standaloneBinding' | 'payAndBind'
 export type PaymentCardType = 'credit' | 'debit' | 'prepaid'
+export type SettlementCycleBasis = 'D' | 'T'
+export type IntakeModuleAction = 'businessFirstAccess' | 'merchantFirstAccess' | 'capabilityAdjustment'
+export type UserFeeCalculationMode = 'percentage' | 'fixed'
+export type TaxCalculationMode = 'taxInclusive' | 'taxExclusive'
+export type TaxRuleCountry = 'Default' | Exclude<MarketSelection, 'All'>
+
+export interface TaxRule {
+  id: string
+  country: TaxRuleCountry
+  calculationMode: TaxCalculationMode
+  invoicingEnabled: boolean
+}
+
+export interface UserFeeRule {
+  id: string
+  paymentMethodId: string
+  country: Exclude<MarketSelection, 'All'>
+  calculationMode: UserFeeCalculationMode
+  percentageRate: string
+  fixedAmount: string
+  currency: string
+}
 
 export interface PaymentChannelRequirement {
   id: string
   channelName: string
-  reuseExistingAccount: boolean
-  brandName: string
+  createNewAccount: boolean
+  channelId: string
+  merchantDescriptor: string
+  channelPaymentMinLimit: string
+  channelPaymentMaxLimit: string
+  cardVerificationAmount: string
 }
 
 export interface PaymentMethodRequirement {
@@ -51,9 +86,13 @@ export interface IntakeMerchantSubject {
   accountMode: MerchantAccountSelectionMode
   merchantAccountId: string
   subjectName: string
+  merchantDescriptor: string
   merchantType: MerchantType
   merchantContractingCountry: MarketSelection
   newProducts: IntakeProductType[]
+  moduleActions: Record<string, IntakeModuleAction>
+  taxRules: TaxRule[]
+  userFeeRules: UserFeeRule[]
 }
 
 export interface IntakeCapabilityPlan {
@@ -65,6 +104,10 @@ export interface IntakeCapabilityPlan {
   consumerPaymentCountry: MarketSelection
   paymentMethodType: PaymentMethodTypeSelection
   paymentMethodRequirements: PaymentMethodRequirement[]
+  pricingCurrencies: string[]
+  settlementCurrencyMappings: Record<string, string>
+  settlementCycleBasis: SettlementCycleBasis
+  settlementCycleDays: number
   selectedCapabilities: SelectedCapability[]
   configured: boolean
 }
@@ -86,6 +129,10 @@ export interface AgileIntakeDraft {
   consumerPaymentCountry: MarketSelection
   paymentMethodType: PaymentMethodTypeSelection
   paymentMethodRequirements: PaymentMethodRequirement[]
+  pricingCurrencies: string[]
+  settlementCurrencyMappings: Record<string, string>
+  settlementCycleBasis: SettlementCycleBasis
+  settlementCycleDays: number
   selectedCapabilities: SelectedCapability[]
 }
 
@@ -93,6 +140,7 @@ export interface DemoMerchantAccount {
   id: string
   name: string
   subjectName: string
+  merchantDescriptor: string
   merchantType: MerchantType
   country: MarketSelection
   products: ProductType[]
@@ -122,6 +170,7 @@ export const intakeBusinessTypeOptions: Array<{
   englishTitle: string
   description: string
   icon: 'acquiring' | 'payout'
+  comingSoon?: boolean
 }> = [
   {
     value: 'acquiring',
@@ -135,7 +184,8 @@ export const intakeBusinessTypeOptions: Array<{
     title: '代发',
     englishTitle: 'Pay-out',
     description: '面向用户或合作方的资金出款场景',
-    icon: 'payout'
+    icon: 'payout',
+    comingSoon: true
   }
 ]
 
@@ -199,6 +249,7 @@ export const demoBusinesses: DemoBusiness[] = [
         id: 'SEA-PLAT-1001',
         name: 'SEA 平台主商户号',
         subjectName: 'TikTok Shop SEA Pte. Ltd.',
+        merchantDescriptor: 'TIKTOK SHOP SEA',
         merchantType: 'platformMerchant',
         country: 'SG',
         products: ['online', 'agreementDeduction']
@@ -207,6 +258,7 @@ export const demoBusinesses: DemoBusiness[] = [
         id: 'SEA-STD-1038',
         name: '泰国直营商户号',
         subjectName: 'TikTok Shop Thailand Ltd.',
+        merchantDescriptor: 'TIKTOK SHOP TH',
         merchantType: 'standardMerchant',
         country: 'TH',
         products: ['online']
@@ -222,6 +274,7 @@ export const demoBusinesses: DemoBusiness[] = [
         id: 'US-STD-2086',
         name: '美国订阅商户号',
         subjectName: 'CapCut Commerce Inc.',
+        merchantDescriptor: 'CAPCUT COMMERCE',
         merchantType: 'standardMerchant',
         country: 'US',
         products: ['online', 'subscription']
@@ -237,6 +290,7 @@ export const demoBusinesses: DemoBusiness[] = [
         id: 'JP-STD-3012',
         name: '日本会员业务商户号',
         subjectName: 'Lemon8 Japan G.K.',
+        merchantDescriptor: 'LEMON8 MEMBERSHIP',
         merchantType: 'standardMerchant',
         country: 'JP',
         products: ['subscription']
@@ -250,11 +304,15 @@ export const intakeStageOptions: Array<{ id: IntakeStageId; label: string }> = [
   { id: 'refund', label: '退款' },
   { id: 'chargeback', label: '拒付' },
   { id: 'settlement', label: '清结算' },
-  { id: 'reconciliation', label: '账单与对账' }
+  { id: 'withdrawal', label: '提现' },
+  { id: 'reconciliation', label: '账单与对账' },
+  { id: 'currencyExchange', label: '换汇' },
+  { id: 'taxCalculation', label: '计税' },
+  { id: 'userFee', label: '用户手续费' }
 ]
 
 export const nonAcquiringCapabilities: IntakeCapabilityTemplate[] = [
-  { id: 'refund-dashboard', name: 'Dashboard 退款', description: '由运营人员在后台发起退款', stage: 'refund', group: '发起方式', status: 'standard', responsibleDomains: ['transaction'] },
+  { id: 'refund-dashboard', name: 'Dashboard 退款', description: '仅支持全额退款', stage: 'refund', group: '发起方式', status: 'standard', responsibleDomains: ['transaction'] },
   { id: 'refund-api', name: 'API 退款', description: '由业务系统通过接口发起退款', stage: 'refund', group: '发起方式', status: 'standard', responsibleDomains: ['transaction', 'gn'] },
   { id: 'refund-funding-merchant', name: '商户出资', description: '由商户退款资金余额出资', stage: 'refund', group: '退款出资', status: 'standard', responsibleDomains: ['transaction'] },
   { id: 'refund-funding-platform', name: '平台商户垫资退款', description: '平台先行垫付，再进行资金结算', stage: 'refund', group: '退款出资', status: 'conditional', responsibleDomains: ['transaction', 'gn'], platformOnly: true },
@@ -264,9 +322,8 @@ export const nonAcquiringCapabilities: IntakeCapabilityTemplate[] = [
   { id: 'refund-user-choice', name: '用户主动选择', description: '由用户选择退款到账方式', stage: 'refund', group: '退款方式决策', status: 'standard', responsibleDomains: ['cashier'] },
   { id: 'refund-auto-route', name: '系统自动路由', description: '按规则自动选择可用退款路径', stage: 'refund', group: '退款方式决策', status: 'conditional', responsibleDomains: ['transaction', 'gn'] },
   { id: 'refund-proof', name: '退款查单凭证', description: '提供退款状态查询与用户侧凭证', stage: 'refund', group: '增值服务', status: 'standard', responsibleDomains: ['transaction'] },
-  { id: 'refund-fx-lock', name: '退款换汇保价', description: '降低跨币种退款汇率波动影响', stage: 'refund', group: '增值服务', status: 'conditional', responsibleDomains: ['transaction', 'gn'] },
-  { id: 'chargeback-merchant', name: '商户承担', description: '拒付损失由商户承担', stage: 'chargeback', group: '拒付损失承担', status: 'standard', responsibleDomains: ['transaction'] },
-  { id: 'chargeback-protection', name: '欺诈拒付包赔', description: '符合规则的欺诈拒付由平台赔付', stage: 'chargeback', group: '拒付损失承担', status: 'conditional', responsibleDomains: ['transaction', 'gn'] },
+  { id: 'chargeback-merchant', name: '全部由商户承担', description: '全部拒付损失由商户承担', stage: 'chargeback', group: '拒付损失承担', status: 'standard', responsibleDomains: ['transaction'] },
+  { id: 'chargeback-protection', name: '欺诈拒付PIPO报赔', description: '符合规则的欺诈拒付由 PIPO 赔付', stage: 'chargeback', group: '拒付损失承担', status: 'standard', responsibleDomains: ['transaction', 'gn'] },
   { id: 'chargeback-visa', name: 'Visa', description: '支持银行卡交易争议处理', stage: 'chargeback', group: '支持拒付的支付方式', status: 'standard', responsibleDomains: ['transaction'] },
   { id: 'chargeback-mastercard', name: 'Mastercard', description: '支持银行卡交易争议处理', stage: 'chargeback', group: '支持拒付的支付方式', status: 'standard', responsibleDomains: ['transaction'] },
   { id: 'chargeback-paypal', name: 'PayPal', description: '钱包交易争议处理', stage: 'chargeback', group: '支持拒付的支付方式', status: 'conditional', responsibleDomains: ['transaction'] },
@@ -289,6 +346,8 @@ export const nonAcquiringCapabilities: IntakeCapabilityTemplate[] = [
   { id: 'split-basic', name: '分账', description: '将交易资金分配给多个主体', stage: 'settlement', group: '分账功能', status: 'standard', responsibleDomains: ['transaction', 'gn'], platformOnly: true },
   { id: 'split-return', name: '分账退回', description: '退回已完成的分账资金', stage: 'settlement', group: '分账功能', status: 'standard', responsibleDomains: ['transaction', 'gn'], platformOnly: true },
   { id: 'platform-transfer-api', name: 'API 发起平台转账', description: '通过接口发起平台资金转账', stage: 'settlement', group: '平台转账能力', status: 'standard', responsibleDomains: ['gn'], platformOnly: true },
+  { id: 'withdrawal-auto', name: '系统自动提现', description: '业务系统根据提现规则自动执行', stage: 'withdrawal', group: '提现发起模式', status: 'standard', responsibleDomains: ['gn'] },
+  { id: 'withdrawal-dashboard-manual', name: 'Dashboard 手动提现', description: '由运营人员在 Dashboard 手动发起', stage: 'withdrawal', group: '提现发起模式', status: 'standard', responsibleDomains: ['gn'] },
   { id: 'reconciliation-group', name: '集团财务对账', description: '由集团财务统一完成对账', stage: 'reconciliation', group: '对账模式', status: 'standard', responsibleDomains: ['gn'] },
   { id: 'reconciliation-independent', name: '自主对账', description: '由业务主体自行完成账单核对', stage: 'reconciliation', group: '对账模式', status: 'standard', responsibleDomains: ['gn'] },
   { id: 'bill-settlement', name: '结算账单', description: '结算周期和资金到账明细', stage: 'reconciliation', group: '基础账单', status: 'standard', responsibleDomains: ['gn'] },
@@ -298,21 +357,29 @@ export const nonAcquiringCapabilities: IntakeCapabilityTemplate[] = [
   { id: 'bill-marketing', name: '营销账单', description: '营销活动对应的账单', stage: 'reconciliation', group: '增值能力账单', status: 'conditional', responsibleDomains: ['gn'] },
   { id: 'bill-dashboard', name: 'Dashboard', description: '在管理后台下载账单', stage: 'reconciliation', group: '账单获取方式', status: 'standard', responsibleDomains: ['gn'] },
   { id: 'bill-api', name: 'API', description: '通过接口自动获取账单', stage: 'reconciliation', group: '账单获取方式', status: 'unsupported', responsibleDomains: ['gn'] },
-  { id: 'bill-sftp', name: 'SFTP', description: '通过 SFTP 定时接收账单', stage: 'reconciliation', group: '账单获取方式', status: 'unsupported', responsibleDomains: ['gn'] }
+  { id: 'bill-sftp', name: 'SFTP', description: '通过 SFTP 定时接收账单', stage: 'reconciliation', group: '账单获取方式', status: 'unsupported', responsibleDomains: ['gn'] },
+  { id: 'service:fx', name: '不保价', description: '退款时按实时汇率换汇', stage: 'currencyExchange', group: '退款保价', status: 'standard', responsibleDomains: ['transaction', 'gn'] },
+  { id: 'service:fx-protected', name: '保价', description: '按照支付时原汇率换汇', stage: 'currencyExchange', group: '退款保价', status: 'standard', responsibleDomains: ['transaction', 'gn'] },
+  { id: 'service:tax', name: '计税', description: '支持税费计算与账单数据输出', stage: 'taxCalculation', group: '能力选择', status: 'standard', responsibleDomains: ['transaction', 'gn'] },
+  { id: 'service:user-fee', name: '用户手续费', description: '支持向用户收取交易手续费', stage: 'userFee', group: '能力选择', status: 'standard', responsibleDomains: ['transaction', 'cashier'] }
 ]
 
 export function createDefaultMerchantSubject(
   id = 'merchant-subject:1',
-  newProducts: IntakeProductType[] = ['subscription']
+  newProducts: IntakeProductType[] = []
 ): IntakeMerchantSubject {
   return {
     id,
     accountMode: 'new',
     merchantAccountId: '',
     subjectName: '',
+    merchantDescriptor: '',
     merchantType: 'standardMerchant',
     merchantContractingCountry: 'SG',
-    newProducts
+    newProducts,
+    moduleActions: {},
+    taxRules: [],
+    userFeeRules: []
   }
 }
 
@@ -320,10 +387,10 @@ export function createDefaultAgileDraft(): AgileIntakeDraft {
   return {
     currentStep: 1,
     businessType: 'acquiring',
-    intakeType: 'newProduct',
+    intakeType: 'capabilityExpansion',
     businessName: '',
-    businessId: 'tiktok-shop-sea',
-    product: 'subscription',
+    businessId: '',
+    product: 'online',
     merchantSubjects: [createDefaultMerchantSubject()],
     capabilityPlans: [],
     merchantAccountId: '',
@@ -334,6 +401,10 @@ export function createDefaultAgileDraft(): AgileIntakeDraft {
     consumerPaymentCountry: 'All',
     paymentMethodType: 'All',
     paymentMethodRequirements: [],
+    pricingCurrencies: ['USD'],
+    settlementCurrencyMappings: { USD: 'USD' },
+    settlementCycleBasis: 'T',
+    settlementCycleDays: 5,
     selectedCapabilities: []
   }
 }
