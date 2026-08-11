@@ -56,6 +56,7 @@ import {
   type AgileIntakeRequestRecord,
   type AgileIntakeRequestStatus
 } from './agileIntakeRepository'
+import { signInWithPassword } from './acquiringConfigRepository'
 import {
   globalRecommendedPaymentMethodIds,
   recommendedPaymentMethodIdsByMarket
@@ -100,6 +101,14 @@ const isSavingRequest = ref(false)
 const isSubmittingRequest = ref(false)
 const isLoadingRequestRecords = ref(false)
 const requestRecords = ref<AgileIntakeRequestRecord[]>([])
+const isCheckingRequestSession = ref(true)
+const isRequestAuthenticated = ref(false)
+const showRequestLogin = ref(false)
+const requestLoginEmail = ref('')
+const requestLoginPassword = ref('')
+const requestLoginError = ref('')
+const isRequestLoggingIn = ref(false)
+const showRequestLoginPassword = ref(false)
 const draftRestored = ref(false)
 const showPaymentMethodPicker = ref(false)
 const showPaymentMethodEditor = ref(false)
@@ -2723,12 +2732,62 @@ async function refreshRequestRecords() {
   requestPersistenceError.value = ''
   isLoadingRequestRecords.value = true
   try {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('当前环境未配置需求存储服务。')
+    }
+    const { data, error: sessionError } = await supabase.auth.getSession()
+    if (sessionError) throw sessionError
+    isRequestAuthenticated.value = Boolean(data.session)
+    if (!data.session) {
+      requestRecords.value = []
+      return
+    }
     requestRecords.value = await listAgileIntakeRequests()
   } catch (error) {
     requestPersistenceError.value = error instanceof Error ? error.message : '读取需求记录失败。'
   } finally {
     isLoadingRequestRecords.value = false
+    isCheckingRequestSession.value = false
   }
+}
+
+function openRequestLogin() {
+  requestLoginError.value = ''
+  showRequestLogin.value = true
+}
+
+function closeRequestLogin() {
+  if (isRequestLoggingIn.value) return
+  showRequestLogin.value = false
+  requestLoginPassword.value = ''
+  requestLoginError.value = ''
+}
+
+async function loginRequestAccount() {
+  if (!requestLoginEmail.value.trim() || !requestLoginPassword.value || isRequestLoggingIn.value) return
+  requestLoginError.value = ''
+  isRequestLoggingIn.value = true
+  try {
+    await signInWithPassword(requestLoginEmail.value.trim(), requestLoginPassword.value)
+    isRequestAuthenticated.value = true
+    showRequestLogin.value = false
+    requestLoginPassword.value = ''
+    requestPersistenceError.value = ''
+    await refreshRequestRecords()
+  } catch (error) {
+    const message = error instanceof Error ? error.message : ''
+    requestLoginError.value = message === 'Invalid login credentials' ? '邮箱或密码错误。' : message || '登录失败，请重试。'
+  } finally {
+    isRequestLoggingIn.value = false
+  }
+}
+
+function startRequestFromList() {
+  if (!isRequestAuthenticated.value) {
+    openRequestLogin()
+    return
+  }
+  startNewRequest()
 }
 
 async function showRequestList() {
@@ -3043,8 +3102,8 @@ watch(
   { deep: true }
 )
 
-watch([showPaymentMethodEditor, showPaymentMethodPicker, showUserFeeRuleEditor, showTaxRuleEditor], ([editorOpen, pickerOpen, userFeeEditorOpen, taxEditorOpen]) => {
-  document.body.style.overflow = editorOpen || pickerOpen || userFeeEditorOpen || taxEditorOpen ? 'hidden' : ''
+watch([showPaymentMethodEditor, showPaymentMethodPicker, showUserFeeRuleEditor, showTaxRuleEditor, showRequestLogin], ([editorOpen, pickerOpen, userFeeEditorOpen, taxEditorOpen, loginOpen]) => {
+  document.body.style.overflow = editorOpen || pickerOpen || userFeeEditorOpen || taxEditorOpen || loginOpen ? 'hidden' : ''
 })
 
 onMounted(() => {
@@ -3076,11 +3135,11 @@ onBeforeUnmount(() => {
             <p>查看历史需求、继续编辑草稿或发起新的接入需求。</p>
           </div>
         </div>
-        <button class="intake-button intake-button--primary" type="button" @click="startNewRequest">＋ 发起需求</button>
+        <button class="intake-button intake-button--primary" type="button" @click="startRequestFromList">＋ 发起需求</button>
       </header>
 
       <div class="intake-request-list-content">
-        <section v-if="draftRestored && !currentRequestId && draft.businessName.trim()" class="local-draft-callout">
+        <section v-if="isRequestAuthenticated && draftRestored && !currentRequestId && draft.businessName.trim()" class="local-draft-callout">
           <div>
             <span>本地草稿</span>
             <strong>{{ draft.businessName }}</strong>
@@ -3095,16 +3154,26 @@ onBeforeUnmount(() => {
               <h2>需求列表</h2>
               <p>草稿和已提交需求均会保留，审批创建失败的记录可继续编辑并重新提交。</p>
             </div>
-            <button type="button" :disabled="isLoadingRequestRecords" @click="refreshRequestRecords">
+            <button v-if="isRequestAuthenticated" type="button" :disabled="isLoadingRequestRecords" @click="refreshRequestRecords">
               {{ isLoadingRequestRecords ? '刷新中...' : '刷新' }}
             </button>
           </div>
 
           <div class="intake-request-table">
-            <div class="intake-request-table__header">
+            <div v-if="isRequestAuthenticated" class="intake-request-table__header">
               <span>需求编号</span><span>业务名称</span><span>需求内容</span><span>状态</span><span>更新时间</span><span>操作</span>
             </div>
-            <p v-if="isLoadingRequestRecords" class="request-record-empty">正在读取需求记录...</p>
+            <p v-if="isCheckingRequestSession || isLoadingRequestRecords" class="request-record-empty">正在读取需求记录...</p>
+            <section v-else-if="!isRequestAuthenticated && !requestPersistenceError" class="request-auth-empty">
+              <span class="request-auth-empty__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </span>
+              <div>
+                <strong>登录后查看和管理需求</strong>
+                <p>使用敏捷接入提需账号登录，可保存草稿、查看历史需求并提交审批。</p>
+              </div>
+              <button class="intake-button intake-button--primary" type="button" @click="openRequestLogin">登录</button>
+            </section>
             <p v-else-if="requestPersistenceError" class="request-record-empty is-error">{{ requestPersistenceError }}</p>
             <p v-else-if="!requestRecords.length" class="request-record-empty">暂无需求记录，点击右上角“发起需求”开始。</p>
             <div v-for="record in requestRecords" v-else :key="record.id" class="intake-request-table__row">
@@ -4567,6 +4636,46 @@ onBeforeUnmount(() => {
       </footer>
     </template>
 
+    <div v-if="showRequestLogin" class="request-login-layer" role="presentation" @click.self="closeRequestLogin">
+      <section class="request-login-dialog" role="dialog" aria-modal="true" aria-labelledby="request-login-title">
+        <header>
+          <div>
+            <span class="request-login-dialog__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <div>
+              <h2 id="request-login-title">登录敏捷接入提需</h2>
+              <p>登录后可保存草稿、查看需求记录并发起审批。</p>
+            </div>
+          </div>
+          <button type="button" aria-label="关闭登录弹窗" @click="closeRequestLogin">×</button>
+        </header>
+        <div class="request-login-dialog__body">
+          <label>
+            <span>邮箱</span>
+            <input v-model="requestLoginEmail" type="email" autocomplete="username" placeholder="name@example.com" @keyup.enter="loginRequestAccount" />
+          </label>
+          <label>
+            <span>密码</span>
+            <span class="request-login-password">
+              <input v-model="requestLoginPassword" :type="showRequestLoginPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="请输入密码" @keyup.enter="loginRequestAccount" />
+              <button type="button" @click="showRequestLoginPassword = !showRequestLoginPassword">{{ showRequestLoginPassword ? '隐藏' : '显示' }}</button>
+            </span>
+          </label>
+          <p v-if="requestLoginError" class="request-login-error" role="alert">{{ requestLoginError }}</p>
+        </div>
+        <footer>
+          <button class="intake-button intake-button--secondary" type="button" @click="closeRequestLogin">取消</button>
+          <button
+            class="intake-button intake-button--primary"
+            type="button"
+            :disabled="isRequestLoggingIn || !requestLoginEmail.trim() || !requestLoginPassword"
+            @click="loginRequestAccount"
+          >{{ isRequestLoggingIn ? '登录中...' : '登录' }}</button>
+        </footer>
+      </section>
+    </div>
+
   </main>
 </template>
 
@@ -4574,6 +4683,8 @@ onBeforeUnmount(() => {
 .intake-shell{--blue:#1267f1;--blue-soft:#eef5ff;--text:#172033;--muted:#68768d;--border:#d8e0ec;--border-soft:#e8edf5;--surface:#fff;--soft:#f8faff;--green:#27833e;--green-bg:#eaf7ed;--orange:#df820b;--orange-bg:#fff3df;--gray:#7b8797;--gray-bg:#eef2f6;min-height:100vh;padding:0 32px 32px;color:var(--text)}
 button,select,input{font:inherit}.intake-header{display:flex;align-items:center;justify-content:space-between;min-height:70px;margin:0 -32px;border-bottom:1px solid var(--border-soft);padding:10px 32px;background:rgba(255,255,255,.98)}.intake-title{display:flex;align-items:center;gap:11px}.intake-title__icon{display:grid;width:32px;height:32px;place-items:center;border-radius:8px;background:var(--blue-soft);color:var(--blue)}.intake-title__icon :deep(svg){width:20px;height:20px}.intake-title h1,.intake-title p{margin:0}.intake-title h1{font-size:18px;line-height:1.35}.intake-title p{margin-top:2px;color:var(--muted);font-size:12px}.intake-header-actions{display:flex;align-items:center;gap:8px}.intake-header-button{height:32px;border:1px solid var(--border);border-radius:6px;padding:0 12px;background:#fff;color:#42516a;font-size:11px;font-weight:800}.intake-header-button:hover{border-color:#aac4ec;color:var(--blue)}.intake-header-button--primary{border-color:var(--blue);background:var(--blue);color:#fff}.intake-header-button--primary:hover{border-color:#0c58d6;background:#0c58d6;color:#fff}.intake-header-button:disabled{cursor:not-allowed;opacity:.5}.draft-state{display:flex;align-items:center;max-width:180px;gap:7px;border:1px solid var(--border);border-radius:999px;padding:5px 10px;color:var(--muted);font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.draft-state i{width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:#53a36a}.request-persistence-notice{width:min(1440px,100%);margin:10px auto -6px;border:1px solid #cfe5d4;border-radius:6px;padding:8px 11px;background:#f2fbf4;color:#28713c;font-size:11px;font-weight:700}.request-persistence-notice.is-error{border-color:#f2cccc;background:#fff6f6;color:#a54141}
 .intake-request-list-page{min-height:calc(100vh - 32px)}.intake-request-list-header{display:flex;align-items:center;justify-content:space-between;min-height:78px;margin:0 -32px;border-bottom:1px solid var(--border-soft);padding:12px 32px;background:#fff}.intake-request-list-content{width:min(1440px,100%);margin:22px auto}.local-draft-callout{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px;border:1px solid #c7daf8;border-radius:8px;padding:12px 14px;background:#f3f7fe}.local-draft-callout>div{display:grid;gap:2px}.local-draft-callout span{color:var(--blue);font-size:9px;font-weight:850}.local-draft-callout strong{font-size:13px}.local-draft-callout small{color:var(--muted);font-size:10px}.local-draft-callout button,.intake-request-list-card__heading button{height:30px;border:1px solid #b9cff1;border-radius:6px;padding:0 11px;background:#fff;color:var(--blue);font-size:10px;font-weight:800}.intake-request-list-card{overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.04)}.intake-request-list-card__heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px}.intake-request-list-card__heading h2,.intake-request-list-card__heading p{margin:0}.intake-request-list-card__heading h2{font-size:15px}.intake-request-list-card__heading p{margin-top:3px;color:var(--muted);font-size:10px}.intake-request-table{border-top:1px solid var(--border-soft)}.intake-request-table__header,.intake-request-table__row{display:grid;grid-template-columns:minmax(165px,1fr) minmax(180px,1.2fr) minmax(170px,1fr) 110px 120px 88px;align-items:center;gap:14px;padding:0 18px}.intake-request-table__header{min-height:38px;background:#f7f9fc;color:#66758b;font-size:10px;font-weight:800}.intake-request-table__row{min-height:68px;border-top:1px solid var(--border-soft);font-size:11px}.intake-request-table__header+.intake-request-table__row{border-top:0}.intake-request-table__row>strong{color:#305f9f;font-size:10px}.intake-request-table__row>div:nth-child(2){display:grid;min-width:0;gap:3px}.intake-request-table__row b{overflow:hidden;font-size:12px;text-overflow:ellipsis;white-space:nowrap}.intake-request-table__row small{display:-webkit-box;overflow:hidden;color:#a54141;font-size:9px;line-height:1.35;-webkit-box-orient:vertical;-webkit-line-clamp:1}.intake-request-table__row>span{color:#59677b}.intake-request-table__actions button{height:28px;border:1px solid #bed3f5;border-radius:6px;padding:0 9px;background:#fff;color:var(--blue);font-size:10px;font-weight:800}.intake-request-table__actions>span{color:var(--muted);font-size:10px}.intake-request-table .request-record-empty{margin:14px}
+.request-auth-empty{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:126px;padding:24px 28px}.request-auth-empty__icon,.request-login-dialog__icon{display:grid;width:40px;height:40px;place-items:center;border-radius:8px;background:var(--blue-soft);color:var(--blue)}.request-auth-empty__icon svg,.request-login-dialog__icon svg{width:22px;height:22px}.request-auth-empty>div{display:grid;gap:4px}.request-auth-empty strong{font-size:14px}.request-auth-empty p{margin:0;color:var(--muted);font-size:11px;line-height:1.55}.request-auth-empty>.intake-button{min-width:82px}
+.request-login-layer{position:fixed;z-index:110;inset:0;display:grid;place-items:center;padding:20px;background:rgba(15,23,42,.38);backdrop-filter:blur(3px)}.request-login-dialog{overflow:hidden;width:min(440px,100%);border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:0 24px 70px rgba(15,23,42,.22)}.request-login-dialog>header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;border-bottom:1px solid var(--border-soft);padding:20px 22px}.request-login-dialog>header>div{display:flex;align-items:center;gap:12px}.request-login-dialog h2,.request-login-dialog p{margin:0}.request-login-dialog h2{font-size:17px}.request-login-dialog header p{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.5}.request-login-dialog>header>button{display:grid;width:28px;height:28px;flex:0 0 auto;place-items:center;border:0;border-radius:5px;background:transparent;color:#778499;font-size:22px;line-height:1}.request-login-dialog>header>button:hover{background:var(--gray-bg);color:var(--text)}.request-login-dialog__body{display:grid;gap:14px;padding:20px 22px}.request-login-dialog__body>label{display:grid;gap:6px}.request-login-dialog__body>label>span:first-child{color:#526178;font-size:10px;font-weight:800}.request-login-dialog input{width:100%;height:38px;border:1px solid var(--border);border-radius:6px;padding:0 11px;background:#fff;color:var(--text);font-size:12px;outline:none}.request-login-dialog input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(18,103,241,.1)}.request-login-password{position:relative;display:block}.request-login-password input{padding-right:54px}.request-login-password button{position:absolute;top:50%;right:8px;border:0;background:transparent;color:var(--blue);font-size:10px;font-weight:800;transform:translateY(-50%)}.request-login-error{margin:0;border-radius:5px;padding:8px 10px;background:#fff1f1;color:#a54141;font-size:10px;line-height:1.45}.request-login-dialog>footer{display:flex;justify-content:flex-end;gap:9px;border-top:1px solid var(--border-soft);padding:13px 22px;background:#fafbfd}
 .intake-steps{display:flex;align-items:center;width:min(820px,100%);margin:22px auto 20px}.intake-step{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#8793a5}.intake-step>span{display:grid;width:27px;height:27px;place-items:center;border:1px solid #cdd5e2;border-radius:50%;background:#fff;font-size:12px;font-weight:800}.intake-step strong{font-size:13px;white-space:nowrap}.intake-step.is-active{color:var(--blue)}.intake-step.is-active>span{border-color:var(--blue);background:var(--blue);color:#fff}.intake-step.is-complete{color:#4774bd}.intake-step.is-complete>span{border-color:#8bb1ef;background:var(--blue-soft);color:var(--blue)}.intake-step-line{height:1px;flex:1;margin:0 8px;background:#dbe2ec}.intake-step-line.is-complete{background:#8bb1ef}
 .intake-step-content{width:min(1440px,100%);margin:0 auto}.intake-step-content--narrow{width:min(1040px,100%)}.intake-section-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:14px}.intake-section-heading>div>span{color:var(--blue);font-size:10px;font-weight:850}.intake-section-heading h2{margin:3px 0 0;font-size:18px;letter-spacing:0}.intake-section-heading>p{margin:0;color:var(--muted);font-size:12px}
 .intake-choice-section{border:1px solid var(--border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.04)}.intake-choice-section--types{margin-top:14px}.intake-choice-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}.intake-choice-heading>span{display:grid;width:24px;height:24px;flex:0 0 auto;place-items:center;border-radius:7px;background:var(--blue-soft);color:var(--blue);font-size:11px;font-weight:850}.intake-choice-heading h3,.intake-choice-heading p{margin:0}.intake-choice-heading h3{font-size:14px}.intake-choice-heading p{margin-top:2px;color:var(--muted);font-size:10px}.business-type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.business-type-card{display:grid;grid-template-columns:44px minmax(0,1fr) max-content;align-items:center;gap:12px;min-height:88px;border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--soft);color:var(--text);text-align:left;transition:border-color 140ms cubic-bezier(.23,1,.32,1),background-color 140ms cubic-bezier(.23,1,.32,1),transform 120ms cubic-bezier(.23,1,.32,1)}.business-type-card:active{transform:scale(.985)}.business-type-card.is-active{border-color:var(--blue);background:var(--blue-soft);box-shadow:inset 0 0 0 1px rgba(18,103,241,.18)}.business-type-card.is-coming-soon{border-color:#e1e6ee;background:#f3f5f8;color:#8994a5;cursor:not-allowed;opacity:1}.business-type-card.is-coming-soon:active{transform:none}.business-type-icon{display:grid;width:44px;height:44px;place-items:center;border-radius:10px;background:#fff;color:#718096;box-shadow:0 1px 4px rgba(15,23,42,.08)}.business-type-icon :deep(svg){width:24px;height:24px}.business-type-card.is-active .business-type-icon{color:var(--blue)}.business-type-card.is-coming-soon .business-type-icon{background:#e8ecf2;color:#9aa4b3;box-shadow:none}.business-type-copy{display:grid;grid-template-columns:max-content max-content;align-items:baseline;gap:2px 7px;min-width:0}.business-type-copy strong{font-size:16px}.business-type-copy em{color:#8a97aa;font-size:10px;font-style:normal;font-weight:750}.business-type-copy small{grid-column:1/-1;color:var(--muted);font-size:11px;line-height:1.45}.business-type-card.is-coming-soon .business-type-copy em,.business-type-card.is-coming-soon .business-type-copy small{color:#98a2b1}.business-type-radio{width:18px;height:18px;border:2px solid #aeb9c9;border-radius:50%;background:#fff}.business-type-card.is-active .business-type-radio{border:5px solid var(--blue)}.business-type-coming-soon{border:1px solid #d8dee8;border-radius:999px;padding:4px 9px;background:#fff;color:#7e8999;font-size:9px;font-weight:800;line-height:1;white-space:nowrap}
@@ -4634,6 +4745,7 @@ button,select,input{font:inherit}.intake-header{display:flex;align-items:center;
 @media(max-width:1180px){.intake-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.intake-type-card{min-height:180px}.capability-picker-grid,.capability-picker-grid--methods,.merchant-subject-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.intake-form-grid,.review-overview dl{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.intake-shell{padding:0 14px 22px}.intake-header{align-items:flex-start;flex-direction:column;gap:9px;margin:0 -14px;padding:10px 14px}.intake-header-actions{width:100%;flex-wrap:wrap}.intake-header-button{flex:1}.draft-state{order:3;max-width:none;width:100%}.intake-title p{max-width:290px}.intake-steps{overflow-x:auto;margin:14px 0}.intake-step{flex:0 0 auto}.intake-step-line{flex:0 0 24px}.intake-section-heading{align-items:flex-start;flex-direction:column;gap:5px}.intake-section-heading>p{line-height:1.45}.business-type-grid,.intake-type-grid,.intake-form-grid,.merchant-subject-fields,.merchant-subject-product-options,.business-context-fields,.capability-target-grid,.capability-picker-grid,.capability-picker-grid--methods,.intake-review-layout,.review-merchant-subjects dl,.review-plan-card dl{grid-template-columns:1fr}.merchant-subject-heading,.capability-target-heading{align-items:flex-start;flex-direction:column}.add-merchant-subject-button{justify-content:center;width:100%}.business-type-card{grid-template-columns:40px minmax(0,1fr) 18px;min-height:78px;padding:12px}.business-type-icon{width:40px;height:40px}.intake-type-card{min-height:164px}.business-context-card{grid-template-columns:1fr}.base-integration-row{grid-template-columns:1fr}.base-integration-options--two,.base-integration-options--three{grid-template-columns:1fr}.base-integration-options--currencies{grid-template-columns:repeat(2,minmax(0,1fr))}.capability-stage-tabs{overflow-x:auto}.capability-stage-tabs button{flex:0 0 auto}.review-overview dl{grid-template-columns:1fr}.intake-action-bar{position:sticky;bottom:0;z-index:8;margin-right:-14px;margin-left:-14px;width:auto;padding:10px 14px;background:rgba(245,247,251,.97)}.intake-action-bar,.intake-action-bar>div{align-items:stretch;flex-direction:column}.intake-success__actions{flex-direction:column;width:100%}.intake-success__actions .intake-button{width:100%}.request-record-card{grid-template-columns:1fr}.request-record-card__actions{display:flex;align-items:center;justify-content:space-between}.capability-picker-card:has(.capability-picker-mark){grid-template-columns:30px minmax(0,1fr) auto}}
 @media(max-width:760px){.intake-request-list-header{align-items:flex-start;flex-direction:column;gap:12px;margin:0 -14px;padding:12px 14px}.intake-request-list-header>.intake-button{width:100%}.intake-request-list-content{margin:14px auto}.local-draft-callout{align-items:flex-start;flex-direction:column}.local-draft-callout button{width:100%}.intake-request-list-card__heading{align-items:flex-start}.intake-request-table__header{display:none}.intake-request-table{display:grid;gap:9px;border-top:1px solid var(--border-soft);padding:10px}.intake-request-table__row{grid-template-columns:minmax(0,1fr) auto;gap:7px 10px;min-height:0;border:1px solid var(--border);border-radius:7px;padding:11px;background:#fff}.intake-request-table__row>strong,.intake-request-table__row>div:nth-child(2),.intake-request-table__row>span:nth-child(3),.intake-request-table__row>span:nth-child(5){grid-column:1}.intake-request-table__row>span:nth-child(4){grid-column:2;grid-row:1}.intake-request-table__actions{grid-column:2;grid-row:2/5;align-self:center}.intake-request-table .request-record-empty{margin:0}.intake-request-list-card__heading p{max-width:240px;line-height:1.45}}
+@media(max-width:760px){.request-auth-empty{grid-template-columns:36px minmax(0,1fr);gap:10px;padding:20px 14px}.request-auth-empty__icon{width:36px;height:36px}.request-auth-empty>.intake-button{grid-column:1/-1;width:100%;margin-top:4px}.request-login-layer{padding:14px}.request-login-dialog>header,.request-login-dialog__body{padding:16px}.request-login-dialog>footer{padding:12px 16px}.request-login-dialog>footer .intake-button{flex:1}}
 @media(max-width:760px){.module-action-heading{align-items:flex-start;flex-direction:column}.module-action-options{grid-template-columns:1fr}.module-action-heading>button{padding:0}}
 @media(max-width:760px){.payment-requirement-heading{align-items:flex-start;flex-direction:column}.add-payment-method-button{width:100%;justify-content:center}.payment-method-editor__grid{grid-template-columns:1fr}.payment-card-type-field{grid-template-columns:1fr}.payment-requirement-list__header{display:none}.payment-requirement-list{display:grid;gap:9px;border-top:1px solid var(--border-soft);padding:10px}.payment-requirement-row{grid-template-columns:minmax(0,1fr) auto;gap:9px;border:1px solid var(--border);border-radius:7px;padding:10px;background:var(--soft)}.payment-requirement-method{grid-column:1/-1}.payment-requirement-value,.payment-requirement-tags{min-height:30px;border-top:1px solid var(--border-soft);padding-top:7px}.payment-requirement-row>.intake-status{align-self:center}.payment-requirement-actions{justify-self:end}.payment-requirement-actions button{padding:5px}.payment-method-editor__actions .intake-button{flex:1}}
 @media(max-width:760px){.settlement-config-row,.settlement-cycle-block{grid-template-columns:1fr}.settlement-mapping-head{display:none}.settlement-mapping-row{grid-template-columns:1fr;padding:12px 16px}.settlement-currency-options{grid-template-columns:repeat(2,minmax(0,1fr))}.settlement-cycle-editor{justify-content:flex-start}}
